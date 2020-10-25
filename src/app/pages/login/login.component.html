@@ -37,13 +37,20 @@
           <div class="text-center text-muted mb-4">
             <small>Or sign in with credentials</small>
           </div>
-          <form role="form">
-            <div class="form-group mb-3">
+          <form role="form" [formGroup]="form" (ngSubmit)="submit()">
+            <div class="mb-3" form-group >
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                 </div>
-                <input class="form-control" placeholder="Email" type="email">
+                <input class="form-control" placeholder="NickName" type="text" formControlName="nickname"
+                       [ngClass]="{'is-invalid': !form.get('nickname').valid}">
+                <div *ngIf="form.controls['nickname'].errors?.minlength" class="invalid-feedback">
+                  Por lo menos 3 caracteres
+                </div>
+                <div *ngIf="form.controls['nickname'].errors?.required && triying" class="invalid-feedback">
+                  El nombre es necesario
+                </div>
               </div>
             </div>
             <div class="form-group">
@@ -51,7 +58,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                 </div>
-                <input class="form-control" placeholder="Password" type="password">
+                <input class="form-control" placeholder="Password" formControlName="pswd" type="password">
               </div>
             </div>
             <div class="custom-control custom-control-alternative custom-checkbox">
@@ -61,7 +68,7 @@
               </label>
             </div>
             <div class="text-center">
-              <button type="button" class="btn btn-primary my-4">Sign in</button>
+              <button type="button" (click)="submit()" class="btn btn-primary my-4">Sign in</button>
             </div>
           </form>
         </div>

@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -33,7 +34,9 @@ export class RegisterComponent implements OnInit {
   submit() {
     this.triying = true;
     if (this.registerForm.valid && this.checkPasswords()) {
-      alert('si');
+      this.http.post<Article>('https://jsonplaceholder.typicode.com/posts', { title: 'Angular POST Request Example' }).subscribe(data => {
+        this.postId = data.id;
+      })
     }
 
     console.log(this.registerForm.value);

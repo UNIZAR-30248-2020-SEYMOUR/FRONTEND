@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',

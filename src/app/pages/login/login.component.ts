@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+
 
 @Component({
   selector: 'app-login',
@@ -8,32 +8,37 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  form: FormGroup;
-  triying: boolean;
+  loginData: FormGroup;
+  triedLogin: Boolean;
+
   constructor() {
-    this.triying = false;
-    this.form = new FormGroup({
-      'nickname': new FormControl('', [
-        Validators.required,
-        Validators.minLength(30)
-      ]),
-      'pswd': new FormControl('', [
-        Validators.required
-      ])
+    this.triedLogin = false;
+    this.loginData =  new FormGroup({
+      'user' : new FormControl('', [Validators.required]),
+      'password' : new FormControl('', [Validators.required])
     });
-
   }
-
- submit() {
-    console.log(this.form.value);
-    console.log(this.form );
-  }
-
-
 
   ngOnInit() {
+
   }
   ngOnDestroy() {
   }
+
+
+  private login() {
+    const userInput = document.getElementById('userInput');
+    const passwordInput = document.getElementById('passwordInput');
+    this.triedLogin = true;
+    if (this.loginData.get('user').value === '') {
+      userInput.style.border = 'solid #dc3545';
+    }
+    if (this.loginData.get('password').value === '') {
+       passwordInput.style.border = 'solid #dc3545';
+    }
+    alert(this.loginData.get('user').value);
+    alert(this.loginData.get('password').value);
+  }
+
 
 }

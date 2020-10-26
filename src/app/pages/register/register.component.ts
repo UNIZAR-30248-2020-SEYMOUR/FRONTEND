@@ -1,28 +1,33 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {User} from '../../interfaces';
+import {AccountService} from '../../services/account.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
 
+export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   triying: boolean;
-  private builder: FormBuilder;
-  constructor() {
+
+  constructor(private registerService: AccountService) {
     this.triying = false;
     this.registerForm = new FormGroup({
-      'nickname': new FormControl('', [
+      'username': new FormControl('', [
         Validators.required,
         Validators.minLength(10)
       ]),
       'email': new FormControl('', [Validators.required ]),
       'pswd': new FormControl('', [Validators.required, Validators.minLength(10)]),
       'repeat_pswd': new FormControl('', [Validators.required]),
+      'description': new FormControl('')
     });
+  }
+
+  ngOnInit() {
   }
 
   checkPasswords() { // here we have the 'passwords' group
@@ -33,19 +38,19 @@ export class RegisterComponent implements OnInit {
 
   submit() {
     this.triying = true;
+    alert(this.registerForm.get('description').value);
     if (this.registerForm.valid && this.checkPasswords()) {
-      alert('si');
+      const user: User = {
+        username: this.registerForm.get('username').value,
+        email: this.registerForm.get('email').value,
+        password: this.registerForm.get('pswd').value,
+        description: this.registerForm.get('description').value
+      };
+      this.registerService.register(user);
     }
 
     console.log(this.registerForm.value);
-    console.log(this.registerForm );
-  }
-
-
-
-  ngOnInit() {
-  }
-  ngOnDestroy() {
+    console.log(this.registerForm);
   }
 }
 

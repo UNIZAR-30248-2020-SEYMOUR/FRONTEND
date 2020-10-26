@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import { HelpComponent } from './pages/help/help.component';
 
 import { AccountService } from './services/account.service';
 
@@ -30,7 +31,8 @@ import { AccountService } from './services/account.service';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    HelpComponent
   ],
   providers: [AccountService],
   bootstrap: [AppComponent]

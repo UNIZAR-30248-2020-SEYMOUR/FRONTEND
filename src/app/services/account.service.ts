@@ -28,7 +28,6 @@ export class AccountService {
    * Do a login petition to the server, receive and deal with the response.
    * @param loginData: contain the email and the password uses to try login.
    * @author: Eduardo Ruiz
-   * @revisor:
    * @private
    */
   login(loginData: Login) {

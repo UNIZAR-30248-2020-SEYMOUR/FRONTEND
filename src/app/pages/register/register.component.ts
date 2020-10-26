@@ -9,6 +9,9 @@ import {AccountService} from '../../services/account.service';
   styleUrls: ['./register.component.scss']
 })
 
+/**
+ * This class contains de logic of the register page mainly the form validation.
+ */
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   triying: boolean;
@@ -30,12 +33,18 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Verifies that the content of the password fields contains the same value
+   */
   checkPasswords() { // here we have the 'passwords' group
     const pass = this.registerForm.get('pswd').value;
     const confirmPass = this.registerForm.get('repeat_pswd').value;
     return pass === confirmPass;
   }
 
+  /**
+  * If the content of the form fields are correct it perform a http request with the form params to the backend
+  */
   submit() {
     this.triying = true;
     alert(this.registerForm.get('description').value);
@@ -51,6 +60,13 @@ export class RegisterComponent implements OnInit {
 
     console.log(this.registerForm.value);
     console.log(this.registerForm);
+  }
+
+  /**
+   * Verifies that all fields of the form comply with the restrictions
+   */
+  validateFields() {
+    return this.registerForm.valid && this.checkPasswords();
   }
 }
 

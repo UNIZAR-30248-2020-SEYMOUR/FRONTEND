@@ -26,20 +26,25 @@
             <img src="./assets/img/brand/seymour.png " width="210">
             <h2 class="text-black">Seymour</h2>
           </div>
+          <!--Login Formulary-->
           <form role="form" [formGroup]="loginData" >
+            <!--Email input-->
             <div class="form-group mb-3">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                  <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                 </div>
-                <input id="userInput" class="form-control" formControlName="user"
-                       [ngClass]="{'is-invalid': !loginData.get('user').valid}"
-                       placeholder="Nombre de usuario" type="text">
-                <div *ngIf="triedLogin && loginData.controls['user'].errors?.required" class="invalid-feedback">
-                  El nombre es necesario
+                <input id="emailInput" class="form-control" formControlName="email"
+                       [ngClass]="{'is-invalid': !loginData.get('email').valid}"
+                       placeholder="Email" type="email">
+                <div *ngIf="triedLogin && loginData.controls['email'].errors?.required" class="invalid-feedback">
+                  El email es necesario
                 </div>
               </div>
             </div>
+            <!--End Email input-->
+
+            <!--Password input-->
             <div class="form-group">
               <div class="input-group input-group-alternative">
                 <div class="input-group-prepend">
@@ -53,10 +58,12 @@
                 </div>
               </div>
             </div>
+            <!--End Password input-->
             <div class="text-center">
-              <button type="button"  (click)="login()" class="btn btn-primary my-4">Iniciar Sesión</button>
+              <button type="button"  (click)="submit()" class="btn btn-primary my-4">Iniciar Sesión</button>
             </div>
           </form>
+          <!--End Login Formulary-->
         </div>
       </div>
       <div class="row mt-3">

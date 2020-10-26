@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import {HelpComponent} from './pages/help/help.component';
 
 const routes: Routes = [
   {
@@ -27,12 +28,16 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: './layouts/auth-layout/auth-layout.module#AuthLayoutModule'
-      }
+      },
+      { path: 'help',
+        component: HelpComponent,
+        }
     ]
   }, {
     path: '**',
     redirectTo: 'login'
-  }
+  },
+
 ];
 
 @NgModule({
@@ -40,7 +45,10 @@ const routes: Routes = [
     CommonModule,
     BrowserModule,
     RouterModule.forRoot(routes,{
-      useHash: true
+      useHash: true,
+      onSameUrlNavigation: "ignore",          //
+      anchorScrolling:'enabled',              // Alows us to scroll links ( localhost:4200/#/help/#section-one )
+      scrollPositionRestoration: 'enabled'    //
     })
   ],
   exports: [

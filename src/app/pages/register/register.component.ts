@@ -11,6 +11,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 
 /**
+ * @author Martín Gascón (764429).
  * This class contains de logic of the register page mainly the form validation.
  */
 export class RegisterComponent implements OnInit {
@@ -34,14 +35,18 @@ export class RegisterComponent implements OnInit {
   }
 
   /**
-   * Verifies that all fields of the form comply with the restrictions
+   *  @author Martín Gascón (764429).
+   *  Verifies that all fields of the form comply with the restrictions.
+   *  @return boolean: true if all fields of the form comply with the restrictions, false if don't.
    */
   validateFields() {
     return this.registerForm.valid && this.checkPasswords();
   }
 
   /**
-   * Verifies that the content of the password fields contains the same value
+   * @author Martín Gascón (764429).
+   * Verifies that the content of the password fields contains the same value.
+   * @return boolean: true if the password and the confirm password have de same value.
    */
   checkPasswords() { // here we have the 'passwords' group
     const pass = this.registerForm.get('pswd').value;
@@ -50,7 +55,9 @@ export class RegisterComponent implements OnInit {
   }
 
   /**
+   * @author Martín Gascón (764429)
    * If the content of the form fields are correct it perform a http request with the form params to the backend
+   * @return void
    */
   submit() {
     this.triying = true;

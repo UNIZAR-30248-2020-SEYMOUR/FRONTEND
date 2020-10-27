@@ -27,6 +27,7 @@
             <img src="./assets/img/brand/seymour.png " width="210">
             <h2 class="text-black">Seymour</h2>
           </div>
+          <!--Register Formulary-->
           <form role="form" [formGroup]="registerForm">
             <div class="form-group">
               <div class="input-group input-group-alternative mb-3">
@@ -41,6 +42,9 @@
                 <div *ngIf="registerForm.controls['username'].errors?.minlength && triying" class="invalid-feedback">
                   El nombre es debe tener al menos 10 caracteres
                 </div>
+                <div *ngIf="triying && !validUser" class="invalid-register">
+                  El nombre de usuario ya esta en uso. Elige otro
+                </div>
               </div>
 
             </div>
@@ -53,6 +57,9 @@
                        [ngClass]="{'is-invalid': !registerForm.get('email').valid}" name="email">
                 <div *ngIf="registerForm.controls['email'].errors?.required && triying" class="invalid-feedback">
                   El correo electrónico es necesario
+                </div>
+                <div *ngIf="triying && !validEmail" class="invalid-register">
+                  El email ya esta registrado
                 </div>
               </div>
             </div>

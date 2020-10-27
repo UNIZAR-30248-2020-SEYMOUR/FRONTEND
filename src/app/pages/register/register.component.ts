@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../interfaces';
 import {AccountService} from '../../services/account.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -15,9 +17,13 @@ import {AccountService} from '../../services/account.service';
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   triying: boolean;
+  validUser: boolean;
+  validEmail: boolean;
 
-  constructor(private registerService: AccountService) {
+  constructor(private registerService: AccountService, private route: Router) {
     this.triying = false;
+    this.validUser = true;
+    this.validEmail = true;
     this.registerForm = new FormGroup({
       'username': new FormControl('', [
         Validators.required,
@@ -46,6 +52,8 @@ export class RegisterComponent implements OnInit {
   * If the content of the form fields are correct it perform a http request with the form params to the backend
   */
   submit() {
+    this.validEmail = true;
+    this.validUser = true;
     this.triying = true;
     alert(this.registerForm.get('description').value);
     if (this.registerForm.valid && this.checkPasswords()) {
@@ -55,11 +63,12 @@ export class RegisterComponent implements OnInit {
         password: this.registerForm.get('pswd').value,
         description: this.registerForm.get('description').value
       };
-      this.registerService.register(user);
+      const observer = this.registerService.register(user);
+      observer.subscribe(
+        data => {this.registerService.saveUser(data); alert('REGISTRADO'); this.route.navigate(['/dashboard']); },
+        (error: HttpErrorResponse) => {this.dealNotRegister(error.error); }
+      );
     }
-
-    console.log(this.registerForm.value);
-    console.log(this.registerForm);
   }
 
   /**
@@ -67,6 +76,14 @@ export class RegisterComponent implements OnInit {
    */
   validateFields() {
     return this.registerForm.valid && this.checkPasswords();
+  }
+
+  private dealNotRegister(error: JSON) {
+    if (error['error'] === ('Duplicate entry \'' + this.registerForm.get('username').value + '\' for key \'USERS.username\'')) {
+      this.validUser = false;
+    } else if (error['error'] === ('Duplicate entry \'' + this.registerForm.get('email').value + '\' for key \'USERS.email\'')) {
+      this.validEmail = false;
+    }
   }
 }
 

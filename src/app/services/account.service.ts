@@ -18,13 +18,9 @@ export class AccountService {
   constructor(private http: HttpClient, private cookie: CookieService) {
   }
 
-  register(user: User) {
+  register(user: User): Observable<any> {
     const params = JSON.stringify(user);
-    this.http.post(this.apiUrl + 'register' , params, this.httpOptions).subscribe(
-      data => this.saveUser(data),
-      (error: HttpErrorResponse) => console.log(error.status),
-      () => console.log('Llegamos al final')
-    );
+    return this.http.post(this.apiUrl + 'register' , params, this.httpOptions);
   }
 
   /**
@@ -38,9 +34,8 @@ export class AccountService {
   }
 
   public saveUser(data: Object) {
-    const json: string[] =  JSON.stringify(data).split(':');
-    const uuid = json[1].replace('}', '');
+
+    const uuid = data['UUID'];
     this.cookie.set('uuid', uuid);
-    alert(this.cookie.get('uuid'));
   }
 }

@@ -42,6 +42,8 @@ export class LoginComponent implements OnInit, OnDestroy {
    * @private
    */
   submit() {
+    this.invalidEmail = false;
+    this.invalidPassword = false;
     const emailInput = document.getElementById('emailInput');
     const passwordInput = document.getElementById('passwordInput');
     this.triedLogin = true;
@@ -59,15 +61,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       const observer = this.loginService.login(user);
       observer.subscribe(
           data => {this.loginService.saveUser(data); this.route.navigate(['/dashboard']); },
-          (error: HttpErrorResponse) => {console.log(error.status); this.dealNotLogin(error.error); },
+          (error: HttpErrorResponse) => {console.log(error.status); this.dealNotLogin(error.error); }
         );
     }
-    alert(this.loginData.get('email').value);
-    alert(this.loginData.get('password').value);
   }
 
   private dealNotLogin(error: JSON) {
-    alert(error['error']);
     if (error['error'] === 'Invalid email') {
       this.invalidEmail = true;
     } else if (error['error'] === 'Invalid password') {

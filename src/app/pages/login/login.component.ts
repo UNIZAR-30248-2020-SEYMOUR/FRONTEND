@@ -1,7 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Login} from '../../interfaces';
 import {AccountService} from '../../services/account.service';
+import {Router} from '@angular/router';
+import {HttpErrorResponse} from '@angular/common/http';
 
 
 @Component({
@@ -12,14 +14,17 @@ import {AccountService} from '../../services/account.service';
 export class LoginComponent implements OnInit, OnDestroy {
   loginData: FormGroup;
   triedLogin: Boolean;
-  loginUrl: string;
+  invalidEmail: boolean;
+  invalidPassword: boolean;
 
-  constructor(private loginService: AccountService) {
-    this.loginUrl = 'http://oc2.danielhuici.ml/users/login';
+
+  constructor(private loginService: AccountService, private route: Router) {
     this.triedLogin = false;
+    this.invalidPassword = false;
+    this.invalidEmail = false;
     this.loginData =  new FormGroup({
       'email' : new FormControl('', [Validators.required]),
-      'password' : new FormControl('', [Validators.required])
+      'password' : new FormControl('', [Validators.required]),
     });
   }
 
@@ -48,13 +53,26 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     if (this.loginData.valid) {
       const user: Login = {
-        email: 'eduardo@gmail.com',
-        password: '12345678910'
+        email: this.loginData.get('email').value,
+        password: this.loginData.get('password').value
       };
-      this.loginService.login(user);
+      const observer = this.loginService.login(user);
+      observer.subscribe(
+          data => {this.loginService.saveUser(data); this.route.navigate(['/dashboard']); },
+          (error: HttpErrorResponse) => {console.log(error.status); this.dealNotLogin(error.error); },
+        );
     }
     alert(this.loginData.get('email').value);
     alert(this.loginData.get('password').value);
+  }
+
+  private dealNotLogin(error: JSON) {
+    alert(error['error']);
+    if (error['error'] === 'Invalid email') {
+      this.invalidEmail = true;
+    } else if (error['error'] === 'Invalid password') {
+      this.invalidPassword = true;
+    }
   }
 
 }

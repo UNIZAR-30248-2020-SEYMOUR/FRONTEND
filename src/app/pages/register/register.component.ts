@@ -24,6 +24,7 @@ export class RegisterComponent implements OnInit {
     this.triying = false;
     this.validUser = true;
     this.validEmail = true;
+
     this.registerForm = new FormGroup({
       'username': new FormControl('', [
         Validators.required,
@@ -41,6 +42,7 @@ export class RegisterComponent implements OnInit {
 
   /**
    * Verifies that the content of the password fields contains the same value
+   * @return boolean: true if the password and the confirm password have de same value.
    */
   checkPasswords() { // here we have the 'passwords' group
     const pass = this.registerForm.get('pswd').value;
@@ -49,8 +51,9 @@ export class RegisterComponent implements OnInit {
   }
 
   /**
-  * If the content of the form fields are correct it perform a http request with the form params to the backend
-  */
+   * If the content of the form fields are correct it perform a http request with the form params to the backend
+   * @return void
+   */
   submit() {
     this.validEmail = true;
     this.validUser = true;
@@ -73,6 +76,7 @@ export class RegisterComponent implements OnInit {
 
   /**
    * Verifies that all fields of the form comply with the restrictions
+   * @return boolean: true if the password and the confirm password have de same value.
    */
   validateFields() {
     return this.registerForm.valid && this.checkPasswords();

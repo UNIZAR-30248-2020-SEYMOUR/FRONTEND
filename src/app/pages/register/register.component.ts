@@ -1,6 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../interfaces';
+import {AccountService} from '../../services/account.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,17 +12,19 @@ import {User} from '../../interfaces';
 })
 
 /**
- * @author Martín Gascón (764429).
  * This class contains de logic of the register page mainly the form validation.
  */
 export class RegisterComponent implements OnInit {
-  public registerUrl: string;
   registerForm: FormGroup;
   triying: boolean;
+  validUser: boolean;
+  validEmail: boolean;
 
-  constructor() {
-    this.registerUrl = 'http://oc2.danielhuici.ml/users/';
+  constructor(private registerService: AccountService, private route: Router) {
     this.triying = false;
+    this.validUser = true;
+    this.validEmail = true;
+
     this.registerForm = new FormGroup({
       'username': new FormControl('', [
         Validators.required,
@@ -32,18 +37,11 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  /**
-   *  @author Martín Gascón (764429).
-   *  Verifies that all fields of the form comply with the restrictions.
-   *  @return boolean: true if all fields of the form comply with the restrictions, false if don't.
-   */
-  validateFields() {
-    return this.registerForm.valid && this.checkPasswords();
+  ngOnInit() {
   }
 
   /**
-   * @author Martín Gascón (764429).
-   * Verifies that the content of the password fields contains the same value.
+   * Verifies that the content of the password fields contains the same value
    * @return boolean: true if the password and the confirm password have de same value.
    */
   checkPasswords() { // here we have the 'passwords' group
@@ -53,43 +51,43 @@ export class RegisterComponent implements OnInit {
   }
 
   /**
-   * @author Martín Gascón (764429)
    * If the content of the form fields are correct it perform a http request with the form params to the backend
    * @return void
    */
   submit() {
+    this.validEmail = true;
+    this.validUser = true;
     this.triying = true;
-    if (this.validateFields()) {
+    alert(this.registerForm.get('description').value);
+    if (this.registerForm.valid && this.checkPasswords()) {
       const user: User = {
         username: this.registerForm.get('username').value,
         email: this.registerForm.get('email').value,
-        description: this.registerForm.get('description').value,
-        password: this.registerForm.get('pswd').value
+        password: this.registerForm.get('pswd').value,
+        description: this.registerForm.get('description').value
       };
-      // console.log(JSON.stringify(this.register(user)) + ' /888888888888888888888888888888888888888888888888888888888888888888888888');
+      const observer = this.registerService.register(user);
+      observer.subscribe(
+        data => {this.registerService.saveUser(data); alert('REGISTRADO'); this.route.navigate(['/dashboard']); },
+        (error: HttpErrorResponse) => {this.dealNotRegister(error.error); }
+      );
     }
-
-    console.log(this.registerForm.value);
-    console.log(this.registerForm );
   }
 
-  /*private register(user: User): string {
-    const json = JSON.stringify(user);
-    const params = 'json=' + json;
-
-    // Establecemos cabeceras
-    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
-    alert(JSON.stringify(params));
-    this.http.post(this.registerUrl + 'register', params ).subscribe(data => {
-      console.log(data + '**********************************');
-      alert(data + '**********************************');
-    });
-    return ''; //this.http.post(this.registerUrl + 'register', params, {headers: headers});
-  }*/
-
-  ngOnInit() {
+  /**
+   * Verifies that all fields of the form comply with the restrictions
+   * @return boolean: true if the password and the confirm password have de same value.
+   */
+  validateFields() {
+    return this.registerForm.valid && this.checkPasswords();
   }
-  ngOnDestroy() {
+
+  private dealNotRegister(error: JSON) {
+    if (error['error'] === ('Duplicate entry \'' + this.registerForm.get('username').value + '\' for key \'USERS.username\'')) {
+      this.validUser = false;
+    } else if (error['error'] === ('Duplicate entry \'' + this.registerForm.get('email').value + '\' for key \'USERS.email\'')) {
+      this.validEmail = false;
+    }
   }
 }
 

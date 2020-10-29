@@ -40,6 +40,9 @@
                 <div *ngIf="triedLogin && loginData.controls['email'].errors?.required" class="invalid-feedback">
                   El email es necesario
                 </div>
+                <div *ngIf="triedLogin && invalidEmail" class="invalid-backend-response">
+                  El email es incorrecto
+                </div>
               </div>
             </div>
             <!--End Email input-->
@@ -55,6 +58,9 @@
                        placeholder="Contraseña" type="password">
                 <div *ngIf="triedLogin && loginData.controls['password'].errors?.required" class="invalid-feedback">
                   La contraseña es necesaria
+                </div>
+                <div *ngIf="triedLogin && invalidPassword" class="invalid-backend-response">
+                  La contraseña es incorrecta
                 </div>
               </div>
             </div>

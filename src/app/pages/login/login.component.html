@@ -74,7 +74,7 @@
       </div>
       <div class="row mt-3">
         <div class="col-6">
-          <a href="#" (click)="recoverPassword()"  class="text-light"><small>Recuperar contraseña</small></a>
+          <a href="#" (click)="showPopupRecoverPassword()" class="text-light"><small>Recuperar contraseña</small></a>
         </div>
         <div class="col-6 text-right">
           <a href="#/register" class="text-light"><small>Crear una nueva cuenta</small></a>
@@ -89,7 +89,7 @@
       <a href="#" (click)="closeRecoverPassword()" id="btn-cerrar-perfil"
          style="position: absolute;top: 20px;right: 30px;"><i class="ni ni-fat-remove"></i></a>
       <p>Recuperar contraseña</p>
-      <div *ngIf="triedSendEmail && emailSent" class="invalid-feedback">
+      <div *ngIf="triedSendEmail && emailSent" class="valid-backend-response">
         Ha sido enviado un email con un enlace para poder cambiar la contraseña.
       </div>
       <div *ngIf="triedSendEmail && invalidEmail" class="invalid-backend-response">

@@ -90,16 +90,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  recoverPassword() {
-    const popUpRecoverPassword = document.getElementById('overlay-recover-password');
-    popUpRecoverPassword.classList.add('active');
-  }
-
+  /**
+   * Validate that the formulary is complete correctly and try to send the email of change password.
+   * Treat with the response from the server
+   * @private
+   */
   sendEmail() {
     this.invalidEmail = false;
     this.invalidPassword = false;
-    const emailInput = document.getElementById('emailRecoverPassword');
     this.triedSendEmail = true;
+    const emailInput = document.getElementById('emailRecoverPassword');
+
     if (this.recoverPasswordData.get('email').value === '') {
       emailInput.style.border = 'solid #dc3545';
     }
@@ -107,10 +108,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       const observer = this.loginService.sendEmail(this.recoverPasswordData.get('email').value);
       observer.subscribe(
         data => this.emailSent = true,
-        (error: HttpErrorResponse) => {console.log(error.status); this.dealNotLogin(error.error); }
+        (error: HttpErrorResponse) => {console.log(error.status); this.invalidEmail = true; }
       );
     }
   }
+
+  showPopupRecoverPassword() {
+    const popUpRecoverPassword = document.getElementById('overlay-recover-password');
+    popUpRecoverPassword.classList.add('active');
+  }
+
 
   closeRecoverPassword() {
     const popUpRecoverPassword = document.getElementById('overlay-recover-password');

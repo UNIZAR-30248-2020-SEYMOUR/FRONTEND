@@ -1,25 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Login} from '../../interfaces';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AccountService} from '../../services/account.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-recover-password',
   templateUrl: './recover-password.component.html',
   styleUrls: ['./recover-password.component.css']
 })
+
+/**
+ * This class contains de logic of the change password page mainly the form validation.
+ */
 export class RecoverPasswordComponent implements OnInit {
-  changePassword: FormGroup;
+  changePasswordData: FormGroup;
   triedChange: Boolean;
   invalidRepeatPassword: Boolean;
   invalidPassword: Boolean;
+  invalidToken: Boolean;
+  urlTree;
 
-  constructor(private changeService: AccountService) {
+  constructor(private changeService: AccountService, private route: ActivatedRoute, private router: Router) {
     this.triedChange =  false;
     this.invalidRepeatPassword =  false;
     this.invalidPassword =  false;
-    this.changePassword =  new FormGroup({
+    this.invalidToken = false;
+    this.changePasswordData =  new FormGroup({
       'password' : new FormControl('', [Validators.required, Validators.minLength(8)]),
       'repeatPassword' : new FormControl('', [Validators.required]),
     });
@@ -29,39 +36,52 @@ export class RecoverPasswordComponent implements OnInit {
   }
 
   /**
-   *
+   * Verifies that the content of the password fields contains the same value
+   * @return boolean: true if the password and the confirm password have de same value.
    */
   checkPasswords(): Boolean { // here we have the 'passwords' group
-    const pass = this.changePassword.get('password').value;
-    const confirmPass = this.changePassword.get('repeatPassword').value;
+    const pass = this.changePasswordData.get('password').value;
+    const confirmPass = this.changePasswordData.get('repeatPassword').value;
     return pass === confirmPass;
   }
 
   /**
-   * Validate that the formulary is complete correctly and try to login in the app.
+   * Validate that the formulary is complete correctly and try to change the password in the app.
    * @private
    */
   submit() {
+    this.urlTree = this.router.parseUrl(this.router.url);
     this.invalidRepeatPassword = false;
     this.invalidPassword = false;
+    this.triedChange = true;
     const passwordInput = document.getElementById('passwordInput');
     const repeatPasswordInput = document.getElementById('repeatPasswordInput');
-    this.triedChange = true;
-    if (this.changePassword.get('repeatPassword').value === '') {
+
+    if (this.changePasswordData.get('repeatPassword').value === '') {
       repeatPasswordInput.style.border = 'solid #dc3545';
     }
-    if (this.changePassword.get('password').value === '') {
+    if (this.changePasswordData.get('password').value === '') {
       passwordInput.style.border = 'solid #dc3545';
     }
-    alert();
-    if (this.changePassword.valid && this.checkPasswords()) {
-      alert(this.changePassword.get('passowrd').value);
-     /* const observer = this.changeService.login(user);
-      observer.subscribe(
-        data => {this.changeService.saveUser(data); this.route.navigate(['/dashboard']); },
-        (error: HttpErrorResponse) => {console.log(error.status); this.dealNotLogin(error.error); }
-      );*/
+    if (this.changePasswordData.valid && this.checkPasswords()) {
+      this.changePassword();
     }
+  }
+
+  /**
+   * Try to change the password of the user
+   * @private
+   */
+  private changePassword() {
+    const observer = this.changeService.changePassword(this.changePasswordData.get('password').value,
+      this.urlTree.queryParams['token']);
+    observer.subscribe(
+      data => this.router.navigate(['/login']),
+      (error: HttpErrorResponse) => {
+        console.log(error.status);
+        this.invalidToken = true;
+      }
+    );
   }
 
 }

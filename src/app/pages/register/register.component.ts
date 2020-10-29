@@ -1,8 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../interfaces';
-import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Component({
   selector: 'app-register',

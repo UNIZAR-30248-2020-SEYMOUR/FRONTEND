@@ -11,3 +11,40 @@ h2{
   font-size: 80%;
   color: #dc3545;
 }
+
+.valid-backend-response{
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #28a745;
+}
+
+.overlay-pop-up{
+  background: rgba(0,0,0,.3);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  visibility: hidden;
+}
+
+.overlay-pop-up.active{
+  visibility:visible;
+}
+
+.btn-close-popup {
+  font-size: 16px;
+  line-height: 16px;
+  color:#000000;
+  transition: .3s ease all;
+  text-align: right;
+  display: block;
+}
+
+.btn-close-popup:hover {
+  color: red;
+}

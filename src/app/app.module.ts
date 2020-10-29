@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -16,6 +16,7 @@ import { ComponentsModule } from './components/components.module';
 import { HelpComponent } from './pages/help/help.component';
 
 import { AccountService } from './services/account.service';
+import { RecoverPasswordComponent } from './pages/recover-password/recover-password.component';
 
 
 
@@ -27,7 +28,8 @@ import { AccountService } from './services/account.service';
     ComponentsModule,
     NgbModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,

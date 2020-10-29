@@ -74,7 +74,7 @@
       </div>
       <div class="row mt-3">
         <div class="col-6">
-          <a href="javascript:void(0)" class="text-light"><small>Recuperar contraseña</small></a>
+          <a href="#" (click)="recoverPassword()"  class="text-light"><small>Recuperar contraseña</small></a>
         </div>
         <div class="col-6 text-right">
           <a href="#/register" class="text-light"><small>Crear una nueva cuenta</small></a>
@@ -82,4 +82,40 @@
       </div>
     </div>
   </div>
+
+  <!--Pop up Recover Password-->
+  <div class="overlay-pop-up" id="overlay-recover-password">
+    <div class="col-md-7 card p-5">
+      <a href="#" (click)="closeRecoverPassword()" id="btn-cerrar-perfil"
+         style="position: absolute;top: 20px;right: 30px;"><i class="ni ni-fat-remove"></i></a>
+      <p>Recuperar contraseña</p>
+      <div *ngIf="triedSendEmail && emailSent" class="invalid-feedback">
+        Ha sido enviado un email con un enlace para poder cambiar la contraseña.
+      </div>
+      <div *ngIf="triedSendEmail && invalidEmail" class="invalid-backend-response">
+        El email es no es válido.
+      </div>
+      <form class="form-material" [formGroup]="recoverPasswordData">
+        <div class="form-group">
+          <div class="input-group input-group-alternative">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+            </div>
+            <input class="form-control" id="emailRecoverPassword" formControlName="email"
+                   [ngClass]="{'is-invalid': !recoverPasswordData.get('email').valid}"
+                   placeholder="Email" type="email">
+            <div *ngIf="triedLogin && loginData.controls['email'].errors?.required" class="invalid-feedback">
+              El email es necesario.
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="button"  (click)="sendEmail()" class="btn btn-primary my-4">Recuperar contraseña</button>
+        </div>
+      </form>
+      <!-- #END# Input -->
+    </div>
+  </div>
+  <!--End Pop up Recover Password-->
+
 </div>

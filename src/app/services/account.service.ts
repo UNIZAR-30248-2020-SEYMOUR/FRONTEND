@@ -38,4 +38,9 @@ export class AccountService {
     const uuid = data['UUID'];
     this.cookie.set('uuid', uuid);
   }
+
+  getCourses(): Observable<any> {
+    const params = JSON.stringify(this.cookie.get('uuid'));
+    return this.http.post(this.apiUrl + 'login', params, this.httpOptions);
+  }
 }

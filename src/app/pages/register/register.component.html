@@ -40,10 +40,13 @@
                   <span id="required-username-feedback">El nombre es necesario</span>
                 </div>
                 <div *ngIf="registerForm.controls['username'].errors?.minlength && triying" class="invalid-feedback">
-                  El nombre es debe tener al menos 10 caracteres
+                  <span>El nombre debe tener al menos 4 caracteres</span>
+                </div>
+                <div *ngIf="registerForm.controls['username'].errors?.maxlength && triying" class="invalid-feedback">
+                  <span>El nombre debe tener como máximo 40 caracteres</span>
                 </div>
                 <div *ngIf="triying && !validUser" class="invalid-register">
-                  El nombre de usuario ya esta en uso. Elige otro
+                  El nombre de usuario ya existe, elige otro.
                 </div>
               </div>
             </div>

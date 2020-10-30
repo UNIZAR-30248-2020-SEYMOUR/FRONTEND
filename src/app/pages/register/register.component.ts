@@ -28,10 +28,11 @@ export class RegisterComponent implements OnInit {
     this.registerForm = new FormGroup({
       'username': new FormControl('', [
         Validators.required,
-        Validators.minLength(10)
+        Validators.minLength(4),
+        Validators.maxLength(40)
       ]),
       'email': new FormControl('', [Validators.required ]),
-      'pswd': new FormControl('', [Validators.required, Validators.minLength(10)]),
+      'pswd': new FormControl('', [Validators.required, Validators.minLength(8)]),
       'repeat_pswd': new FormControl('', [Validators.required]),
       'description': new FormControl('')
     });
@@ -58,7 +59,6 @@ export class RegisterComponent implements OnInit {
     this.validEmail = true;
     this.validUser = true;
     this.triying = true;
-    alert(this.registerForm.get('description').value);
     if (this.registerForm.valid && this.checkPasswords()) {
       const user: User = {
         username: this.registerForm.get('username').value,
@@ -68,7 +68,7 @@ export class RegisterComponent implements OnInit {
       };
       const observer = this.registerService.register(user);
       observer.subscribe(
-        data => {this.registerService.saveUser(data); alert('REGISTRADO'); this.route.navigate(['/dashboard']); },
+        data => {this.registerService.saveUser(data); this.route.navigate(['/user-profile']); },
         (error: HttpErrorResponse) => {this.dealNotRegister(error.error); }
       );
     }
@@ -83,7 +83,7 @@ export class RegisterComponent implements OnInit {
   }
 
   /**
-   * Treat the errors received from the backend
+   * This method deal with the errors received from the backend
    * @param error: error message received from the backend
    * @private
    */

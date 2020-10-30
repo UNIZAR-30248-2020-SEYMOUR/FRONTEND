@@ -3,12 +3,17 @@ import {Course, User} from '../../interfaces';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AccountService} from '../../services/account.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
+
+/**
+ * This class contains de logic of the user-profile.
+ */
 export class UserProfileComponent implements OnInit {
   user: User;
 
@@ -21,7 +26,7 @@ export class UserProfileComponent implements OnInit {
   validUser: boolean;
   validEmail: boolean;
 
-  constructor(private accountService: AccountService) {
+  constructor(private accountService: AccountService, private route: Router) {
     this.user = {
       username: 'Federico',
       email: 'federico@ld.com',
@@ -49,11 +54,20 @@ export class UserProfileComponent implements OnInit {
 
     const observer = this.accountService.getCourses();
     observer.subscribe(
-      data => {this.accountService.saveUser(data); },
-      (error: HttpErrorResponse) => {console.log(error.status); this.dealNotLogin(error.error); }
+      data => {
+        this.user.username = data.username;
+        this.user.description = data.description;
+        this.user.email = data.email;
+        this.courses = data.courses;
+        },
+      (error: HttpErrorResponse) => {console.log(error.status); this.dealNotUser(error.error); }
     );
   }
 
+  /**
+   * This method save the user modified data
+   * (is not complete yet)
+   */
   savechanges() {
     this.validEmail = true;
     this.validUser = true;
@@ -66,33 +80,23 @@ export class UserProfileComponent implements OnInit {
         password: '',
         description: this.registerForm.get('description').value
       };
-      // const observer = this.registerService.register(user);
-      /*observer.subscribe(
-        data => {alert('REGISTRADO'); },
-        (error: HttpErrorResponse) => {this.dealNotRegister(error.error); }
-      );*/
     }
   }
 
-
-  /*private dealNotRegister(error: JSON) {
-    if (error['error'] === ('Duplicate entry \'' + this.registerForm.get('username').value + '\' for key \'USERS.username\'')) {
-      this.validUser = false;
-    } else if (error['error'] === ('Duplicate entry \'' + this.registerForm.get('email').value + '\' for key \'USERS.email\'')) {
-      this.validEmail = false;
-    }
-  }*/
   ngOnInit() {
   }
   cancel() {
     this.disabled = !this.disabled;
   }
 
-  private dealNotLogin(error: JSON) {
-    if (error['error'] === 'Invalid email') {
-      this.invalidEmail = true;
-    } else if (error['error'] === 'Invalid password') {
-      this.invalidPassword = true;
+  /**
+   * This method deal with the errors from the backend requests
+   * @param error: error message received from the backend
+   * @private
+   */
+  private dealNotUser(error: JSON) {
+    if (error['error'] === 'User does not exist') {
+      this.route.navigate(['/login']);
     }
   }
 }

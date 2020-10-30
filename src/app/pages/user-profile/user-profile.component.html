@@ -83,6 +83,12 @@
                     <div *ngIf="registerForm.controls['username'].errors?.required && triying" class="invalid-feedback">
                       <span id="required-username-feedback">El nombre es necesario</span>
                     </div>
+                    <div *ngIf="registerForm.controls['username'].errors?.minLength && triying" class="invalid-feedback">
+                      <span>El nombre debe tener al menos 4 caracteres</span>
+                    </div>
+                    <div *ngIf="registerForm.controls['username'].errors?.maxLength && triying" class="invalid-feedback">
+                      <span>El nombre debe tener como máximo 40 caracteres</span>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6">

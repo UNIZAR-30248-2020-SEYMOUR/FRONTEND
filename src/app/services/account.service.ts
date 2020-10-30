@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Login, User} from '../interfaces';
 import {CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
@@ -7,9 +7,11 @@ import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AccountService {
-  private SUCCESS = 'success';
 
+/**
+ * This class contains de logic of do the requests for operations necessary for user accounts
+ */
+export class AccountService {
   private apiUrl = 'http://oc2.danielhuici.ml/users/';
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -18,14 +20,20 @@ export class AccountService {
   constructor(private http: HttpClient, private cookie: CookieService) {
   }
 
+  /**
+   * Do a register request to the server using the post method.
+   * @return Observable that receive the response of the server
+   * @param user: contain the register information introduce by the user.
+   */
   register(user: User): Observable<any> {
     const params = JSON.stringify(user);
     return this.http.post(this.apiUrl + 'register' , params, this.httpOptions);
   }
 
   /**
-   * Do a login petition to the server, receive and deal with the response.
-   * @param loginData: contain the email and the password uses to try login.
+   * Do a login request to the server using the post method.
+   * @return Observable that receive the response of the server
+   * @param loginData: contain the login information introduce by the user.
    */
   login(loginData: Login): Observable<any> {
     const params = JSON.stringify(loginData);
@@ -33,8 +41,11 @@ export class AccountService {
     return this.http.post(this.apiUrl + 'login' , params, this.httpOptions);
   }
 
+  /**
+   * Create a cookie with the user id
+   * @param data: JSON with the user id
+   */
   public saveUser(data: Object) {
-
     const uuid = data['UUID'];
     this.cookie.set('uuid', uuid);
   }
@@ -42,5 +53,34 @@ export class AccountService {
   getCourses(): Observable<any> {
     const params = JSON.stringify(this.cookie.get('uuid'));
     return this.http.post(this.apiUrl + 'login', params, this.httpOptions);
+  }
+
+  /**
+   * Do a request to change the user password to the server.
+   * @return Observable that receive the response of the server
+   * @param password: new password for the user
+   * @param idToken:
+   */
+  public changePassword(password: string, idToken: string) {
+    const json = {
+      newPassword: password,
+      token: idToken
+    };
+    const params = JSON.stringify(json);
+    return this.http.post(this.apiUrl + 'reset_password' , params, this.httpOptions);
+  }
+
+  /**
+   * Do a request to the server for send the email for recover the password
+   * @param email: email where to send the link of change password
+   */
+  sendEmail(email: string): Observable<any> {
+    alert();
+    const json = {
+      email: email
+    };
+    const params = JSON.stringify(json);
+    alert('AAAA');
+    return this.http.post(this.apiUrl + 'forgot_password', params, this.httpOptions);
   }
 }

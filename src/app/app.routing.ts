@@ -44,10 +44,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     BrowserModule,
-    RouterModule.forRoot(routes,{
+    RouterModule.forRoot(routes, {
       useHash: true,
-      onSameUrlNavigation: "ignore",          //
-      anchorScrolling:'enabled',              // Alows us to scroll links ( localhost:4200/#/help/#section-one )
+      onSameUrlNavigation: 'ignore',          //
+      anchorScrolling: 'enabled',              // Alows us to scroll links ( localhost:4200/#/help/#section-one )
       scrollPositionRestoration: 'enabled'    //
     })
   ],

@@ -82,6 +82,11 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.valid && this.checkPasswords();
   }
 
+  /**
+   * Treat the errors received from the backend
+   * @param error: error message received from the backend
+   * @private
+   */
   private dealNotRegister(error: JSON) {
     if (error['error'] === ('Duplicate entry \'' + this.registerForm.get('username').value + '\' for key \'USERS.username\'')) {
       this.validUser = false;

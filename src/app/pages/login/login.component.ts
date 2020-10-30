@@ -11,20 +11,33 @@ import {HttpErrorResponse} from '@angular/common/http';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
+
+/**
+ * This class control the logic of the login component. Do the login and redirect to the main
+ * page of the web unless there is some mistake in that case show a error message.
+ */
 export class LoginComponent implements OnInit, OnDestroy {
   loginData: FormGroup;
+  recoverPasswordData: FormGroup;
   triedLogin: Boolean;
+  triedSendEmail: Boolean;
   invalidEmail: boolean;
   invalidPassword: boolean;
+  emailSent: boolean;
 
 
   constructor(private loginService: AccountService, private route: Router) {
     this.triedLogin = false;
+    this.triedSendEmail = false;
     this.invalidPassword = false;
     this.invalidEmail = false;
+    this.emailSent = false;
     this.loginData =  new FormGroup({
       'email' : new FormControl('', [Validators.required]),
       'password' : new FormControl('', [Validators.required]),
+    });
+    this.recoverPasswordData = new FormGroup({
+      'email' : new FormControl('', [Validators.required])
     });
   }
 
@@ -37,8 +50,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   /**
    * Validate that the formulary is complete correctly and try to login in the app.
-   * @author: Eduardo Ruiz
-   * @revisor:
    * @private
    */
   submit() {
@@ -66,6 +77,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Treat the errors received from the backend
+   * @param error: error message received from the backend
+   * @private
+   */
   private dealNotLogin(error: JSON) {
     if (error['error'] === 'Invalid email') {
       this.invalidEmail = true;
@@ -74,4 +90,37 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Validate that the formulary is complete correctly and try to send the email of change password.
+   * Treat with the response from the server
+   * @private
+   */
+  sendEmail() {
+    this.invalidEmail = false;
+    this.invalidPassword = false;
+    this.triedSendEmail = true;
+    const emailInput = document.getElementById('emailRecoverPassword');
+
+    if (this.recoverPasswordData.get('email').value === '') {
+      emailInput.style.border = 'solid #dc3545';
+    }
+    if (this.recoverPasswordData.valid) {
+      const observer = this.loginService.sendEmail(this.recoverPasswordData.get('email').value);
+      observer.subscribe(
+        data => this.emailSent = true,
+        (error: HttpErrorResponse) => {console.log(error.status); this.invalidEmail = true; }
+      );
+    }
+  }
+
+  showPopupRecoverPassword() {
+    const popUpRecoverPassword = document.getElementById('overlay-recover-password');
+    popUpRecoverPassword.classList.add('active');
+  }
+
+
+  closeRecoverPassword() {
+    const popUpRecoverPassword = document.getElementById('overlay-recover-password');
+    popUpRecoverPassword.classList.remove('active');
+  }
 }

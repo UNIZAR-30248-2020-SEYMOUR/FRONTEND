@@ -1,18 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register.component';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
-  const formBuilder: FormBuilder = new FormBuilder();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RegisterComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,19 +19,12 @@ describe('RegisterComponent', () => {
     fixture.detectChanges();
   });
 
-  it(' should validate fields should create', () => {
-    component.registerForm =  new FormGroup({
-      'username': new FormControl('asdfasdfsadfasdf', ),
-      'email': new FormControl('asdfasdfasdfsadf', ),
-      'pswd': new FormControl('asdfasdfasdfsadf', ),
-      'repeat_pswd': new FormControl('asdfasdfsadf', ),
-      'description': new FormControl('asdfasdfsadf')});
-
-    fixture.nativeElement.querySelector('Crear cuenta');
-    alert(component.validateFields());
-    expect(component.validateFields()).toEqual(true);
-  });
   it('should create', () => {
-    expect(component).toBeTruthy();
+    (<HTMLInputElement>document.getElementById('input-username')).value = '';
+     document.getElementById('register-button').click();
+     alert(document.getElementById('register-button').textContent);
+     alert((<HTMLSpanElement>document.getElementById('required-username-feedback')).innerText);
+     const result = (<HTMLDivElement>document.getElementById('required-username-feedback')).innerText;
+    expect(result).toBe('El nombre es necesario');
   });
 });

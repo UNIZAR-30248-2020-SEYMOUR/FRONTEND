@@ -51,6 +51,18 @@ export class AccountService {
   }
 
   /**
+   * Do a request to get the user data to the server.
+   * @return Observable that receive the response of the server
+   */
+  getCourses(): Observable<any> {
+    const json = {
+      uuid: this.cookie.get('uuid')
+    };
+    const params = JSON.stringify(json);
+    return this.http.post(this.apiUrl + 'user_profile', params, this.httpOptions);
+  }
+
+  /**
    * Do a request to change the user password to the server.
    * @return Observable that receive the response of the server
    * @param password: new password for the user
@@ -70,12 +82,10 @@ export class AccountService {
    * @param email: email where to send the link of change password
    */
   sendEmail(email: string): Observable<any> {
-    alert();
     const json = {
       email: email
     };
     const params = JSON.stringify(json);
-    alert('AAAA');
     return this.http.post(this.apiUrl + 'forgot_password', params, this.httpOptions);
   }
 }

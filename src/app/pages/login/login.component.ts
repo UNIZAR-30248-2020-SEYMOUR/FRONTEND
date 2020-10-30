@@ -71,14 +71,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       };
       const observer = this.loginService.login(user);
       observer.subscribe(
-          data => {this.loginService.saveUser(data); this.route.navigate(['/dashboard']); },
+          data => {this.loginService.saveUser(data); this.route.navigate(['/user-profile']); },
           (error: HttpErrorResponse) => {console.log(error.status); this.dealNotLogin(error.error); }
         );
     }
   }
 
   /**
-   * Treat the errors received from the backend
+   * This method deal with the errors received from the backend
    * @param error: error message received from the backend
    * @private
    */

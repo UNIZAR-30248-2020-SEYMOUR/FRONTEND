@@ -7,39 +7,65 @@
 </div>
 <div class="container-fluid mt--7">
   <div class="row">
-    <!-- This column contains all the help content-->
     <div class="col-xl-9">
       <div class="card shadow">
-        <div class="card-header bg-transparent">
-          <div class="row align-items-center">
-            <div class="col" style="height: 1000px">
-              <h2 class="mb-0">Ayuda</h2>
-              <p>Aqui encontrarás toda la información necesaria para una
-                correcta esperiencia de usuario en el uso de Seymour.</p>
 
-            </div>
-          </div>
-        </div>
         <div class="card-body">
           <div class="col-xl-12">
             <div class="card shadow">
               <div class="card-header bg-transparent">
                 <div class="row align-items-center" >
                   <div class="col" >
-                    <h2 id="seccion" class="mb-0">Lorem Ipsum </h2>
-                    <p >Lorem ipsum dolor sit amet, consectetur adipiscing
-                      elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa vitae tortor </p>
-
+                    <h2 id="registro" class="mb-0">Registro</h2><br>
+                    <!-- DESCRIPCIÓN: -->
+                    <p>Registrarse en Seymour es muy sencillo. Simplemente debes introducir un nombre de usuario que contenga entre 4 y 40 caracteres, tu email, una descripción de hasta 500 caracteres y una contraseña de 8 caracteres o más</p>
                   </div>
                 </div>
               </div>
-              <div class="card-body">
-                <!-- Here you can add a help section -->
-              </div>
+              <!-- IMAGEN: -->
+              <img style="margin: auto; max-width: 30%" src="assets/help_img/register.png">
             </div>
           </div>
-
         </div>
+
+        <div class="card-body">
+          <div class="col-xl-12">
+            <div class="card shadow">
+              <div class="card-header bg-transparent">
+                <div class="row align-items-center" >
+                  <div class="col" >
+                    <h2 id="inicio_sesion" class="mb-0">Inicio de sesión</h2><br>
+                    <!-- DESCRIPCIÓN: -->
+                    <p>Para iniciar sesión, simplemente debes introducir tu email y tu contraseña si te has registrado previamente.</p>
+                  </div>
+                </div>
+              </div>
+              <!-- IMAGEN: -->
+              <img style="margin: auto; max-width: 30%" src="assets/help_img/inicio_sesion.png">
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="col-xl-12">
+            <div class="card shadow">
+              <div class="card-header bg-transparent">
+                <div class="row align-items-center" >
+                  <div class="col" >
+                    <h2 id="recuperar_password" class="mb-0">Recuperar contraseña</h2><br>
+                    <!-- DESCRIPCIÓN: -->
+                    <p>Si has olvidado la contraseña o quieres cambiarla, puedes recuperarla desde la pantalla de inicio de sesión pulsando el botón "Recuperar contraseña". Una vez ahí, se te pedirá que introduzcas tu email para que te enviemos un enlace en el que se te permitirá realizar el cambio de contraseña.</p>
+                  </div>
+                </div>
+              </div>
+              <!-- IMAGEN: -->
+              <img style="margin: auto; max-width: 80%" src="assets/help_img/recuperar_contra_1.png">
+              <br>
+              <img style="margin: auto; max-width: 70%" src="assets/help_img/recuperar_contra_2.jpeg">
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
     <!-- This column contains a index to find the different sections-->
@@ -53,11 +79,9 @@
           </div>
         </div>
         <div class="card-body">
-          <a routerLink="/help" fragment="seccion"><h4 class="index-lvl-1">1 Seccción</h4></a>
-          <a routerLink="/help" fragment="seccion"><h5 class="index-lvl-2">  1.1 Subsección</h5></a>
-          <a routerLink="/help" fragment="seccion"><h6 class="index-lvl-3">   1.1.1 Subsección</h6></a>
-          <a routerLink="/help" fragment="seccion"><h5 class="index-lvl-2">  1.2 Subsección</h5></a>
-          <a routerLink="/help" fragment="seccion"><h6 class="index-lvl-3">   1.2.1 Subsección</h6></a>
+          <a routerLink="/help" fragment="registro"><h4 class="index-lvl-1">Registro</h4></a>
+          <a routerLink="/help" fragment="inicio_sesion"><h4 class="index-lvl-1">Inicio de sesión</h4></a>
+          <a routerLink="/help" fragment="recuperar_password"><h4 class="index-lvl-1">Recuperar contraseña</h4></a>
         </div>
       </div>
     </div>

@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   /**
-   * Validate that the formulary is complete correctly and try to login in the app.
+   * Validate that the form is complete correctly and try to login in the app.
    * @private
    */
   submit() {
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method deal with the errors received from the backend
+   * This method handles the errors received from the backend
    * @param error: error message received from the backend
    * @private
    */

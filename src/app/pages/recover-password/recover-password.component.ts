@@ -50,6 +50,8 @@ export class RecoverPasswordComponent implements OnInit {
    * @private
    */
   submit() {
+    alert(this.changePasswordData.get('repeatPassword').value);
+    alert(this.changePasswordData.get('password').value);
     this.urlTree = this.router.parseUrl(this.router.url);
     this.invalidRepeatPassword = false;
     this.invalidPassword = false;

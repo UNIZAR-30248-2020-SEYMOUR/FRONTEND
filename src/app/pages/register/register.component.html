@@ -56,11 +56,12 @@
                   <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                 </div>
                 <input class="form-control" placeholder="Email" type="email" formControlName="email"
-                       [ngClass]="{'is-invalid': !registerForm.get('email').valid}" name="email">
+                       [ngClass]="{'is-invalid': !registerForm.get('email').valid}" name="email" id="input-email">
+
                 <div *ngIf="registerForm.controls['email'].errors?.required && triying" class="invalid-feedback">
                   El correo electrónico es necesario
                 </div>
-                <div *ngIf="triying && !validEmail" class="invalid-register">
+                <div *ngIf="triying && !validEmail" class="invalid-feedback">
                   El email ya esta registrado
                 </div>
               </div>
@@ -78,7 +79,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                 </div>
-                <input  class="form-control"  placeholder="Contraseña" type="password" name="password"
+                <input  class="form-control"  placeholder="Contraseña" type="password" name="password" id="input-pswd"
                        formControlName="pswd" [ngClass]="{'is-invalid': !registerForm.get('pswd').valid}">
                 <div *ngIf="registerForm.controls['pswd'].errors?.required && triying" class="invalid-feedback">
                   La contraseña es necesaria
@@ -93,7 +94,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                 </div>
-                <input class="form-control"  placeholder="Repetir contraseña" type="password" formControlName="repeat_pswd"
+                <input class="form-control"  placeholder="Repetir contraseña" type="password" formControlName="repeat_pswd" id="input-repeat-pswd"
                        [ngClass]="{'is-invalid': !registerForm.get('repeat_pswd').valid || !checkPasswords()}">
                 <div *ngIf="triying && !checkPasswords()" class="invalid-feedback">
                   Las contraseñas no coinciden

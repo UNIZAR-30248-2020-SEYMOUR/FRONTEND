@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Login, User} from '../interfaces';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Course, Login, User} from '../interfaces';
 import {CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
 
@@ -12,10 +12,11 @@ import {Observable} from 'rxjs';
  * This class contains de logic of do the requests for operations necessary for user accounts
  */
 export class AccountService {
-  private apiUrl = 'http://oc2.danielhuici.ml/users/';
+  private apiUrl = 'http://localhost:3000/';
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
+  private headers: HttpHeaders;
 
   constructor(private http: HttpClient, private cookie: CookieService) {
   }
@@ -27,7 +28,7 @@ export class AccountService {
    */
   register(user: User): Observable<any> {
     const params = JSON.stringify(user);
-    return this.http.post(this.apiUrl + 'register' , params, this.httpOptions);
+    return this.http.post(this.apiUrl + 'users/register' , params, this.httpOptions);
   }
 
   /**
@@ -38,7 +39,7 @@ export class AccountService {
   login(loginData: Login): Observable<any> {
     const params = JSON.stringify(loginData);
 
-    return this.http.post(this.apiUrl + 'login' , params, this.httpOptions);
+    return this.http.post(this.apiUrl + 'users/login' , params, this.httpOptions);
   }
 
   /**
@@ -54,12 +55,26 @@ export class AccountService {
    * Do a request to get the user data to the server.
    * @return Observable that receive the response of the server
    */
+  /*getCourses(): Observable<any> {
+    const json = {
+      uuid: this.cookie.get('uuid')
+    };
+    const params = new HttpParams();
+    params.set('uuid', this.cookie.get('uuid'));
+
+    const head = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get(this.apiUrl + 'users/user_profile', {headers: head, params: params});
+  }*/
+
   getCourses(): Observable<any> {
     const json = {
       uuid: this.cookie.get('uuid')
     };
-    const params = JSON.stringify(json);
-    return this.http.post(this.apiUrl + 'user_profile', params, this.httpOptions);
+    const params = new HttpParams();
+    params.set('uuid', this.cookie.get('uuid'));
+
+    const head = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    return this.http.get(this.apiUrl + 'users/user_profile', {headers: head, params: params});
   }
 
   /**
@@ -74,7 +89,7 @@ export class AccountService {
       token: idToken
     };
     const params = JSON.stringify(json);
-    return this.http.post(this.apiUrl + 'reset_password' , params, this.httpOptions);
+    return this.http.post(this.apiUrl + 'users/reset_password' , params, this.httpOptions);
   }
 
   /**
@@ -86,6 +101,21 @@ export class AccountService {
       email: email
     };
     const params = JSON.stringify(json);
-    return this.http.post(this.apiUrl + 'forgot_password', params, this.httpOptions);
+    return this.http.post(this.apiUrl + 'users/forgot_password', params, this.httpOptions);
+  }
+
+  saveCourse(course: Course): Observable<any> {
+    const json = {
+      owner: this.cookie.get('uuid'),
+      coursename: course.name,
+      description: course.description,
+      category: course.category.categoryName
+    };
+    const params = JSON.stringify(json);
+    return this.http.post(this.apiUrl + 'courses/create_course', params, this.httpOptions);
+  }
+
+  getCategories(): Observable<any> {
+    return this.http.get(this.apiUrl + 'categories/get_list');
   }
 }

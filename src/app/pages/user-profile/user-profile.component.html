@@ -80,13 +80,13 @@
                   <div class="form-group">
                     <label class="form-control-label"  for="input-username">Nombre de usuario</label>
                     <input type="text" id="input-username" [disabled]="disabled" class="form-control form-control-alternative" placeholder="{{user.username}}" >
-                    <div *ngIf="registerForm.controls['username'].errors?.required && triying" class="invalid-feedback">
+                    <div *ngIf="registerForm.controls['username'].errors?.required && triyingUser" class="invalid-feedback">
                       <span id="required-username-feedback">El nombre es necesario</span>
                     </div>
-                    <div *ngIf="registerForm.controls['username'].errors?.minLength && triying" class="invalid-feedback">
+                    <div *ngIf="registerForm.controls['username'].errors?.minLength && triyingUser" class="invalid-feedback">
                       <span>El nombre debe tener al menos 4 caracteres</span>
                     </div>
-                    <div *ngIf="registerForm.controls['username'].errors?.maxLength && triying" class="invalid-feedback">
+                    <div *ngIf="registerForm.controls['username'].errors?.maxLength && triyingUser" class="invalid-feedback">
                       <span>El nombre debe tener como máximo 40 caracteres</span>
                     </div>
                   </div>
@@ -114,10 +114,15 @@
             <h6 class="heading-small text-muted mb-4">Tus cursos </h6>
             <div class="pl-lg-4">
               <div class="row">
+                <div class="col-1 text-right">
+                  <input type="button" (click)="openPopUp()" class="btn btn-sm btn-primary" value="Nuevo curso">
+                </div>
+              </div>
+              <div class="row">
                  <div *ngFor=" let course of courses" class="col-md-5 course" >
                    <img class="image-course" src="assets/img/computer-1209641_960_720.png"/>
-                   <h3 class="course-title">{{course.courseName}}</h3>
-                   <p class="course-description">{{course.courseDescription}}</p>
+                   <h3 class="course-title">{{course.name}}</h3>
+                   <p class="course-description">{{course.description}}</p>
                  </div>
               </div>
             </div>
@@ -127,4 +132,52 @@
       </div>
     </div>
   </div>
+  <div class="overlay-pop-up" [hidden]="!popupVisible">
+    <div class="col-md-7 card p-5">
+      <a (click)="closePopUp()" id="btn-cerrar-perfil"
+         style="position: absolute;top: 20px;right: 30px;"><i class="ni ni-fat-remove"></i></a>
+      <h1>Nuevo curso</h1>
+      <form role="form" [formGroup]="createGroupForm">
+        <div class="form-group">
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+            </div>
+            <input class="form-control" placeholder="Nombre del curso" type="text" formControlName="courseName"
+                   [ngClass]="{'is-invalid': !createGroupForm.get('courseName').valid}" name="courseName">
+            <div *ngIf="createGroupForm.controls['courseName'].errors?.required && triyingCourse" class="invalid-feedback">
+              <span>El nombre es necesario</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+            </div>
+            <input class="form-control" placeholder="Descripción" type="text"
+                   formControlName="courseDescription" name="courseDescription">
+          </div>
+        </div>
+        <div class="form-group">
+          <select *ngFor=" let category of categories" class="select-box">
+            <option value="{{category.categoryName}}">{{category.categoryName}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="input-group input-group-alternative mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+            </div>
+            <textarea class="form-control" formControlName="courseDescription" [ngModel]="" placeholder="Descripción" type="text"></textarea>
+          </div>
+        </div>
+      </form>
+      <div class="text-center">
+        <button type="button" (click)="saveCourse()" class="btn btn-primary mt-4">Guardar</button>
+      </div>
+    </div>
+  </div>
+
 </div>
+

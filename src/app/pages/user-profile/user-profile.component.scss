@@ -22,3 +22,101 @@
   margin-top: 20px;
   margin-left: 20px;
 }
+
+h1{
+  font-size: 60px;
+}
+h2{
+  font-size: 50px;
+}
+
+.invalid-backend-response{
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+
+.valid-backend-response{
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #28a745;
+}
+
+.overlay-pop-up{
+  background: rgba(0,0,0,.3);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  //visibility: hidden;
+}
+
+.overlay-pop-up.active{
+  visibility:visible;
+}
+
+.btn-close-popup {
+  font-size: 16px;
+  line-height: 16px;
+  color:#000000;
+  transition: .3s ease all;
+  text-align: right;
+  display: block;
+}
+
+.btn-close-popup:hover {
+  color: red;
+}
+
+.select-box {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
+  font-size: 18px;
+  color: #60666d;
+
+  @media (min-width: 768px) {
+    width: 70%;
+  }
+
+  @media (min-width: 992px) {
+    width: 50%;
+  }
+
+  @media (min-width: 1200px) {
+    width: 30%;
+  }
+
+  &__current {
+    position: relative;
+    box-shadow: 0 15px 30px -10px transparentize(#000, 0.9);
+    cursor: pointer;
+    outline: none;
+
+    &:focus {
+      & + .select-box__list {
+        opacity: 1;
+
+        // We have to set "animation-name: none;" to make the list visible (read below how it works)
+
+        animation-name: none;
+
+        .select-box__option {
+          cursor: pointer;
+        }
+      }
+
+      .select-box__icon {
+        transform: translateY(-50%) rotate(180deg);
+      }
+    }
+  }
+}

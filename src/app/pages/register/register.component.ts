@@ -71,6 +71,33 @@ export class RegisterComponent implements OnInit {
         data => {this.registerService.saveUser(data); this.route.navigate(['/user-profile']); },
         (error: HttpErrorResponse) => {this.dealNotRegister(error.error); }
       );
+    } else {
+      if (this.registerForm.controls['username'].errors?.required) {
+        const usernameInput = document.getElementById('input-username');
+        usernameInput.style.border = 'solid #dc3545';
+        usernameInput.style.borderRadius = '5px';
+        usernameInput.style.borderWidth = '2px';
+      }
+      if (this.registerForm.controls['email'].errors?.required) {
+        const usernameInput = document.getElementById('input-email');
+        usernameInput.style.border = 'solid #dc3545';
+        usernameInput.style.borderRadius = '5px';
+        usernameInput.style.borderWidth = '2px';
+      }
+      if (this.registerForm.controls['pswd'].errors?.required) {
+        const pswdInput = document.getElementById('input-pswd');
+        pswdInput.style.border = 'solid #dc3545';
+        pswdInput.style.borderRadius = '5px';
+        pswdInput.style.borderWidth = '2px';
+        const repeatPswd = document.getElementById('input-repeat-pswd');
+        repeatPswd.classList.add('invalid-input');
+      }
+      if (!this.checkPasswords() ) {
+        const repeatPswd = document.getElementById('input-repeat-pswd');
+        repeatPswd.style.border = 'solid #dc3545';
+        repeatPswd.style.borderRadius = '5px';
+        repeatPswd.style.borderWidth = '2px';
+      }
     }
   }
 

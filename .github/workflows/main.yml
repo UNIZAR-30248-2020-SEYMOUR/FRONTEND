@@ -22,4 +22,4 @@ jobs:
       # Test executions
       - name: Run tests
         run: |
-          npm build:ci
+          npm run build:ci

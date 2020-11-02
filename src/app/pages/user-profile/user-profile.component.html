@@ -161,6 +161,7 @@
         <div class="form-group">
           <div class="input-group input-group-alternative mb-3" id="div-courseCategory">
             <select class="form-control select-box" formControlName="courseCategory" id="comboCategories">
+              <option value="" disabled selected>Categoría</option>
               <option *ngFor=" let category of categories" value="{{category.name}}">
                 {{category.name}}
               </option>

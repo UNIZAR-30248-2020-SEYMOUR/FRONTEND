@@ -22,4 +22,4 @@ jobs:
       # Test executions
       - name: Run tests
         run: |
-          ng test --no-watch
+          npm build:ci

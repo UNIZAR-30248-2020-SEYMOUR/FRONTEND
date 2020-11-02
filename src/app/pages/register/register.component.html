@@ -38,7 +38,7 @@
                        [ngClass]="{'is-invalid': !registerForm.get('username').valid}" name="username" id="username-input">
               </div>
               <div *ngIf="registerForm.controls['username'].errors?.required && triying" class="invalid-register">
-                <span id="required-username-feedback">El nombre es necesario</span>
+                <span id="required-username-feedback">El nombre de usuario es necesario</span>
               </div>
               <div *ngIf="registerForm.controls['username'].errors?.minlength && triying" class="invalid-register">
                 <span>El nombre debe tener al menos 4 caracteres</span>
@@ -47,7 +47,7 @@
                 <span>El nombre debe tener como máximo 40 caracteres</span>
               </div>
               <div *ngIf="triying && !validUser" class="invalid-register">
-                El nombre de usuario ya existe, elige otro.
+                El nombre de usuario ya existe, elige otro
               </div>
             </div>
             <div class="form-group">
@@ -62,7 +62,7 @@
                 El correo electrónico es necesario
               </div>
               <div *ngIf="triying && !validEmail" class="invalid-register">
-                El email ya esta registrado
+                El email ya está registrado
               </div>
             </div>
             <div class="form-group">

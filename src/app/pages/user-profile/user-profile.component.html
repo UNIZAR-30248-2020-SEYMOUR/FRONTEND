@@ -143,7 +143,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
             </div>
-            <input class="form-control" placeholder="Nombre del curso" type="text" formControlName="courseName"
+            <input id="nuevocurso-button" class="form-control" placeholder="Nombre del curso" type="text" formControlName="courseName"
                    [ngClass]="{'is-invalid': !createCourseForm.get('courseName').valid}" name="courseName">
           </div>
           <div *ngIf="createCourseForm.controls['courseName'].errors?.required && triyingCourse" class="invalid-register">
@@ -155,7 +155,8 @@
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="ni ni-hat-83"></i></span>
             </div>
-            <textarea class="form-control" formControlName="courseDescription" [ngModel]="" placeholder="Descripción" type="text"></textarea>
+            <input id="descripcion-curso" class="form-control" formControlName="courseDescription" [ngModel]=""
+                   placeholder="Descripción" type="text"/>
           </div>
         </div>
         <div class="form-group">
@@ -170,7 +171,7 @@
         </div>
       </form>
       <div class="text-center">
-        <button type="button" (click)="saveCourse()" class="btn btn-primary mt-4">Guardar</button>
+        <button type="button" (click)="saveCourse()" class="btn btn-primary mt-4">Guardar curso</button>
       </div>
     </div>
   </div>

@@ -66,7 +66,7 @@
             </div>
             <!--End Password input-->
             <div class="text-center">
-              <button type="button"  (click)="submit()" class="btn btn-primary my-4">Iniciar Sesión</button>
+              <button id="login-button" type="button"  (click)="submit()" class="btn btn-primary my-4">Iniciar Sesión</button>
             </div>
           </form>
           <!--End Login Formulary-->
@@ -74,7 +74,7 @@
       </div>
       <div class="row mt-3">
         <div class="col-6">
-          <a href="#" (click)="showPopupRecoverPassword()" class="text-light"><small>Recuperar contraseña</small></a>
+          <a id='open-pop-up' href="#" (click)="showPopupRecoverPassword()" class="text-light"><small>Recuperar contraseña</small></a>
         </div>
         <div class="col-6 text-right">
           <a href="#/register" class="text-light"><small>Crear una nueva cuenta</small></a>
@@ -110,7 +110,7 @@
           </div>
         </div>
         <div class="text-center">
-          <button type="button"  (click)="sendEmail()" class="btn btn-primary my-4">Recuperar contraseña</button>
+          <button id="send-email-button" type="button"  (click)="sendEmail()" class="btn btn-primary my-4">Recuperar contraseña</button>
         </div>
       </form>
       <!-- #END# Input -->

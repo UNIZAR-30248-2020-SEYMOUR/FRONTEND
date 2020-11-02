@@ -59,10 +59,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     const passwordInput = document.getElementById('passwordInput');
     this.triedLogin = true;
     if (this.loginData.get('email').value === '') {
-      emailInput.style.border = 'solid #dc3545';
+      emailInput.style.border = '2px solid rgb(220, 53, 69)';
     }
     if (this.loginData.get('password').value === '') {
-       passwordInput.style.border = 'solid #dc3545';
+       passwordInput.style.border = '2px solid rgb(220, 53, 69)';
     }
     if (this.loginData.valid) {
       const user: Login = {
@@ -102,7 +102,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const emailInput = document.getElementById('emailRecoverPassword');
 
     if (this.recoverPasswordData.get('email').value === '') {
-      emailInput.style.border = 'solid #dc3545';
+      emailInput.style.border = '2px solid rgb(220, 53, 69)';
     }
     if (this.recoverPasswordData.valid) {
       const observer = this.loginService.sendEmail(this.recoverPasswordData.get('email').value);

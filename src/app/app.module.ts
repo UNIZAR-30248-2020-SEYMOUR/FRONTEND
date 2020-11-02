@@ -16,7 +16,6 @@ import { ComponentsModule } from './components/components.module';
 import { HelpComponent } from './pages/help/help.component';
 
 import { AccountService } from './services/account.service';
-import { RecoverPasswordComponent } from './pages/recover-password/recover-password.component';
 
 
 

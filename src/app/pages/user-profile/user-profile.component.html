@@ -20,7 +20,7 @@
           <div class="col-lg-3 order-lg-2">
             <div class="card-profile-image">
               <a href="javascript:void(0)">
-                <img src="assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                <img src="https://avatars.dicebear.com/api/human/{{user.username}}.svg" style="width: 400px" class="rounded-circle">
               </a>
             </div>
           </div>
@@ -43,7 +43,7 @@
             </div>
           </div>
           <div class="text-center">
-            <h3>
+            <h3 id="username">
               {{user.username}}
             </h3>
             <div class="h5 font-weight-300">
@@ -72,7 +72,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form>
+          <form [formGroup]="registerForm">
             <h6 class="heading-small text-muted mb-4">Información del usuario</h6>
             <div class="pl-lg-4">
               <div class="row">
@@ -121,7 +121,7 @@
               <div class="row">
                  <div *ngFor=" let course of courses" class="col-md-5 course" >
                    <img class="image-course" src="assets/img/computer-1209641_960_720.png"/>
-                   <h3 class="course-title">{{course.name}}</h3>
+                   <h3 class="course-title">{{course.coursename}}</h3>
                    <p class="course-description">{{course.description}}</p>
                  </div>
               </div>
@@ -137,44 +137,41 @@
       <a (click)="closePopUp()" id="btn-cerrar-perfil"
          style="position: absolute;top: 20px;right: 30px;"><i class="ni ni-fat-remove"></i></a>
       <h1>Nuevo curso</h1>
-      <form role="form" [formGroup]="createGroupForm">
+      <form role="form" [formGroup]="createCourseForm">
         <div class="form-group">
-          <div class="input-group input-group-alternative mb-3">
+          <div class="input-group input-group-alternative mb-3" id="div-courseName">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
             </div>
-            <input class="form-control" placeholder="Nombre del curso" type="text" formControlName="courseName"
-                   [ngClass]="{'is-invalid': !createGroupForm.get('courseName').valid}" name="courseName">
-            <div *ngIf="createGroupForm.controls['courseName'].errors?.required && triyingCourse" class="invalid-feedback">
-              <span>El nombre es necesario</span>
-            </div>
+            <input id="nuevocurso-button" class="form-control" placeholder="Nombre del curso" type="text" formControlName="courseName"
+                   [ngClass]="{'is-invalid': !createCourseForm.get('courseName').valid}" name="courseName">
+          </div>
+          <div *ngIf="createCourseForm.controls['courseName'].errors?.required && triyingCourse" class="invalid-register">
+            <span>El nombre es necesario</span>
           </div>
         </div>
         <div class="form-group">
-          <div class="input-group input-group-alternative mb-3">
+          <div class="input-group input-group-alternative mb-3" id="div-courseDescription">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+              <span class="input-group-text"><i class="ni ni-hat-83"></i></span>
             </div>
-            <input class="form-control" placeholder="Descripción" type="text"
-                   formControlName="courseDescription" name="courseDescription">
+            <input id="descripcion-curso" class="form-control" formControlName="courseDescription" [ngModel]=""
+                   placeholder="Descripción" type="text"/>
           </div>
         </div>
         <div class="form-group">
-          <select *ngFor=" let category of categories" class="select-box">
-            <option value="{{category.categoryName}}">{{category.categoryName}}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <div class="input-group input-group-alternative mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-            </div>
-            <textarea class="form-control" formControlName="courseDescription" [ngModel]="" placeholder="Descripción" type="text"></textarea>
+          <div class="input-group input-group-alternative mb-3" id="div-courseCategory">
+            <select class="form-control select-box" formControlName="courseCategory" id="comboCategories">
+              <option value="" disabled selected>Categoría</option>
+              <option *ngFor=" let category of categories" value="{{category.name}}">
+                {{category.name}}
+              </option>
+            </select>
           </div>
         </div>
       </form>
       <div class="text-center">
-        <button type="button" (click)="saveCourse()" class="btn btn-primary mt-4">Guardar</button>
+        <button type="button" (click)="saveCourse()" class="btn btn-primary mt-4">Guardar curso</button>
       </div>
     </div>
   </div>

@@ -11,10 +11,10 @@ export interface Login {
 }
 
 export interface Course {
-  name: string;
+  coursename: string;
   description: string;
   category: Category;
 }
 export interface Category {
-  categoryName: string;
+  name: string;
 }

@@ -12,7 +12,7 @@
     "clean": "rimraf ./dist",
     "build:prod": "ng build --prod",
     "test:watch": "ng test",
-    "build:ci": "npm run clean && npm run test && npm run build:prod"
+    "build:ci": "npm run clean && ng test --no-watch"
   },
   "private": true,
   "dependencies": {

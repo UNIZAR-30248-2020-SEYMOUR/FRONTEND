@@ -74,7 +74,10 @@
       </div>
       <div class="row mt-3">
         <div class="col-6">
-          <a id='open-pop-up' href="#" (click)="showPopupRecoverPassword()" class="text-light"><small>Recuperar contraseña</small></a>
+          <button id='open-pop-up' style="padding: 0; border: none; background: none"
+                  (click)="showPopupRecoverPassword()"
+                 class="text-light"><small>Recuperar contraseña</small>
+          </button>
         </div>
         <div class="col-6 text-right">
           <a href="#/register" class="text-light"><small>Crear una nueva cuenta</small></a>
@@ -86,8 +89,10 @@
   <!--Pop up Recover Password-->
   <div class="overlay-pop-up" id="overlay-recover-password">
     <div class="col-md-7 card p-5">
-      <a href="#" (click)="closeRecoverPassword()" id="btn-cerrar-perfil"
-         style="position: absolute;top: 20px;right: 30px;"><i class="ni ni-fat-remove"></i></a>
+      <button (click)="closeRecoverPassword()" id="close-pop-up"
+        style="padding: 0; border: none; background: none; position: absolute;top: 20px;right: 30px;">
+        <i class="ni ni-fat-remove"></i>
+      </button>
       <p>Recuperar contraseña</p>
       <div *ngIf="triedSendEmail && emailSent" class="valid-backend-response">
         Ha sido enviado un email con un enlace para poder cambiar la contraseña.

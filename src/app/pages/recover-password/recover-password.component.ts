@@ -60,10 +60,10 @@ export class RecoverPasswordComponent implements OnInit {
     const repeatPasswordInput = document.getElementById('repeatPasswordInput');
 
     if (this.changePasswordData.get('repeatPassword').value === '') {
-      repeatPasswordInput.style.border = 'solid #dc3545';
+      repeatPasswordInput.style.border = '2px solid rgb(220, 53, 69)';
     }
     if (this.changePasswordData.get('password').value === '') {
-      passwordInput.style.border = 'solid #dc3545';
+      passwordInput.style.border = '2px solid rgb(220, 53, 69)';
     }
     if (this.changePasswordData.valid && this.checkPasswords()) {
       this.changePassword();

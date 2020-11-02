@@ -11,7 +11,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
+      imports: [RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule],
       declarations: [ RegisterComponent ]
     })
       .compileComponents();
@@ -21,6 +21,10 @@ describe('RegisterComponent', () => {
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  beforeAll(() => {
+    window.onbeforeunload = () => '';
   });
 
   it('should feedback invalid username', () => {

@@ -24,7 +24,7 @@ export class UserProfileComponent implements OnInit {
   valuation: number;
 
   registerForm: FormGroup;
-  createGroupForm: FormGroup;
+  createCourseForm: FormGroup;
   triyingUser: boolean;
   triyingCourse: boolean;
   validUser: boolean;
@@ -32,21 +32,21 @@ export class UserProfileComponent implements OnInit {
   popupVisible: boolean;
   categories: Category[];
   constructor(private accountService: AccountService, private route: Router) {
-   this.popupVisible = true;
+   this.popupVisible = false;
     this.user = {
       username: 'Federico',
       email: 'federico@ld.com',
       description: 'lorem ipsum dolor asdfas csadcasdcsadca sdcasd csadcsac',
       password: ''};
     this.disabled = 'false';
-    this.courses = [{ name: 'uno', description: 'lid1', category: {categoryName: 'Tech'}},
-        { name: 'dos', description: 'lid2', category: {categoryName: 'Tech'}},
-        { name: 'tres', description: 'lid3', category: {categoryName: 'Tech'}}];
+    this.courses = [{ coursename: 'uno', description: 'lid1', category: {name: 'Tech'}},
+        { coursename: 'dos', description: 'lid2', category: {name: 'Tech'}},
+        { coursename: 'tres', description: 'lid3', category: {name: 'Tech'}}];
     this.valuation = 5.4;
 
      this.initializeForms();
 
-    // this.getUserData();
+     this.getUserData();
      this.loadCategories();
   }
 
@@ -83,8 +83,9 @@ export class UserProfileComponent implements OnInit {
         this.user.description = data.description;
         this.user.email = data.email;
         this.courses = data.courses;
+
       },
-      (error: HttpErrorResponse) => {console.log(error.status); this.dealNotUser(error.error); }
+      (error: HttpErrorResponse) => {console.log(error.status);  this.dealNotUser(error.error); }
     );
   }
 
@@ -95,7 +96,6 @@ export class UserProfileComponent implements OnInit {
    */
   private dealNotUser(error: JSON) {
     if (error['error'] === 'User does not exist') {
-      alert(error['error']);
       this.route.navigate(['/login']);
     }
   }
@@ -110,11 +110,16 @@ export class UserProfileComponent implements OnInit {
   }
 
   saveCourse() {
-    if (this.createGroupForm.valid) {
+    this.triyingCourse = true;
+    this.updateFeedback();
+    if (this.createCourseForm.valid) {
+      const combo = (<HTMLSelectElement>document.getElementById('comboCategories'));
+      const strUser = combo.options[combo.selectedIndex].text;
+
       const course: Course = {
-        name: this.registerForm.get('groupName').value,
-        description: this.registerForm.get('groupDescription').value,
-        category: {categoryName: this.registerForm.get('category').value}};
+        coursename: this.createCourseForm.get('courseName').value,
+        description: this.createCourseForm.get('courseDescription').value,
+        category: {name: strUser}};
       this.backendSave(course);
     }
   }
@@ -128,7 +133,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   private initializeForms() {
-    /*this.registerForm = new FormGroup({
+    this.registerForm = new FormGroup({
       'username': new FormControl('', [
         Validators.required,
         Validators.minLength(10)
@@ -139,12 +144,12 @@ export class UserProfileComponent implements OnInit {
 
     this.triyingUser = false;
     this.validUser = true;
-    this.validEmail = true;*/
+    this.validEmail = true;
 
-    this.createGroupForm = new FormGroup({
+    this.createCourseForm = new FormGroup({
       'courseName': new FormControl('', [Validators.required]),
-      'courseDescription': new FormControl('', [Validators.required]),
-      'courseCategory': new FormControl('')
+      'courseDescription': new FormControl(''),
+      'courseCategory': new FormControl('' , [Validators.required])
     });
 
     this.triyingCourse = false;
@@ -153,8 +158,41 @@ export class UserProfileComponent implements OnInit {
   private loadCategories() {
     const observer = this.accountService.getCategories();
     observer.subscribe(
-      data => {  },
+      data => { this.categories = data; },
       (error: HttpErrorResponse) => {console.log(error.status); this.dealNotUser(error.error); }
     );
+  }
+  /**
+   * Verifies that all fields of the form comply with the restrictions
+   * @return boolean: true if the password and the confirm password have de same value.
+   */
+  validateNewCourseFields() {
+    return this.createCourseForm.valid;
+  }
+
+  private updateFeedback() {
+
+    if (!this.createCourseForm.controls['courseName'].valid) {
+      const nameInput = document.getElementById('div-courseName');
+      nameInput.classList.remove('invalid-input');
+      nameInput.classList.add('invalid-input');
+    } else {
+      document.getElementById('div-courseName').classList.remove('invalid-input');
+    }
+    if (!this.createCourseForm.controls['courseDescription'].valid || !this.validEmail) {
+      const emailInput = document.getElementById('div-courseDescription');
+      emailInput.classList.remove('invalid-input');
+      emailInput.classList.add('invalid-input');
+    } else {
+      document.getElementById('div-courseDescription').classList.remove('invalid-input');
+    }
+    if (this.createCourseForm.controls['courseCategory'].errors?.required) {
+      const categoryInput = document.getElementById('div-courseCategory');
+      categoryInput.classList.remove('invalid-input');
+      categoryInput.classList.add('invalid-input');
+    } else {
+      document.getElementById('div-courseCategory').classList.remove('invalid-input');
+    }
+
   }
 }

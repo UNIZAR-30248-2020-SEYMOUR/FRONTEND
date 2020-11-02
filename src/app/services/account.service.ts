@@ -12,7 +12,7 @@ import {Observable} from 'rxjs';
  * This class contains de logic of do the requests for operations necessary for user accounts
  */
 export class AccountService {
-  private apiUrl = 'http://localhost:3000/';
+  private apiUrl = 'http://oc2.danielhuici.ml/';
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -70,11 +70,9 @@ export class AccountService {
     const json = {
       uuid: this.cookie.get('uuid')
     };
-    const params = new HttpParams();
-    params.set('uuid', this.cookie.get('uuid'));
 
-    const head = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-    return this.http.get(this.apiUrl + 'users/user_profile', {headers: head, params: params});
+    const params = JSON.stringify(json);
+    return this.http.post(this.apiUrl + 'users/user_profile' , params, this.httpOptions);
   }
 
   /**
@@ -107,9 +105,9 @@ export class AccountService {
   saveCourse(course: Course): Observable<any> {
     const json = {
       owner: this.cookie.get('uuid'),
-      coursename: course.name,
+      coursename: course.coursename,
       description: course.description,
-      category: course.category.categoryName
+      category: course.category.name
     };
     const params = JSON.stringify(json);
     return this.http.post(this.apiUrl + 'courses/create_course', params, this.httpOptions);

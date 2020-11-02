@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
       ]),
       'email': new FormControl('', [Validators.required ]),
       'pswd': new FormControl('', [Validators.required, Validators.minLength(8)]),
-      'repeat_pswd': new FormControl('', [Validators.required]),
+      'repeat-pswd': new FormControl('', [Validators.required]),
       'description': new FormControl('')
     });
   }
@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
    */
   checkPasswords() { // here we have the 'passwords' group
     const pass = this.registerForm.get('pswd').value;
-    const confirmPass = this.registerForm.get('repeat_pswd').value;
+    const confirmPass = this.registerForm.get('repeat-pswd').value;
     return pass === confirmPass;
   }
 
@@ -56,8 +56,6 @@ export class RegisterComponent implements OnInit {
    * @return void
    */
   submit() {
-    this.validEmail = true;
-    this.validUser = true;
     this.triying = true;
     if (this.registerForm.valid && this.checkPasswords()) {
       const user: User = {
@@ -71,34 +69,8 @@ export class RegisterComponent implements OnInit {
         data => {this.registerService.saveUser(data); this.route.navigate(['/user-profile']); },
         (error: HttpErrorResponse) => {this.dealNotRegister(error.error); }
       );
-    } else {
-      if (this.registerForm.controls['username'].errors?.required) {
-        const usernameInput = document.getElementById('input-username');
-        usernameInput.style.border = 'solid #dc3545';
-        usernameInput.style.borderRadius = '5px';
-        usernameInput.style.borderWidth = '2px';
-      }
-      if (this.registerForm.controls['email'].errors?.required) {
-        const usernameInput = document.getElementById('input-email');
-        usernameInput.style.border = 'solid #dc3545';
-        usernameInput.style.borderRadius = '5px';
-        usernameInput.style.borderWidth = '2px';
-      }
-      if (this.registerForm.controls['pswd'].errors?.required) {
-        const pswdInput = document.getElementById('input-pswd');
-        pswdInput.style.border = 'solid #dc3545';
-        pswdInput.style.borderRadius = '5px';
-        pswdInput.style.borderWidth = '2px';
-        const repeatPswd = document.getElementById('input-repeat-pswd');
-        repeatPswd.classList.add('invalid-input');
-      }
-      if (!this.checkPasswords() ) {
-        const repeatPswd = document.getElementById('input-repeat-pswd');
-        repeatPswd.style.border = 'solid #dc3545';
-        repeatPswd.style.borderRadius = '5px';
-        repeatPswd.style.borderWidth = '2px';
-      }
     }
+    this.updateFeedback();
   }
 
   /**
@@ -117,8 +89,46 @@ export class RegisterComponent implements OnInit {
   private dealNotRegister(error: JSON) {
     if (error['error'] === ('Duplicate entry \'' + this.registerForm.get('username').value + '\' for key \'USERS.username\'')) {
       this.validUser = false;
+      this.validEmail = true;
     } else if (error['error'] === ('Duplicate entry \'' + this.registerForm.get('email').value + '\' for key \'USERS.email\'')) {
       this.validEmail = false;
+      this.validUser = true;
+    }
+    this.updateFeedback();
+
+  }
+
+  private updateFeedback() {
+    if (!this.registerForm.controls['username'].valid || !this.validUser) {
+      const usernameInput = document.getElementById('div-username');
+      usernameInput.classList.remove('invalid-input');
+      usernameInput.classList.add('invalid-input');
+    } else {
+      document.getElementById('div-username').classList.remove('invalid-input');
+    }
+    if (!this.registerForm.controls['email'].valid || !this.validEmail) {
+      const emailInput = document.getElementById('div-email');
+      emailInput.classList.remove('invalid-input');
+      emailInput.classList.add('invalid-input');
+    } else {
+       document.getElementById('div-email').classList.remove('invalid-input');
+    }
+    if (this.registerForm.controls['pswd'].errors?.required) {
+      const pswdInput = document.getElementById('div-pswd');
+      pswdInput.classList.remove('invalid-input');
+      pswdInput.classList.add('invalid-input');
+      const repeatPswdInput = document.getElementById('div-repeat-pswd');
+      repeatPswdInput.classList.remove('invalid-input');
+      repeatPswdInput.classList.add('invalid-input');
+    } else {
+      document.getElementById('div-pswd').classList.remove('invalid-input');
+    }
+    if (!this.checkPasswords() || this.registerForm.controls['pswd'].errors?.required) {
+      const repeatPswdInput = document.getElementById('div-repeat-pswd');
+      repeatPswdInput.classList.remove('invalid-input');
+      repeatPswdInput.classList.add('invalid-input');
+    } else {
+      document.getElementById('div-repeat-pswd').classList.remove('invalid-input');
     }
   }
 }

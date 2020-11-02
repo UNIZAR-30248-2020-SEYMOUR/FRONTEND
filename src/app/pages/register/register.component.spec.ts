@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+import {By} from '@angular/platform-browser';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -23,31 +24,69 @@ describe('RegisterComponent', () => {
   });
 
   it('should feedback invalid username', () => {
-    (<HTMLInputElement>document.getElementById('input-username')).value = '';
-     document.getElementById('register-button').click();
-     const result = (<HTMLSpanElement>document.getElementById('input-username')).style.border;
-     expect(result).toBe('2px solid rgb(220, 53, 69)');
+    component.registerForm.get('username').setValue('');
+    component.registerForm.get('email').setValue('valid@email.com');
+    component.registerForm.get('pswd').setValue('validpassword');
+    component.registerForm.get('repeat-pswd').setValue('validpassword');
+
+    document.getElementById('register-button').click();
+
+    expect((<HTMLInputElement>document.getElementById('div-username')).classList.contains('invalid-input')).toBeTrue();
+    expect((<HTMLInputElement>document.getElementById('div-email')).classList.contains('invalid-input')).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('div-pswd')).classList.contains('invalid-input')).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('div-repeat-pswd')).classList.contains('invalid-input')).toBeFalse();
   });
 
   it('should feedback invalid email', () => {
-    const doc = (<HTMLInputElement>document.getElementById('input-email'));
-    doc.value = '';
+    component.registerForm.get('username').setValue('validusername');
+    component.registerForm.get('email').setValue('');
+    component.registerForm.get('pswd').setValue('validpassword');
+    component.registerForm.get('repeat-pswd').setValue('validpassword');
+
     document.getElementById('register-button').click();
-    const result = doc.style.border;
-    expect(result).toBe('2px solid rgb(220, 53, 69)');
+
+    expect((<HTMLInputElement>document.getElementById('div-username')).classList.contains('invalid-input')).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('div-email')).classList.contains('invalid-input')).toBeTrue();
+    expect((<HTMLInputElement>document.getElementById('div-pswd')).classList.contains('invalid-input')).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('div-repeat-pswd')).classList.contains('invalid-input')).toBeFalse();
   });
   it('should feedback invalid password', () => {
-    const doc = (<HTMLInputElement>document.getElementById('input-pswd'));
-    doc.value = '';
+    component.registerForm.get('username').setValue('validusername');
+    component.registerForm.get('email').setValue('valid@email.com');
+    component.registerForm.get('pswd').setValue('');
+    component.registerForm.get('repeat-pswd').setValue('');
+
     document.getElementById('register-button').click();
-    const result = doc.style.border;
-    expect(result).toBe('2px solid rgb(220, 53, 69)');
+
+    expect((<HTMLInputElement>document.getElementById('div-username')).classList.contains('invalid-input')).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('div-email')).classList.contains('invalid-input')).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('div-pswd')).classList.contains('invalid-input')).toBeTrue();
+    expect((<HTMLInputElement>document.getElementById('div-repeat-pswd')).classList.contains('invalid-input')).toBeTrue();
   });
   it('should feedback invalid repeat password', () => {
-    const doc = (<HTMLInputElement>document.getElementById('input-repeat-pswd'));
-    doc.value = '';
+    component.registerForm.get('username').setValue('validusername');
+    component.registerForm.get('email').setValue('valid@email.com');
+    component.registerForm.get('pswd').setValue('validpassword');
+    component.registerForm.get('repeat-pswd').setValue('differentpassword');
+
     document.getElementById('register-button').click();
-    const result = doc.style.border;
-    expect(result).toBe('2px solid rgb(220, 53, 69)');
+
+    expect((<HTMLInputElement>document.getElementById('div-username')).classList.contains('invalid-input')).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('div-email')).classList.contains('invalid-input')).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('div-pswd')).classList.contains('invalid-input')).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('div-repeat-pswd')).classList.contains('invalid-input')).toBeTrue();
+  });
+  it('should feedback invalid repeat password', () => {
+    component.registerForm.get('username').setValue('validusername');
+    component.registerForm.get('email').setValue('valid@email.com');
+    component.registerForm.get('pswd').setValue('validpassword');
+    component.registerForm.get('repeat-pswd').setValue('validpassword');
+
+    document.getElementById('register-button').click();
+
+    expect((<HTMLInputElement>document.getElementById('div-username')).classList.contains('invalid-input')).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('div-email')).classList.contains('invalid-input')).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('div-pswd')).classList.contains('invalid-input')).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('div-repeat-pswd')).classList.contains('invalid-input')).toBeFalse();
   });
 });

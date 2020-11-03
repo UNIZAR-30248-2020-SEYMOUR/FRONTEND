@@ -12,7 +12,7 @@
     "clean": "rimraf ./dist",
     "build:prod": "ng build --prod",
     "test:watch": "ng test",
-    "test:unit": "ng test -- --no-watch --no-progress --browsers Firefox,Chrome"
+    "test:unit": "ng test -- --no-watch --no-progress"
   },
   "private": true,
   "dependencies": {

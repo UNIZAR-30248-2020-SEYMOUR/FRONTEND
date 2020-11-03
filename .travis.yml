@@ -14,5 +14,6 @@ install:
   - npm install
 
 script:
+  - npm update & npm cache clean --force
   - npm run test:unit
   - npm run e2e

@@ -23,7 +23,7 @@ module.exports = function (config) {
     restartOnFileChange: true,
     customLaunchers: {
       ChromeHeadlessCustom: {
-        base: 'ChromeHeadless',
+        base: 'Chrome',
         flags: ['--no-sandbox', '--disable-gpu']
       }
     },
@@ -32,7 +32,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Firefox'],
+    browsers: ['Chrome'],
     singleRun: false
   });
 };

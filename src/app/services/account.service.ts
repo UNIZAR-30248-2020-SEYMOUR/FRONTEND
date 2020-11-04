@@ -53,20 +53,8 @@ export class AccountService {
   }
 
   /**
-   * Do a request to get the user data to the server.
-   * @return Observable that receive the response of the server
+   * Obtains the courses of the open sesion user
    */
-  /*getCourses(): Observable<any> {
-    const json = {
-      uuid: this.cookie.get('uuid')
-    };
-    const params = new HttpParams();
-    params.set('uuid', this.cookie.get('uuid'));
-
-    const head = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get(this.apiUrl + 'users/user_profile', {headers: head, params: params});
-  }*/
-
   getCourses(): Observable<any> {
     const json = {
       uuid: this.cookie.get('uuid')
@@ -103,6 +91,9 @@ export class AccountService {
     return this.http.post(this.apiUrl + 'users/forgot_password', params, this.httpOptions);
   }
 
+  /**
+   * Save a course in the backend
+   */
   saveCourse(course: Course): Observable<any> {
     const json = {
       owner: this.cookie.get('uuid'),
@@ -114,6 +105,9 @@ export class AccountService {
     return this.http.post(this.apiUrl + 'courses/create_course', params, this.httpOptions);
   }
 
+  /**
+   * Obtains the categories list
+   */
   getCategories(): Observable<any> {
     return this.http.get(this.apiUrl + 'categories/get_list');
   }

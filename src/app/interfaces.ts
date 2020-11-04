@@ -17,4 +17,5 @@ export interface Course {
 }
 export interface Category {
   name: string;
+  imageUrl: string;
 }

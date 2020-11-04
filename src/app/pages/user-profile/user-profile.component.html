@@ -120,9 +120,9 @@
               </div>
               <div class="row">
                  <div *ngFor=" let course of courses" class="col-md-5 course" >
-                   <img class="image-course" src="assets/img/computer-1209641_960_720.png"/>
+                   <img class="image-course" src="{{course.category.imageUrl}}"/>
                    <h3 class="course-title">{{course.coursename}}</h3>
-                   <p class="course-description">{{course.description}}</p>
+                   <p class="course-category">{{course.category.name}}</p>
                  </div>
               </div>
             </div>

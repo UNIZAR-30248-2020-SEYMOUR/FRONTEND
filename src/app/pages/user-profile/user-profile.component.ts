@@ -39,9 +39,9 @@ export class UserProfileComponent implements OnInit {
       description: 'lorem ipsum dolor asdfas csadcasdcsadca sdcasd csadcsac',
       password: ''};
     this.disabled = 'false';
-    this.courses = [{ coursename: 'uno', description: 'lid1', category: {name: 'Tech'}},
-        { coursename: 'dos', description: 'lid2', category: {name: 'Tech'}},
-        { coursename: 'tres', description: 'lid3', category: {name: 'Tech'}}];
+    this.courses = [{ coursename: 'uno', description: 'lid1', category: {name: 'Tech', imageUrl: '/assets/img/otros.png'}},
+        { coursename: 'dos', description: 'lid2', category: {name: 'Tech', imageUrl: '/assets/img/otros.png'}},
+        { coursename: 'tres', description: 'lid3', category: {name: 'Tech', imageUrl: '/assets/img/otros.png'}}],
     this.valuation = 5.4;
 
      this.initializeForms();
@@ -102,7 +102,8 @@ export class UserProfileComponent implements OnInit {
 
   closePopUp() {
     this.popupVisible = false;
-    this.registerForm.reset();
+    this.createCourseForm.reset();
+    this.triyingCourse = false;
   }
 
   openPopUp() {
@@ -119,8 +120,9 @@ export class UserProfileComponent implements OnInit {
       const course: Course = {
         coursename: this.createCourseForm.get('courseName').value,
         description: this.createCourseForm.get('courseDescription').value,
-        category: {name: strUser}};
+        category: {name: strUser, imageUrl: ''}};
       this.backendSave(course);
+      this.closePopUp();
     }
   }
 

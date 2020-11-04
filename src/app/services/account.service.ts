@@ -54,6 +54,7 @@ export class AccountService {
 
   /**
    * Obtains the courses of the open sesion user
+   * @return Observable that receive the response of the server
    */
   getCourses(): Observable<any> {
     const json = {
@@ -82,6 +83,7 @@ export class AccountService {
   /**
    * Do a request to the server for send the email for recover the password
    * @param email: email where to send the link of change password
+   * @return Observable that receive the response of the server
    */
   sendEmail(email: string): Observable<any> {
     const json = {
@@ -93,6 +95,7 @@ export class AccountService {
 
   /**
    * Save a course in the backend
+   @return Observable that receive the response of the server
    */
   saveCourse(course: Course): Observable<any> {
     const json = {
@@ -107,6 +110,7 @@ export class AccountService {
 
   /**
    * Obtains the categories list
+   @return Observable that receive the response of the server
    */
   getCategories(): Observable<any> {
     return this.http.get(this.apiUrl + 'categories/get_list');

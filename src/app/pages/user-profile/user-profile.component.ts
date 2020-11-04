@@ -31,6 +31,7 @@ export class UserProfileComponent implements OnInit {
   validEmail: boolean;
   popupVisible: boolean;
   categories: Category[];
+
   constructor(private accountService: AccountService, private route: Router) {
    this.popupVisible = false;
     this.user = {

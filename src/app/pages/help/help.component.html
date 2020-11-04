@@ -15,13 +15,13 @@
               <div class="card-header bg-transparent">
                 <div class="row align-items-center" >
                   <div class="col" >
-                    <h2 id="registro" class="help-section-title">Registro</h2>
-                    <!-- DESCRIPCIÓN: -->
+                    <h2 id="register" class="help-section-title">Registro</h2>
+                    <!-- DESCRIPTION -->
                     <p class="help-parragraph">Registrarse en Seymour es muy sencillo. Simplemente debes introducir un nombre de usuario que contenga entre 4 y 40 caracteres, tu email, una descripción de hasta 500 caracteres y una contraseña de 8 caracteres o más</p>
                   </div>
                 </div>
-                <!-- IMAGEN: -->
-                <img class="help-image" src="assets/help_img/register.png">
+                <!-- IMAGE -->
+                <img class="help-image" src="assets/img/help/register.png">
               </div>
 
             </div>
@@ -34,14 +34,14 @@
               <div class="card-header bg-transparent">
                 <div class="row align-items-center" >
                   <div class="col" >
-                    <h2 class="help-section-title" id="inicio_sesion">Inicio de sesión</h2>
-                    <!-- DESCRIPCIÓN: -->
+                    <h2 class="help-section-title" id="login">Inicio de sesión</h2>
+                    <!-- DESCRIPTION -->
                     <p class="help-parragraph">Para iniciar sesión, simplemente debes introducir tu email y tu contraseña si te has registrado previamente.</p>
                   </div>
                 </div>
 
-                <!-- IMAGEN: -->
-                <img class="help-image" src="assets/help_img/inicio_sesion.png">
+                <!-- IMAGE -->
+                <img class="help-image" src="assets/img/help/login.png">
               </div>
             </div>
           </div>
@@ -53,15 +53,15 @@
               <div class="card-header bg-transparent">
                 <div class="row align-items-center" >
                   <div class="col" >
-                    <h2 class="help-section-title" id="recuperar_password">Recuperar contraseña</h2>
-                    <!-- DESCRIPCIÓN: -->
+                    <h2 class="help-section-title" id="recovery_password">Recuperar contraseña</h2>
+                    <!-- DESCRIPTION -->
                     <p class="help-parragraph">Si has olvidado la contraseña o quieres cambiarla, puedes recuperarla desde la pantalla de inicio de sesión pulsando el botón "Recuperar contraseña". Una vez ahí, se te pedirá que introduzcas tu email para que te enviemos un enlace en el que se te permitirá realizar el cambio de contraseña.</p>
                   </div>
                 </div>
-                <!-- IMAGEN: -->
-                <img class="help-image" src="assets/help_img/recuperar_contra_1.png">
+                <!-- IMAGE -->
+                <img class="help-image" src="assets/img/help/recovery_password_1.png">
                 <br>
-                <img class="help-image" src="assets/help_img/recuperar_contra_2.jpeg">
+                <img class="help-image" src="assets/img/help/recover_password_2.jpeg">
               </div>
             </div>
           </div>
@@ -73,16 +73,22 @@
               <div class="card-header bg-transparent">
                 <div class="row align-items-center" >
                   <div class="col" >
-                    <h2 class="help-section-title" id="perfil_usuario">Perfil de usuario</h2>
-                    <!-- DESCRIPCIÓN: -->
-                    <p class="help-parragraph">En esta sección podrás visualizar todos los detalles referentes a tu usuario, como puede ser
-                      tu nombre de usuario, tu correo, tu descripción o tus cursos. Dando opción a modificar estos
-                      parámetros</p>
+                    <h2 class="help-section-title" id="user_profile">Perfil de usuario</h2>
+                    <!-- DESCRIPTION -->
+                    <p class="help-parragraph">En esta sección podrás visualizar todos los detalles referentes a tu usuario en la zona de datos de usuario, como puede ser
+                      tu nombre de usuario, tu correo, tu descripción.</p>
                   </div>
                 </div>
-                <!-- IMAGEN: -->
-                <img class="help-image" src="assets/help_img/inicio_sesion.png">
+                <!-- IMAGE -->
+                <img class="help-image" src="assets/img/help/profile1.png">
+                <div class="row align-items-center" >
+                  <div class="col" >
+                    <p class="help-parragraph">Debajo tienes la sección de cursos del usuario, desde el cual puedes visualizar la información de los cursos.</p>
+                  </div>
+                </div>
+                <img class="help-image" src="assets/img/help/profile2.png">
               </div>
+
             </div>
           </div>
         </div>
@@ -93,15 +99,15 @@
               <div class="card-header bg-transparent">
                 <div class="row align-items-center" >
                   <div class="col" >
-                    <h2 class="help-section-title" id="crear_curso">Crear curso</h2>
-                    <!-- DESCRIPCIÓN: -->
+                    <h2 class="help-section-title" id="create_course">Crear curso</h2>
+                    <!-- DESCRIPTION -->
                     <p class="help-parragraph">Puedes crear un curso de forma muy sencilla para alojar todos los vídeos relativos. Tan solo
                       deberás introducir un nombre para el curso, una descripción y seleccionar una categoría desde el
                       menú desplegable</p>
                   </div>
                 </div>
-                <!-- IMAGEN: -->
-                <img class="help-image" src="assets/help_img/inicio_sesion.png">
+                <!-- IMAGE -->
+                <img class="help-image" src="assets/img/help/create.png">
               </div>
             </div>
           </div>
@@ -125,9 +131,11 @@
           </div>
         </div>
         <div class="card-body">
-          <a routerLink="/help" fragment="registro"><h4 class="index-lvl-1">Registro</h4></a>
-          <a routerLink="/help" fragment="inicio_sesion"><h4 class="index-lvl-1">Inicio de sesión</h4></a>
-          <a routerLink="/help" fragment="recuperar_password"><h4 class="index-lvl-1">Recuperar contraseña</h4></a>
+          <a routerLink="/help" fragment="register"><h4 class="index-lvl-1">Registro</h4></a>
+          <a routerLink="/help" fragment="login"><h4 class="index-lvl-1">Inicio de sesión</h4></a>
+          <a routerLink="/help" fragment="recovery_password"><h4 class="index-lvl-1">Recuperar contraseña</h4></a>
+          <a routerLink="/help" fragment="create_course"><h4 class="index-lvl-1">Crear curso</h4></a>
+          <a routerLink="/help" fragment="user_profile"><h4 class="index-lvl-1">Perfil de usuario</h4></a>
         </div>
       </div>
     </div>

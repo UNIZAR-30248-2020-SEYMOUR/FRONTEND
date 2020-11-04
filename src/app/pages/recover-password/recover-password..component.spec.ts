@@ -65,7 +65,7 @@ describe('RecoverPasswordComponent', () => {
 
   /**
    * Test the view when the input password is invalid because the input is empty
-   *  or the password it´s shorter than the minimum permitted
+   *  or the password is shorter than the minimum permitted
    */
   it('should show error message for invalid password', function () {
     const docPassword = (<HTMLInputElement>document.getElementById('passwordInput'));

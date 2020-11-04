@@ -98,6 +98,10 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  /**
+   * Print the form feedback.
+   * @private
+   */
   private updateFeedback() {
     if (!this.registerForm.controls['username'].valid || !this.validUser) {
       const usernameInput = document.getElementById('div-username');

@@ -45,7 +45,6 @@ export class UserProfileComponent implements OnInit {
     this.valuation = 5.4;
 
      this.initializeForms();
-
      this.getUserData();
      this.loadCategories();
   }
@@ -71,10 +70,18 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  /**
+   * This method cancel the user edition blocking the profile form inptus.
+   */
   cancel() {
     this.disabled = !this.disabled;
   }
 
+  /**
+   * This method updates the user data.
+   * @private
+   */
   private getUserData() {
     const observer = this.accountService.getCourses();
     observer.subscribe(
@@ -100,16 +107,25 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+  /**
+   * This method close the create course popup.
+   */
   closePopUp() {
     this.popupVisible = false;
     this.createCourseForm.reset();
     this.triyingCourse = false;
   }
 
+  /**
+   * This method open the create course popup.
+   */
   openPopUp() {
     this.popupVisible = true;
   }
 
+  /**
+   * This method save the course entered in the form.
+   */
   saveCourse() {
     this.triyingCourse = true;
     this.updateFeedback();
@@ -126,6 +142,10 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+  /**
+   * This method send a create course petition to the backend server.
+   * @param course Course to save.
+   */
   backendSave(course: Course) {
     const observer = this.accountService.saveCourse(course);
     observer.subscribe(
@@ -134,6 +154,10 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
+  /**
+   * This method initialize and set the validation rules to the forms
+   * @private
+   */
   private initializeForms() {
     this.registerForm = new FormGroup({
       'username': new FormControl('', [
@@ -157,6 +181,10 @@ export class UserProfileComponent implements OnInit {
     this.triyingCourse = false;
   }
 
+  /**
+   * This method get the categories information from the backend server.
+   * @private
+   */
   private loadCategories() {
     const observer = this.accountService.getCategories();
     observer.subscribe(
@@ -164,6 +192,7 @@ export class UserProfileComponent implements OnInit {
       (error: HttpErrorResponse) => {console.log(error.status); this.dealNotUser(error.error); }
     );
   }
+
   /**
    * Verifies that all fields of the form comply with the restrictions
    * @return boolean: true if the password and the confirm password have de same value.
@@ -172,6 +201,10 @@ export class UserProfileComponent implements OnInit {
     return this.createCourseForm.valid;
   }
 
+  /**
+   * Print the create course form feedback.
+   * @private
+   */
   private updateFeedback() {
 
     if (!this.createCourseForm.controls['courseName'].valid) {

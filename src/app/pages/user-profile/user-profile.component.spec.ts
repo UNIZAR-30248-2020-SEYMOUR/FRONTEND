@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserProfileComponent } from './user-profile.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {By} from '@angular/platform-browser';
 
 describe('RegisterComponent', () => {
   let component: UserProfileComponent;
@@ -23,6 +22,9 @@ describe('RegisterComponent', () => {
     fixture.detectChanges();
   });
 
+  /**
+   * Verifies that the component in correctly loaded.
+   */
   it('should create', () => {
     expect(component).toBeTruthy();
   });

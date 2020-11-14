@@ -4,13 +4,10 @@ node_js:
 
 addons:
   chrome: stable
-cache:
-  directories:
-    - ./node_modules
+cache: npm
 
 install:
-  - npm install karma-firefox-launcher --save-dev
-
+  -npm install
 script:
   - npm run test:unit
 

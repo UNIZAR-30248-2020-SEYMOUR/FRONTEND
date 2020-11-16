@@ -16,6 +16,7 @@ import { ComponentsModule } from './components/components.module';
 import { HelpComponent } from './pages/help/help.component';
 
 import { AccountService } from './services/account.service';
+import { ProfileSearchComponent } from './pages/profile-search/profile-search.component';
 
 
 
@@ -34,7 +35,8 @@ import { AccountService } from './services/account.service';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    HelpComponent
+    HelpComponent,
+    ProfileSearchComponent
   ],
   providers: [AccountService, CookieService],
   bootstrap: [AppComponent]

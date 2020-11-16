@@ -1,6 +1,8 @@
 @media screen and (min-width: 768px) {
   html:not(.auth-layout) .main-content {
-      margin-left: $navbar-vertical-width;
+      //MODIFICA ESTO PARA QUITAR EL SIDEBAR sidebar
+      //margin-left: $navbar-vertical-width;
+      margin-left: 0px;
   }
 }
 

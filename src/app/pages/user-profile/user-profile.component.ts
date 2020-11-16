@@ -53,7 +53,8 @@ export class UserProfileComponent implements OnInit {
         { coursename: 'tres', description: 'lid3', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}}],
     this.valuation = 5.4;
 
-     this.initializeForms();
+
+    this.initializeForms();
      this.getUserData();
      this.loadCategories();
   }
@@ -108,6 +109,16 @@ export class UserProfileComponent implements OnInit {
   }
 
   /**
+   * This method active the user edition form.
+   */
+  openEdit() {
+    this.disabled = !this.disabled;
+    this.updateForm.controls['username'].enable();
+    this.updateForm.controls['email'].enable();
+    this.updateForm.controls['description'].enable();
+  }
+
+  /**
    * This method cancel the user edition blocking the profile form inptus.
    */
   cancelUpdate() {
@@ -116,6 +127,9 @@ export class UserProfileComponent implements OnInit {
     this.validEmail = true;
     document.getElementById('input-username').classList.remove('invalid-input');
     document.getElementById('input-email').classList.remove('invalid-input');
+    this.updateForm.controls['username'].disable();
+    this.updateForm.controls['email'].disable();
+    this.updateForm.controls['description'].disable();
     this.disabled = !this.disabled;
   }
 
@@ -220,6 +234,10 @@ export class UserProfileComponent implements OnInit {
       'courseCategory': new FormControl('' , [Validators.required])
     });
 
+
+    this.updateForm.controls['username'].disable();
+    this.updateForm.controls['email'].disable();
+    this.updateForm.controls['description'].disable();
     this.triyingCourse = false;
   }
 

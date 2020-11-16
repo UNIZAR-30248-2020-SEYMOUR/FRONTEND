@@ -210,6 +210,21 @@ describe('E2E Tests (Seymour)', () => {
     expect(element.all(by.className('course-title')).getText()).toContain('Curso de Angular sin descripción');
   });
 
+  it('Should create a course without description in the application', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    browser.actions().click(element(by.buttonText('Nuevo curso'))).perform();
+    element.all(by.name('courseName')).sendKeys('Curso de Angular sin descripción');
+    browser.actions().click(element(by.id('comboCategories'))).perform();
+    browser.element(by.css('#comboCategories [value=\'Software\']')).click();
+    browser.actions().click(element(by.buttonText('Guardar curso'))).perform();
+    browser.navigate().back();
+    browser.navigate().forward();
+    expect(element.all(by.className('course-title')).getText()).toContain('Curso de Angular sin descripción');
+  });
+
   it('Should NOT create a course in the application because coursename was not provided', async () => {
     browser.get('/#/login');
     element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');

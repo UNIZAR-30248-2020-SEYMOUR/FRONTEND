@@ -48,9 +48,9 @@ export class UserProfileComponent implements OnInit {
       description: 'lorem ipsum dolor asdfas csadcasdcsadca sdcasd csadcsac',
       password: ''};
     this.disabled = 'false';
-    this.courses = [{ coursename: 'uno', description: 'lid1', category: {name: 'Tech', imageUrl: '/assets/img/otros.png'}},
-        { coursename: 'dos', description: 'lid2', category: {name: 'Tech', imageUrl: '/assets/img/otros.png'}},
-        { coursename: 'tres', description: 'lid3', category: {name: 'Tech', imageUrl: '/assets/img/otros.png'}}],
+    this.courses = [{ coursename: 'uno', description: 'lid1', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}},
+        { coursename: 'dos', description: 'lid2', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}},
+        { coursename: 'tres', description: 'lid3', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}}],
     this.valuation = 5.4;
 
      this.initializeForms();

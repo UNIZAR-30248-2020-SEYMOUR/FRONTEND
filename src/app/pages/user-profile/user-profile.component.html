@@ -61,10 +61,12 @@
               <h3 class="mb-0">Mi perfil</h3>
             </div>
             <div class="col-3 text-center">
-              <input type="button" [hidden]="!disabled" (click)="openEdit()" class="btn btn-sm btn-primary" value="Modificar perfil">
+              <input type="button" [hidden]="!disabled" (click)="openEdit()" id='btn-enable-update'
+                     class="btn btn-sm btn-primary" value="Modificar perfil">
             </div>
             <div class="col-3 text-center">
-              <input type="button" [hidden]="!disabled" (click)="openDeletePopup()" class="btn btn-sm btn-primary" value="Borrar perfil">
+              <input type="button" [hidden]="!disabled" (click)="openDeletePopup()" id='btn-open-delete-popup'
+                     class="btn btn-sm btn-primary" value="Borrar perfil">
             </div>
           </div>
         </div>
@@ -101,7 +103,7 @@
                     <input type="email" id="input-email" formControlName="email"
                       class="form-control form-control-alternative" placeholder="{{user.email}}">
                   </div>
-                  <div *ngIf="updateForm.controls['email'].errors?.required && triyingUser" class="invalid-backend-response">
+                  <div *ngIf="updateForm.controls['email'].errors?.required && triyingUser" class="invalid-update">
                     <span id="required-email-feedback">El email es necesario</span>
                   </div>
                 </div>
@@ -118,11 +120,11 @@
             </div>
             <div class="row align-items-center">
               <div class="col-2 text-center">
-                <input type="button" [hidden]="disabled" (click)="saveChanges()" class="btn btn-sm btn-primary" value="Guardar">
+                <input type="button" [hidden]="disabled" (click)="saveChanges()" id='btn-update'class="btn btn-sm btn-primary" value="Guardar">
               </div>
 
               <div class="col-2 text-center">
-                <input type="button" [hidden]="disabled" (click)="cancelUpdate()" class="btn btn-sm btn-primary" value="Cancelar">
+                <input type="button" [hidden]="disabled" (click)="cancelUpdate()" id='btn-cancel-update' class="btn btn-sm btn-primary" value="Cancelar">
               </div>
             </div>
           </form>
@@ -133,7 +135,7 @@
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-1 text-right">
-                  <input type="button" (click)="openNewCoursePopUp()" class="btn btn-sm btn-primary" value="Nuevo curso">
+                  <input type="button" id="btn-open-new-course" (click)="openNewCoursePopUp()" class="btn btn-sm btn-primary" value="Nuevo curso">
                 </div>
               </div>
               <div class="row">
@@ -151,10 +153,10 @@
   </div>
 
   <!--New Courser PopUp-->
-  <div class="overlay-pop-up" [hidden]="!popupNewCourseVisible">
+  <div class="overlay-pop-up" id="new-course-pop-up" [hidden]="!popupNewCourseVisible">
     <div class="col-md-7 card p-5">
-      <a (click)="closeNewCoursePopUp()"
-         style="position: absolute;top: 20px;right: 30px;"><i class="ni ni-fat-remove"></i></a>
+      <button id='btn-close-new-course' (click)="closeNewCoursePopUp()"
+         style="padding: 0; border: none; background: none; position: absolute;top: 20px;right: 30px;"><i class="ni ni-fat-remove"></i></button>
       <h1>Nuevo curso</h1>
       <form role="form" [formGroup]="createCourseForm">
         <div class="form-group">
@@ -162,7 +164,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
             </div>
-            <input id="nuevocurso-button" class="form-control" placeholder="Nombre del curso" type="text" formControlName="courseName"
+            <input id="input-course-name" class="form-control" placeholder="Nombre del curso" type="text" formControlName="courseName"
                    [ngClass]="{'is-invalid': !createCourseForm.get('courseName').valid}" name="courseName">
           </div>
           <div *ngIf="createCourseForm.controls['courseName'].errors?.required && triyingCourse" class="invalid-update">
@@ -174,13 +176,13 @@
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="ni ni-hat-83"></i></span>
             </div>
-            <input id="descripcion-curso" class="form-control" formControlName="courseDescription" [ngModel]=""
+            <input id="input-description-course" class="form-control" formControlName="courseDescription" [ngModel]=""
                    placeholder="Descripción" type="text"/>
           </div>
         </div>
         <div class="form-group">
           <div class="input-group input-group-alternative mb-3" id="div-courseCategory">
-            <select class="form-control select-box" formControlName="courseCategory" id="comboCategories">
+            <select class="form-control select-box" formControlName="courseCategory" id="combo-categories">
               <option value="" disabled selected>Categoría</option>
               <option *ngFor=" let category of categories" value="{{category.name}}">
                 {{category.name}}
@@ -190,24 +192,25 @@
         </div>
       </form>
       <div class="text-center">
-        <button type="button" (click)="saveCourse()" class="btn btn-primary mt-4">Guardar curso</button>
+        <button type="button" id='btn-create-course' (click)="saveCourse()" class="btn btn-primary mt-4">Guardar curso</button>
       </div>
     </div>
   </div>
   <!--End New Courser PopUp-->
 
   <!--Delete PopUp-->
-  <div class="overlay-pop-up" [hidden]="!popupDeleteProfileVisible">
+  <div class="overlay-pop-up" id='delete-pop-up' [hidden]="!popupDeleteProfileVisible">
     <div class="col-md-7 card p-5">
-      <a (click)="closeDeletePopup()"
-         style="position: absolute;top: 20px;right: 30px;"><i class="ni ni-fat-remove"></i></a>
+      <button (click)="closeDeletePopup()" id="btn-close-delete-pop-up"
+         style="padding: 0; border: none; background: none; position: absolute;top: 20px;right: 30px;">
+        <i class="ni ni-fat-remove"></i></button>
       <h3>¿Seguro que quieres eliminar tu perfil?</h3> <i ></i>
       <div *ngIf="deleteError" class="invalid-backend-response">
         Error al borrar tu cuenta prueba otra vez.
       </div>
       <div class="text-center">
-        <button type="button" (click)="deleteUserProfile()" class="btn btn-primary mt-4">Aceptar</button>
-        <button type="button" (click)="closeDeletePopup()" class="btn btn-primary mt-4">Cancelar</button>
+        <button type="button" id="btn-delete" (click)="deleteUserProfile()" class="btn btn-primary mt-4">Aceptar</button>
+        <button type="button" id="btn-cancel-delete"(click)="closeDeletePopup()" class="btn btn-primary mt-4">Cancelar</button>
       </div>
     </div>
   </div>

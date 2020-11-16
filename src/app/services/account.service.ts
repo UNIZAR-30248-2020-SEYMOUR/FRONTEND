@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Course, Login, User} from '../interfaces';
 import {CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
+import {placeholdersToParams} from '@angular/compiler/src/render3/view/i18n/util';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,9 @@ import {Observable} from 'rxjs';
  * This class contains de logic of do the requests for operations necessary for user accounts
  */
 export class AccountService {
-  private apiUrl = 'http://oc2.danielhuici.ml/';
-  // private apiUrl = 'http://localhost:3000/';
+  // private apiUrl = 'http://oc2.danielhuici.ml/';
+  private apiUrl = 'http://localhost:3000/';
+
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -54,8 +56,9 @@ export class AccountService {
 
   /**
    * Obtains the courses of the open sesion user
+   * @return Observable that receive the response of the server
    */
-  getCourses(): Observable<any> {
+  getUserData(): Observable<any> {
     const json = {
       uuid: this.cookie.get('uuid')
     };
@@ -82,6 +85,7 @@ export class AccountService {
   /**
    * Do a request to the server for send the email for recover the password
    * @param email: email where to send the link of change password
+   * @return Observable that receive the response of the server
    */
   sendEmail(email: string): Observable<any> {
     const json = {
@@ -93,6 +97,7 @@ export class AccountService {
 
   /**
    * Save a course in the backend
+   @return Observable that receive the response of the server
    */
   saveCourse(course: Course): Observable<any> {
     const json = {
@@ -107,8 +112,27 @@ export class AccountService {
 
   /**
    * Obtains the categories list
+   @return Observable that receive the response of the server
    */
   getCategories(): Observable<any> {
-    return this.http.get(this.apiUrl + 'categories/get_list');
+    return this.http.post(this.apiUrl + 'categories/get_list', null, this.httpOptions);
+  }
+
+  /**
+   * Do a request to delete a user
+   * @param uuid of the user to delete
+   */
+  deleteUser(uuid: string): Observable<any> {
+    const json = {uuid: uuid};
+    return this.http.post(this.apiUrl + 'users/delete', JSON.stringify(json), this.httpOptions);
+  }
+
+  /**
+   * Do a request to update the information of a user
+   * @param user to update the information
+   */
+  updateProfile(user: User): Observable<any> {
+    alert('update');
+    return this.http.post(this.apiUrl + 'users/update_profile', JSON.stringify(user), this.httpOptions);
   }
 }

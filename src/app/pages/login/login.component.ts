@@ -113,14 +113,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Open the pop up of send a email to recover password
+   */
   showPopupRecoverPassword() {
     const popUpRecoverPassword = document.getElementById('overlay-recover-password');
     popUpRecoverPassword.classList.add('active');
   }
 
-/**
- *Close the pop up of recoveir password
- */
+  /**
+   * Close the pop up of send a email to recover password
+   */
   closeRecoverPassword() {
     const popUpRecoverPassword = document.getElementById('overlay-recover-password');
     popUpRecoverPassword.classList.remove('active');

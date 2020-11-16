@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {Category, Course, User} from '../../interfaces';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {AccountService} from '../../services/account.service';
 import {Router} from '@angular/router';
+import {CookieService} from 'ngx-cookie-service';
 
 
 
@@ -23,25 +24,33 @@ export class UserProfileComponent implements OnInit {
   disabled: any;
   valuation: number;
 
-  registerForm: FormGroup;
+  updateForm: FormGroup;
   createCourseForm: FormGroup;
   triyingUser: boolean;
   triyingCourse: boolean;
   validUser: boolean;
   validEmail: boolean;
-  popupVisible: boolean;
+  deleteError: boolean;
+  updateError: boolean;
+  popupNewCourseVisible: boolean;
+  popupDeleteProfileVisible: boolean;
   categories: Category[];
-  constructor(private accountService: AccountService, private route: Router) {
-   this.popupVisible = false;
+
+  constructor(private accountService: AccountService, private route: Router, private cookie: CookieService) {
+   this.popupNewCourseVisible = false;
+   this.popupDeleteProfileVisible = false;
+   this.deleteError = false;
+   this.updateError = false;
     this.user = {
-      username: 'Federico',
-      email: 'federico@ld.com',
+      uuid: '',
+      username: 'No válido',
+      email: 'noValido@ld.com',
       description: 'lorem ipsum dolor asdfas csadcasdcsadca sdcasd csadcsac',
       password: ''};
     this.disabled = 'false';
-    this.courses = [{ coursename: 'uno', description: 'lid1', category: {name: 'Tech', imageUrl: '/assets/img/otros.png'}},
-        { coursename: 'dos', description: 'lid2', category: {name: 'Tech', imageUrl: '/assets/img/otros.png'}},
-        { coursename: 'tres', description: 'lid3', category: {name: 'Tech', imageUrl: '/assets/img/otros.png'}}],
+    this.courses = [{ coursename: 'uno', description: 'lid1', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}},
+        { coursename: 'dos', description: 'lid2', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}},
+        { coursename: 'tres', description: 'lid3', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}}],
     this.valuation = 5.4;
 
      this.initializeForms();
@@ -51,21 +60,48 @@ export class UserProfileComponent implements OnInit {
 
   /**
    * This method save the user modified data
-   * (is not complete yet)
    */
-  savechanges() {
-    this.validEmail = true;
-    this.validUser = true;
+  saveChanges() {
     this.triyingUser = true;
-
-    if (this.registerForm.valid) {
+    alert(this.updateForm.valid);
+    if (this.updateForm.valid) {
       const user: User = {
-        username: this.registerForm.get('username').value,
-        email: this.registerForm.get('email').value,
+        uuid: this.cookie.get('uuid'),
+        username: this.updateForm.get('username').value,
+        email: this.updateForm.get('email').value,
         password: '',
-        description: this.registerForm.get('description').value
+        description: this.updateForm.get('description').value
       };
+      const observer = this.accountService.updateProfile(user);
+      observer.subscribe(
+        data => this.showUpdate(user),
+        error => {console.log(error.error); this.updateError = true; }
+      );
+    } else {
+      this.updateError = true;
+      if (!this.updateForm.get('username').valid) {
+        this.validUser = false;
+        document.getElementById('input-username').classList.add('invalid-input');
+      }
+      if (!this.updateForm.get('email').valid) {
+        this.validEmail = false;
+        document.getElementById('input-email').classList.add('invalid-input');
+      }
     }
+  }
+
+  /**
+   * This method show the correct update of the user profile
+   * @param user: is the information of the user profile updated
+   */
+  showUpdate(user: User) {
+    this.updateError = false;
+    this.user = user;
+    this.disabled = !this.disabled;
+    this.validUser = true;
+    this.validEmail = true;
+    document.getElementById('input-username').classList.remove('invalid-input');
+    document.getElementById('input-email').classList.remove('invalid-input');
   }
 
   ngOnInit() {
@@ -74,16 +110,21 @@ export class UserProfileComponent implements OnInit {
   /**
    * This method cancel the user edition blocking the profile form inptus.
    */
-  cancel() {
+  cancelUpdate() {
+    this.triyingUser = false;
+    this.validUser = true;
+    this.validEmail = true;
+    document.getElementById('input-username').classList.remove('invalid-input');
+    document.getElementById('input-email').classList.remove('invalid-input');
     this.disabled = !this.disabled;
   }
 
   /**
-   * This method updates the user data.
+   * This method get the information of the user with his courses.
    * @private
    */
   private getUserData() {
-    const observer = this.accountService.getCourses();
+    const observer = this.accountService.getUserData();
     observer.subscribe(
       data => {
         this.user.username = data.username;
@@ -110,8 +151,8 @@ export class UserProfileComponent implements OnInit {
   /**
    * This method close the create course popup.
    */
-  closePopUp() {
-    this.popupVisible = false;
+  closeNewCoursePopUp() {
+    this.popupNewCourseVisible = false;
     this.createCourseForm.reset();
     this.triyingCourse = false;
   }
@@ -119,8 +160,8 @@ export class UserProfileComponent implements OnInit {
   /**
    * This method open the create course popup.
    */
-  openPopUp() {
-    this.popupVisible = true;
+  openNewCoursePopUp() {
+    this.popupNewCourseVisible = true;
   }
 
   /**
@@ -138,7 +179,7 @@ export class UserProfileComponent implements OnInit {
         description: this.createCourseForm.get('courseDescription').value,
         category: {name: strUser, imageUrl: ''}};
       this.backendSave(course);
-      this.closePopUp();
+      this.closeNewCoursePopUp();
     }
   }
 
@@ -159,10 +200,11 @@ export class UserProfileComponent implements OnInit {
    * @private
    */
   private initializeForms() {
-    this.registerForm = new FormGroup({
+    this.updateForm = new FormGroup({
       'username': new FormControl('', [
         Validators.required,
-        Validators.minLength(10)
+        Validators.minLength(4),
+        Validators.maxLength(40)
       ]),
       'email': new FormControl('', [Validators.required ]),
       'description': new FormControl('')
@@ -229,5 +271,35 @@ export class UserProfileComponent implements OnInit {
       document.getElementById('div-courseCategory').classList.remove('invalid-input');
     }
 
+  }
+
+  /**
+   * Delete the user of the app.
+   */
+  deleteUserProfile() {
+    const observer = this.accountService.deleteUser(this.cookie.get('uuid'));
+    observer.subscribe(
+      data => {this.route.navigate(['/login']); this.deleteError = false; this.closeDeletePopup(); },
+      error => {console.log(error.status); this.dealErrorNotDelete(error.error); }
+    );
+  }
+
+  private dealErrorNotDelete(error: JSON) {
+    this.deleteError = true;
+  }
+
+  /**
+   * Shows the user delete pop up
+   */
+  openDeletePopup() {
+    this.popupDeleteProfileVisible = true;
+  }
+
+  /**
+   * Closes the user delete pop up
+   */
+  closeDeletePopup() {
+    this.deleteError = false;
+    this.popupDeleteProfileVisible = false;
   }
 }

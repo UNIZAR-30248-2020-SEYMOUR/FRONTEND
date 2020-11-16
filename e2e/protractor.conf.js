@@ -8,6 +8,9 @@ exports.config = {
     './src/e2e-spec.ts'
   ],
   capabilities: {
+    chromeOptions: {
+      args: [ "--headless" ]
+    },
     'browserName': 'chrome'
   },
   directConnect: true,

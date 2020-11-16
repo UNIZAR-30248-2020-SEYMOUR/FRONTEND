@@ -59,6 +59,7 @@ export class RegisterComponent implements OnInit {
     this.triying = true;
     if (this.registerForm.valid && this.checkPasswords()) {
       const user: User = {
+        uuid: '',
         username: this.registerForm.get('username').value,
         email: this.registerForm.get('email').value,
         password: this.registerForm.get('pswd').value,

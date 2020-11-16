@@ -7,7 +7,7 @@
       <div class="col-lg-7 col-drive
       md-10">
         <h1 class="display-2 text-white">Hola {{user.username}}</h1>
-        <p class="text-white mt-0 mb-5">Esta es tu página de perfil. Aqui puedes ver el progreso que has realizado con tu trabajo y gestionar tus cursos</p>
+        <p class="text-white mt-0 mb-5">Esta es tu página de perfil. Aquí puedes ver el progreso que has realizado con tu trabajo y gestionar tus cursos</p>
         <!-- <a href="#!" class="btn btn-info">Edit profile</a>  -->
       </div>
     </div>
@@ -61,42 +61,49 @@
             <div class="col-6">
               <h3 class="mb-0">Mi perfil</h3>
             </div>
-            <div class="col-2 text-right">
-              <input type="button" [hidden]="disabled" (click)="savechanges()" class="btn btn-sm btn-primary" value="Guardar">
-            </div>
-            <div class="col-2 text-right">
-              <input type="button" [hidden]="disabled" (click)="cancel()" class="btn btn-sm btn-primary" value="Cancelar">
-            </div>
-            <div class="col-2 text-right">
+            <div class="col-3 text-center">
               <input type="button" [hidden]="!disabled" (click)="disabled=!disabled" class="btn btn-sm btn-primary" value="Modificar perfil">
+            </div>
+            <div class="col-3 text-center">
+              <input type="button" [hidden]="!disabled" (click)="openDeletePopup()" class="btn btn-sm btn-primary" value="Borrar perfil">
             </div>
           </div>
         </div>
         <div class="card-body">
-          <form [formGroup]="registerForm">
+          <form [formGroup]="updateForm">
             <h6 class="heading-small text-muted mb-4">Información del usuario</h6>
+            <div *ngIf="!updateError && triyingUser" class="valid-backend-response">
+              <span id="correct-response">Se ha actualizado el perfil.</span>
+            </div>
+            <div *ngIf="updateError && triyingUser" class="invalid-backend-response">
+              <span id="error-response">Error al actualizar el perfil.</span>
+            </div>
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label"  for="input-username">Nombre de usuario</label>
-                    <input type="text" id="input-username" [disabled]="disabled" class="form-control form-control-alternative" placeholder="{{user.username}}" >
-                    <div *ngIf="registerForm.controls['username'].errors?.required && triyingUser" class="invalid-feedback">
+                    <input type="text" id="input-username" [attr.disabled]="disabled" formControlName="username"
+                           class="form-control form-control-alternative" placeholder="{{user.username}}" >
+                    <div *ngIf="updateForm.controls['username'].errors?.required && triyingUser" class="invalid-update">
                       <span id="required-username-feedback">El nombre es necesario</span>
                     </div>
-                    <div *ngIf="registerForm.controls['username'].errors?.minLength && triyingUser" class="invalid-feedback">
-                      <span>El nombre debe tener al menos 4 caracteres</span>
-                    </div>
-                    <div *ngIf="registerForm.controls['username'].errors?.maxLength && triyingUser" class="invalid-feedback">
-                      <span>El nombre debe tener como máximo 40 caracteres</span>
+                    <div *ngIf="updateForm.controls['username'].errors?.minlength && triyingUser" class="invalid-update">
+                    <span>El nombre debe tener al menos 4 caracteres</span>
+                  </div>
+                    <div *ngIf="updateForm.controls['username'].errors?.maxLength && triyingUser" class="invalid-update">
+                      <span id="maximum-username-feedback">El nombre debe tener como máximo 40 caracteres</span>
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label"  for="input-email">Email</label>
-                    <input type="email" id="input-email" [disabled]="disabled"
+                    <input type="email" id="input-email" formControlName="email" [attr.disabled]="disabled"
                       class="form-control form-control-alternative" placeholder="{{user.email}}">
+                  </div>
+                  <div *ngIf="updateForm.controls['email'].errors?.required && triyingUser" class="invalid-backend-response">
+                    <span id="required-email-feedback">El email es necesario</span>
                   </div>
                 </div>
               </div>
@@ -104,19 +111,30 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" >Descripción</label>
-                    <input type="text" id="input-description" [disabled]="disabled"
+                    <input type="text" id="input-description" formControlName="description" [attr.disabled]="disabled"
                            class="form-control form-control-alternative" placeholder="{{user.description}}" value="">
                   </div>
                 </div>
               </div>
             </div>
-            <hr class="my-4" />
+            <div class="row align-items-center">
+              <div class="col-2 text-center">
+                <input type="button" [hidden]="disabled" (click)="saveChanges()" class="btn btn-sm btn-primary" value="Guardar">
+              </div>
+
+              <div class="col-2 text-center">
+                <input type="button" [hidden]="disabled" (click)="cancelUpdate()" class="btn btn-sm btn-primary" value="Cancelar">
+              </div>
+            </div>
+          </form>
+
+          <hr class="my-4" />
             <!-- Address -->
             <h6 class="heading-small text-muted mb-4">Tus cursos </h6>
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-1 text-right">
-                  <input type="button" (click)="openPopUp()" class="btn btn-sm btn-primary" value="Nuevo curso">
+                  <input type="button" (click)="openNewCoursePopUp()" class="btn btn-sm btn-primary" value="Nuevo curso">
                 </div>
               </div>
               <div class="row">
@@ -128,14 +146,15 @@
               </div>
             </div>
             <hr class="my-4" />
-          </form>
         </div>
       </div>
     </div>
   </div>
-  <div class="overlay-pop-up" [hidden]="!popupVisible">
+
+  <!--New Courser PopUp-->
+  <div class="overlay-pop-up" [hidden]="!popupNewCourseVisible">
     <div class="col-md-7 card p-5">
-      <a (click)="closePopUp()" id="btn-cerrar-perfil"
+      <a (click)="closeNewCoursePopUp()"
          style="position: absolute;top: 20px;right: 30px;"><i class="ni ni-fat-remove"></i></a>
       <h1>Nuevo curso</h1>
       <form role="form" [formGroup]="createCourseForm">
@@ -147,7 +166,7 @@
             <input id="nuevocurso-button" class="form-control" placeholder="Nombre del curso" type="text" formControlName="courseName"
                    [ngClass]="{'is-invalid': !createCourseForm.get('courseName').valid}" name="courseName">
           </div>
-          <div *ngIf="createCourseForm.controls['courseName'].errors?.required && triyingCourse" class="invalid-register">
+          <div *ngIf="createCourseForm.controls['courseName'].errors?.required && triyingCourse" class="invalid-update">
             <span>El nombre es necesario</span>
           </div>
         </div>
@@ -176,6 +195,23 @@
       </div>
     </div>
   </div>
+  <!--End New Courser PopUp-->
 
+  <!--Delete PopUp-->
+  <div class="overlay-pop-up" [hidden]="!popupDeleteProfileVisible">
+    <div class="col-md-7 card p-5">
+      <a (click)="closeDeletePopup()"
+         style="position: absolute;top: 20px;right: 30px;"><i class="ni ni-fat-remove"></i></a>
+      <h3>¿Seguro que quieres eliminar tu perfil?</h3> <i ></i>
+      <div *ngIf="deleteError" class="invalid-backend-response">
+        Error al borrar tu cuenta prueba otra vez.
+      </div>
+      <div class="text-center">
+        <button type="button" (click)="deleteUserProfile()" class="btn btn-primary mt-4">Aceptar</button>
+        <button type="button" (click)="closeDeletePopup()" class="btn btn-primary mt-4">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  <!--End Delete PopUp-->
 </div>
 

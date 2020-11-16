@@ -1,16 +1,17 @@
-dist: xenial
+dist: trusty
 language: node_js
+node_js:
+  - "10"
 
 addons:
   chrome: stable
 cache:
   directories:
-    - node_modules
-    
+    - ./node_modules
 
 install:
-- npm install
-- npm install karma-firefox-launcher --save-dev
+  - npm install
+  - npm install karma-firefox-launcher --save-dev
 
 script:
   - npm run test:unit

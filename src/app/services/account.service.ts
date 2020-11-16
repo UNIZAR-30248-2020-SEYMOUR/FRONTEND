@@ -115,7 +115,7 @@ export class AccountService {
    @return Observable that receive the response of the server
    */
   getCategories(): Observable<any> {
-    return this.http.get(this.apiUrl + 'categories/get_list');
+    return this.http.post(this.apiUrl + 'categories/get_list', null, this.httpOptions);
   }
 
   /**

@@ -1,5 +1,5 @@
-export interface User {
-  uuid: string,
+export interface SelfProfile {
+  uuid: string;
   username: string;
   email: string;
   description: string;
@@ -19,4 +19,8 @@ export interface Course {
 export interface Category {
   name: string;
   imageUrl: string;
+}
+export interface UsersProfile {
+  username: string;
+  description: string;
 }

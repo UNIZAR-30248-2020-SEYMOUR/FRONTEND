@@ -19,6 +19,7 @@ import { AccountService } from './services/account.service';
 import {CourseService} from './services/course.service';
 import {CategoriesService} from './services/categories.service';
 
+import { ProfileSearchComponent } from './pages/profile-search/profile-search.component';
 
 
 
@@ -37,7 +38,8 @@ import {CategoriesService} from './services/categories.service';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    HelpComponent
+    HelpComponent,
+    ProfileSearchComponent
   ],
   providers: [AccountService, CookieService, CourseService, CategoriesService],
   bootstrap: [AppComponent]

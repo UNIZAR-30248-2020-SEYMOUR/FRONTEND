@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Category, Course, User} from '../../interfaces';
+import {Category, Course, SelfProfile} from '../../interfaces';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {AccountService} from '../../services/account.service';
@@ -20,7 +20,7 @@ import {CategoriesService} from '../../services/categories.service';
  * This class contains de logic of the user-profile.
  */
 export class UserProfileComponent implements OnInit {
-  user: User;
+  user: SelfProfile;
 
   courses: Course[];
   disabled: any;
@@ -69,7 +69,7 @@ export class UserProfileComponent implements OnInit {
     this.triyingUser = true;
     alert(this.updateForm.valid);
     if (this.updateForm.valid) {
-      const user: User = {
+      const user: SelfProfile = {
         uuid: this.cookie.get('uuid'),
         username: this.updateForm.get('username').value,
         email: this.updateForm.get('email').value,
@@ -98,7 +98,7 @@ export class UserProfileComponent implements OnInit {
    * This method show the correct update of the user profile
    * @param user: is the information of the user profile updated
    */
-  showUpdate(user: User) {
+  showUpdate(user: SelfProfile) {
     this.updateError = false;
     this.user = user;
     this.disabled = !this.disabled;

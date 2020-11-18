@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {User} from '../../interfaces';
+import {SelfProfile} from '../../interfaces';
 import {AccountService} from '../../services/account.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit {
   submit() {
     this.triying = true;
     if (this.registerForm.valid && this.checkPasswords()) {
-      const user: User = {
+      const user: SelfProfile = {
         uuid: '',
         username: this.registerForm.get('username').value,
         email: this.registerForm.get('email').value,

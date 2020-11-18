@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Course, Login, User} from '../interfaces';
+import {Login, SelfProfile} from '../interfaces';
 import {CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
 import {placeholdersToParams} from '@angular/compiler/src/render3/view/i18n/util';
@@ -29,7 +29,7 @@ export class AccountService {
    * @return Observable that receive the response of the server
    * @param user: contain the register information introduce by the user.
    */
-  register(user: User): Observable<any> {
+  register(user: SelfProfile): Observable<any> {
     const params = JSON.stringify(user);
     return this.http.post(this.apiUrl + 'users/register' , params, this.httpOptions);
   }
@@ -108,8 +108,11 @@ export class AccountService {
    * Do a request to update the information of a user
    * @param user to update the information
    */
-  updateProfile(user: User): Observable<any> {
-    alert('update');
+  updateProfile(user: SelfProfile): Observable<any> {
     return this.http.post(this.apiUrl + '/update_profile', JSON.stringify(user), this.httpOptions);
+  }
+
+  getProfiles(search: String): Observable<any> {
+    return this.http.post(this.apiUrl + 'users/search', {textToSearch: search}, this.httpOptions);
   }
 }

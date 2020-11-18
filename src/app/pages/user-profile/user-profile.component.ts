@@ -5,6 +5,8 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {AccountService} from '../../services/account.service';
 import {Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
+import {CourseService} from '../../services/course.service';
+import {CategoriesService} from '../../services/categories.service';
 
 
 
@@ -36,7 +38,8 @@ export class UserProfileComponent implements OnInit {
   popupDeleteProfileVisible: boolean;
   categories: Category[];
 
-  constructor(private accountService: AccountService, private route: Router, private cookie: CookieService) {
+  constructor(private accountService: AccountService, private courseService: CourseService, private categoriesService: CategoriesService,
+              private route: Router, private cookie: CookieService) {
    this.popupNewCourseVisible = false;
    this.popupDeleteProfileVisible = false;
    this.deleteError = false;
@@ -202,7 +205,7 @@ export class UserProfileComponent implements OnInit {
    * @param course Course to save.
    */
   backendSave(course: Course) {
-    const observer = this.accountService.saveCourse(course);
+    const observer = this.courseService.saveCourse(course);
     observer.subscribe(
       data => { this.getUserData(); },
       (error: HttpErrorResponse) => {console.log(error.status); this.dealNotUser(error.error); }
@@ -246,7 +249,7 @@ export class UserProfileComponent implements OnInit {
    * @private
    */
   private loadCategories() {
-    const observer = this.accountService.getCategories();
+    const observer = this.categoriesService.getCategories();
     observer.subscribe(
       data => { this.categories = data; },
       (error: HttpErrorResponse) => {console.log(error.status); this.dealNotUser(error.error); }

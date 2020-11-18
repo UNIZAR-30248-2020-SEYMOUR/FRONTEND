@@ -37,3 +37,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+#Configuration travis test
+/src/karma.conf.js

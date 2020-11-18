@@ -14,7 +14,7 @@ import {placeholdersToParams} from '@angular/compiler/src/render3/view/i18n/util
  */
 export class AccountService {
   // private apiUrl = 'http://oc2.danielhuici.ml/';
-  private apiUrl = 'http://localhost:3000/';
+  private apiUrl = 'http://localhost:3000/users';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -42,7 +42,7 @@ export class AccountService {
   login(loginData: Login): Observable<any> {
     const params = JSON.stringify(loginData);
 
-    return this.http.post(this.apiUrl + 'users/login' , params, this.httpOptions);
+    return this.http.post(this.apiUrl + '/login' , params, this.httpOptions);
   }
 
   /**
@@ -64,7 +64,7 @@ export class AccountService {
     };
 
     const params = JSON.stringify(json);
-    return this.http.post(this.apiUrl + 'users/user_profile' , params, this.httpOptions);
+    return this.http.post(this.apiUrl + '/user_profile' , params, this.httpOptions);
   }
 
   /**
@@ -79,7 +79,7 @@ export class AccountService {
       token: idToken
     };
     const params = JSON.stringify(json);
-    return this.http.post(this.apiUrl + 'users/reset_password' , params, this.httpOptions);
+    return this.http.post(this.apiUrl + '/reset_password' , params, this.httpOptions);
   }
 
   /**
@@ -92,30 +92,7 @@ export class AccountService {
       email: email
     };
     const params = JSON.stringify(json);
-    return this.http.post(this.apiUrl + 'users/forgot_password', params, this.httpOptions);
-  }
-
-  /**
-   * Save a course in the backend
-   @return Observable that receive the response of the server
-   */
-  saveCourse(course: Course): Observable<any> {
-    const json = {
-      owner: this.cookie.get('uuid'),
-      coursename: course.coursename,
-      description: course.description,
-      category: course.category.name
-    };
-    const params = JSON.stringify(json);
-    return this.http.post(this.apiUrl + 'courses/create_course', params, this.httpOptions);
-  }
-
-  /**
-   * Obtains the categories list
-   @return Observable that receive the response of the server
-   */
-  getCategories(): Observable<any> {
-    return this.http.post(this.apiUrl + 'categories/get_list', null, this.httpOptions);
+    return this.http.post(this.apiUrl + '/forgot_password', params, this.httpOptions);
   }
 
   /**
@@ -124,7 +101,7 @@ export class AccountService {
    */
   deleteUser(uuid: string): Observable<any> {
     const json = {uuid: uuid};
-    return this.http.post(this.apiUrl + 'users/delete', JSON.stringify(json), this.httpOptions);
+    return this.http.post(this.apiUrl + '/delete', JSON.stringify(json), this.httpOptions);
   }
 
   /**
@@ -133,6 +110,6 @@ export class AccountService {
    */
   updateProfile(user: User): Observable<any> {
     alert('update');
-    return this.http.post(this.apiUrl + 'users/update_profile', JSON.stringify(user), this.httpOptions);
+    return this.http.post(this.apiUrl + '/update_profile', JSON.stringify(user), this.httpOptions);
   }
 }

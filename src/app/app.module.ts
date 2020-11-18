@@ -16,6 +16,9 @@ import { ComponentsModule } from './components/components.module';
 import { HelpComponent } from './pages/help/help.component';
 
 import { AccountService } from './services/account.service';
+import {CourseService} from './services/course.service';
+import {CategoriesService} from './services/categories.service';
+
 
 
 
@@ -36,7 +39,7 @@ import { AccountService } from './services/account.service';
     AuthLayoutComponent,
     HelpComponent
   ],
-  providers: [AccountService, CookieService],
+  providers: [AccountService, CookieService, CourseService, CategoriesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

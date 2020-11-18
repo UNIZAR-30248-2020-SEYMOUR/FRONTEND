@@ -198,8 +198,6 @@ describe('UserProfileComponent', () => {
   function testEnableUpdateProfile() {
     document.getElementById('btn-enable-update').click();
     fixture.detectChanges();
-    expect(document.getElementById('btn-enable-update').hidden).toBeTrue();
-    expect(document.getElementById('btn-open-delete-popup').hidden).toBeTrue();
     expect(document.getElementById('btn-update').hidden).toBeFalse();
     expect(document.getElementById('btn-cancel-update').hidden).toBeFalse();
     expect(component.updateForm.get('username').disabled).toBeFalse();
@@ -208,8 +206,6 @@ describe('UserProfileComponent', () => {
   }
 
   function testDisableUpdateProfile() {
-    expect(document.getElementById('btn-enable-update').hidden).toBeTrue();
-    expect(document.getElementById('btn-open-delete-popup').hidden).toBeTrue();
     expect(document.getElementById('btn-update').hidden).toBeFalse();
     expect(document.getElementById('btn-cancel-update').hidden).toBeFalse();
     expect(component.updateForm.get('username').disabled).toBeFalse();
@@ -217,8 +213,6 @@ describe('UserProfileComponent', () => {
     expect(component.updateForm.get('description').disabled).toBeFalse();
     document.getElementById('btn-cancel-update').click();
     fixture.detectChanges();
-    expect(document.getElementById('btn-enable-update').hidden).toBeFalse();
-    expect(document.getElementById('btn-open-delete-popup').hidden).toBeFalse();
     expect(document.getElementById('btn-update').hidden).toBeTrue();
     expect(document.getElementById('btn-cancel-update').hidden).toBeTrue();
     expect(component.updateForm.get('username').disabled).toBeTrue();
@@ -229,8 +223,6 @@ describe('UserProfileComponent', () => {
   function testCorrectStartState() {
     expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeFalsy();
     expect(fixture.debugElement.query(By.css('.valid-backend-response'))).toBeFalsy();
-    expect(document.getElementById('btn-enable-update').hidden).toBeFalse();
-    expect(document.getElementById('btn-open-delete-popup').hidden).toBeFalse();
     expect(document.getElementById('btn-update').hidden).toBeTrue();
     expect(document.getElementById('btn-cancel-update').hidden).toBeTrue();
     expect(component.updateForm.get('username').disabled).toBeTrue();

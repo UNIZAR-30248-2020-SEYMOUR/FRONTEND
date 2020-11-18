@@ -33,8 +33,8 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['ChromeHeadless'],//['ChromeHeadless'],//put Firefox if you want to execute the test with firefox
+    browsers: ['Firefox'],//['ChromeHeadless'],//put Firefox if you want to execute the test with firefox
     browserNoActivityTimeout: 100000,
-    singleRun: true //put false if you want to do a debug in the test. Put true before do a push or Travis won´t execute the test correctly
+    singleRun: false //put false if you want to do a debug in the test. Put true before do a push or Travis won´t execute the test correctly
   });
 };

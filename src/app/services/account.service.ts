@@ -31,7 +31,7 @@ export class AccountService {
    */
   register(user: SelfProfile): Observable<any> {
     const params = JSON.stringify(user);
-    return this.http.post(this.apiUrl + 'users/register' , params, this.httpOptions);
+    return this.http.post(this.apiUrl + '/register' , params, this.httpOptions);
   }
 
   /**
@@ -113,6 +113,6 @@ export class AccountService {
   }
 
   getProfiles(search: String): Observable<any> {
-    return this.http.post(this.apiUrl + 'users/search', {textToSearch: search}, this.httpOptions);
+    return this.http.post(this.apiUrl + '/search', {textToSearch: search}, this.httpOptions);
   }
 }

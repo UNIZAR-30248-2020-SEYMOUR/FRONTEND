@@ -67,7 +67,6 @@ export class UserProfileComponent implements OnInit {
    */
   saveChanges() {
     this.triyingUser = true;
-    alert(this.updateForm.valid);
     if (this.updateForm.valid) {
       const user: SelfProfile = {
         uuid: this.cookie.get('uuid'),
@@ -188,7 +187,7 @@ export class UserProfileComponent implements OnInit {
     this.triyingCourse = true;
     this.updateFeedback();
     if (this.createCourseForm.valid) {
-      const combo = (<HTMLSelectElement>document.getElementById('comboCategories'));
+      const combo = (<HTMLSelectElement>document.getElementById('combo-categories'));
       const strUser = combo.options[combo.selectedIndex].text;
 
       const course: Course = {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
-import {Course, Login, User} from '../interfaces';
+import {Course} from '../interfaces';
 import {Observable} from 'rxjs';
 
 @Injectable({

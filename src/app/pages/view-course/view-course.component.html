@@ -48,8 +48,8 @@
               </div>
               <div class="col-2 text-center"></div>
               <div class="col-2 text-center">
-                <input type="button"  (click)="openCreateVideoPopup()" id='btn-open-create-video'
-                       class="btn btn-sm btn-primary" value="Subir video">
+                <input type="button"  (click)="openCreateVideoPopUp()" id='btn-open-create-video'
+                       class="btn btn-sm btn-primary" value="Subir vídeo">
               </div>
               <div class="col-2 text-center">
                 <input type="button" (click)="openEditCoursePopup()" id='btn-open-edit-popup'
@@ -104,7 +104,7 @@
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
                       <input class="form-control" placeholder="Título" type="text" formControlName="title"
-                             name="title" id="title-input" [disabled]="!loadedVideo">
+                             name="title" id="title-input" disabled="">
                     </div>
                     <div *ngIf="uploadVideoForm.controls['title'].errors?.required
                             && uploadVideoForm.controls['title'].touched || titleError"

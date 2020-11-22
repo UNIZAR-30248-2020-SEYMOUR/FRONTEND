@@ -36,7 +36,8 @@ export class ViewCourseComponent implements OnInit {
 
   constructor(private courseService: CourseService,
               private formBuilder: FormBuilder,
-              private videoService: VideosService, private route: ActivatedRoute) {
+              private videoService: VideosService,
+              private route: ActivatedRoute) {
     const sub = this.route.params.subscribe(params => {
       this.course = {
         id: params.courseId,
@@ -45,13 +46,12 @@ export class ViewCourseComponent implements OnInit {
         description: ''
       };
     });
+
     this.videos = [];
     this.moreVideos = true;
     this.getCourseData();
     this.getMoreVideos();
-  }
 
-  ngOnInit(): void {
     this.uploadVideoForm = this.formBuilder.group({
       video: [''],
       title: new FormControl('', [Validators.required ]),
@@ -61,7 +61,7 @@ export class ViewCourseComponent implements OnInit {
     this.videoId = -1;
 
     this.loadedVideo = false;
-    this.visibleVideoPopUp = true;
+    this.visibleVideoPopUp = false;
     this.loadVideoError = false;
     this.titleError = false;
     this.descriptionError = false;
@@ -69,8 +69,10 @@ export class ViewCourseComponent implements OnInit {
 
     this.uploadVideoForm.controls['title'].disable();
     this.uploadVideoForm.controls['description'].disable();
-    /* TODO CHANGE THIS WITH THE REAL COURSE ID */
-    this.courseId = 2;
+
+  }
+
+  ngOnInit(): void {
   }
 
   /**
@@ -79,38 +81,18 @@ export class ViewCourseComponent implements OnInit {
   getMoreVideos() {
     const observer = this.courseService.getVideos(this.course.id, this.videos.length, (this.videos.length + this.NUM_GET_VIDEOS));
     observer.subscribe(
-      data => this.showVideos(data.videos),
+      data => {
+        this.showVideos(data);
+      },
       error => {
         console.log(error.status);
       }
     );
   }
 
-  openCreateVideoPopup() {
-
-  }
 
   openEditCoursePopup() {
 
-      this.uploadVideoForm = this.formBuilder.group({
-        video: [''],
-        title: new FormControl('', [Validators.required ]),
-        description: new FormControl('', [Validators.required])
-      });
-      this.courseId = -1;
-      this.videoId = -1;
-
-      this.loadedVideo = false;
-      this.visibleVideoPopUp = true;
-      this.loadVideoError = false;
-      this.titleError = false;
-      this.descriptionError = false;
-      this.detailsError = false;
-
-      this.uploadVideoForm.controls['title'].disable();
-      this.uploadVideoForm.controls['description'].disable();
-      /* TODO CHANGE THIS WITH THE REAL COURSE ID */
-      this.courseId = 2;
   }
 
   /**
@@ -160,9 +142,9 @@ export class ViewCourseComponent implements OnInit {
    * Send the video details to the backend
    */
   sendDetails() {
-    if (this.uploadVideoForm.valid && this.courseId !== -1 && this.videoId !== -1 && this.loadedVideo === true) {
+    if (this.uploadVideoForm.valid && this.course.id !== -1 && this.videoId !== -1 && this.loadedVideo === true) {
       const details = {
-        course: this.courseId,
+        course: this.course.id,
         video: this.videoId,
         title: this.uploadVideoForm.get('title').value,
         description: this.uploadVideoForm.get('description').value,
@@ -173,7 +155,7 @@ export class ViewCourseComponent implements OnInit {
           this.closeCreateVideoPopUp();
           this.detailsError = false;
         },
-        (error: HttpErrorResponse) => { /* TODO TERMINAR ESTO */
+        (error: HttpErrorResponse) => {
           this.detailsError = true;
         }
       );
@@ -187,6 +169,7 @@ export class ViewCourseComponent implements OnInit {
    */
   closeCreateVideoPopUp() {
     this.visibleVideoPopUp = false;
+    this.getMoreVideos();
   }
 
   /**
@@ -195,6 +178,7 @@ export class ViewCourseComponent implements OnInit {
   openCreateVideoPopUp() {
     this.visibleVideoPopUp = true;
   }
+
   /**
    * Add new videos to show in the GUI
    * @param videos: list of videos to add

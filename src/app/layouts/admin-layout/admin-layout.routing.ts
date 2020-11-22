@@ -6,7 +6,6 @@ import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import {ProfileSearchComponent} from '../../pages/profile-search/profile-search.component';
-import {ViewCourseComponent} from '../../pages/view-course/view-course.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -14,6 +13,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'tables',         component: TablesComponent },
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },
-    { path: 'view-course',           component: ViewCourseComponent },
-    { path: 'search-profile/:text', component: ProfileSearchComponent }
+    { path: 'search-profile/:text', component: ProfileSearchComponent },
+    { path: 'view-course/:courseId', component: ViewCourseComponent }
 ];

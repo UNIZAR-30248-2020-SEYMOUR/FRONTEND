@@ -2,6 +2,9 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {VideosService} from '../../services/videos.service';
+import {Course, Video} from '../../interfaces';
+import {CourseService} from '../../services/course.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-view-course',
@@ -13,6 +16,7 @@ import {VideosService} from '../../services/videos.service';
  * This class manages de view-course page.
  */
 export class ViewCourseComponent implements OnInit {
+  NUM_GET_VIDEOS = 10;
 
   files = [];
   uploadVideoForm: FormGroup;
@@ -26,9 +30,68 @@ export class ViewCourseComponent implements OnInit {
   titleError: boolean;
   detailsError: boolean;
 
-  constructor(private videoService: VideosService, private formBuilder: FormBuilder) { }
+  course: Course;
+  videos: Array<Video>;
+  moreVideos: boolean;
+
+  constructor(private courseService: CourseService,
+              private formBuilder: FormBuilder,
+              private videoService: VideosService, private route: ActivatedRoute) {
+    const sub = this.route.params.subscribe(params => {
+      this.course = {
+        id: params.courseId,
+        coursename: '',
+        category:  {name: '', imageUrl: ''},
+        description: ''
+      };
+    });
+    this.videos = [];
+    this.moreVideos = true;
+    this.getCourseData();
+    this.getMoreVideos();
+  }
 
   ngOnInit(): void {
+    this.uploadVideoForm = this.formBuilder.group({
+      video: [''],
+      title: new FormControl('', [Validators.required ]),
+      description: new FormControl('', [Validators.required])
+    });
+    this.courseId = -1;
+    this.videoId = -1;
+
+    this.loadedVideo = false;
+    this.visibleVideoPopUp = true;
+    this.loadVideoError = false;
+    this.titleError = false;
+    this.descriptionError = false;
+    this.detailsError = false;
+
+    this.uploadVideoForm.controls['title'].disable();
+    this.uploadVideoForm.controls['description'].disable();
+    /* TODO CHANGE THIS WITH THE REAL COURSE ID */
+    this.courseId = 2;
+  }
+
+  /**
+   * This method get videos of the course that is showing
+   */
+  getMoreVideos() {
+    const observer = this.courseService.getVideos(this.course.id, this.videos.length, (this.videos.length + this.NUM_GET_VIDEOS));
+    observer.subscribe(
+      data => this.showVideos(data.videos),
+      error => {
+        console.log(error.status);
+      }
+    );
+  }
+
+  openCreateVideoPopup() {
+
+  }
+
+  openEditCoursePopup() {
+
       this.uploadVideoForm = this.formBuilder.group({
         video: [''],
         title: new FormControl('', [Validators.required ]),
@@ -131,5 +194,34 @@ export class ViewCourseComponent implements OnInit {
    */
   openCreateVideoPopUp() {
     this.visibleVideoPopUp = true;
+  }
+  /**
+   * Add new videos to show in the GUI
+   * @param videos: list of videos to add
+   * @private
+   */
+  private showVideos(videos: Array<Video>) {
+    if (videos.length < this.NUM_GET_VIDEOS) {
+      this.moreVideos = false;
+    }
+    videos.forEach(video => this.videos.push(video));
+    this.moreVideos = true;
+  }
+
+  /**
+   * Get the information of the course
+   * @private
+   */
+  private getCourseData() {
+    const observer = this.courseService.getCourseData(this.course.id);
+    observer.subscribe(
+      data => {this.course = {
+        id: this.course.id,
+        coursename: data.name,
+        description: data.description,
+        category: data.category
+      }; },
+      error => {console.log(error.status); }
+    );
   }
 }

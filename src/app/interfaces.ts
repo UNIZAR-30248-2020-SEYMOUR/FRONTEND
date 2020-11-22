@@ -12,6 +12,7 @@ export interface Login {
 }
 
 export interface Course {
+  id: number;
   coursename: string;
   description: string;
   category: Category;
@@ -23,4 +24,11 @@ export interface Category {
 export interface UsersProfile {
   username: string;
   description: string;
+}
+
+export interface Video {
+  id: number;
+  videoname: string;
+  description: string;
+  videoUrl: string;
 }

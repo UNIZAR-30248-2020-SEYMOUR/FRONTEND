@@ -33,4 +33,30 @@ export class CourseService {
     const params = JSON.stringify(json);
     return this.http.post(this.apiUrl + '/create_course', params, this.httpOptions);
   }
+
+  /**
+   * This function get the data of the course
+   * @param id: id of the course that the function get the data.
+   */
+  getCourseData(id: number): Observable<any> {
+    const json = {
+      id: id
+    };
+    return this.http.post(this.apiUrl + '/get_info', JSON.stringify(json), this.httpOptions);
+  }
+
+  /**
+   * Get the next 10 videos of the course
+   * @param courseId: id of the course to request the videos
+   * @param lastVideo: number of the last video get from the course
+   * @param firstVideo: number of the last video that the GUI have
+   */
+  getVideos(courseId: number, firstVideo: number, lastVideo: number): Observable<any> {
+    const json = {
+      id: courseId,
+      firstVideo: firstVideo,
+      lastVideo: lastVideo
+    };
+    return this.http.post(this.apiUrl + '/get_videos', JSON.stringify(json), this.httpOptions);
+  }
 }

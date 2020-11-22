@@ -51,9 +51,9 @@ export class UserProfileComponent implements OnInit {
       description: 'lorem ipsum dolor asdfas csadcasdcsadca sdcasd csadcsac',
       password: ''};
     this.disabled = 'false';
-    this.courses = [{ coursename: 'uno', description: 'lid1', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}},
-        { coursename: 'dos', description: 'lid2', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}},
-        { coursename: 'tres', description: 'lid3', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}}],
+    this.courses = [{ id: 1, coursename: 'uno', description: 'lid', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}},
+        {id: 2, coursename: 'dos', description: 'lid2', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}},
+        {id: 3, coursename: 'tres', description: 'lid3', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}}],
     this.valuation = 5.4;
 
 
@@ -191,6 +191,7 @@ export class UserProfileComponent implements OnInit {
       const strUser = combo.options[combo.selectedIndex].text;
 
       const course: Course = {
+        id: -1,
         coursename: this.createCourseForm.get('courseName').value,
         description: this.createCourseForm.get('courseDescription').value,
         category: {name: strUser, imageUrl: ''}};

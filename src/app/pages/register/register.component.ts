@@ -16,12 +16,12 @@ import {Router} from '@angular/router';
  */
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-  triying: boolean;
+  trying: boolean;
   validUser: boolean;
   validEmail: boolean;
 
   constructor(private registerService: AccountService, private route: Router) {
-    this.triying = false;
+    this.trying = false;
     this.validUser = true;
     this.validEmail = true;
 
@@ -56,7 +56,7 @@ export class RegisterComponent implements OnInit {
    * @return void
    */
   submit() {
-    this.triying = true;
+    this.trying = true;
     if (this.registerForm.valid && this.checkPasswords()) {
       const user: SelfProfile = {
         uuid: '',

@@ -10,6 +10,11 @@ import {UsersProfile} from '../../interfaces';
   templateUrl: './profile-search.component.html',
   styleUrls: ['./profile-search.component.scss']
 })
+
+/**
+ * This class manages the profile-search page.
+ * It needs a searchText param which contains the string to search.
+ */
 export class ProfileSearchComponent implements OnInit {
 
 
@@ -28,6 +33,11 @@ export class ProfileSearchComponent implements OnInit {
     });
   }
 
+  /**
+   * Search the profiles wich contains the search string.
+   * @param search String to search.
+   * @private
+   */
   private loadProfiles(search: String) {
     const observer = this.accountService.getProfiles(search);
     observer.subscribe(

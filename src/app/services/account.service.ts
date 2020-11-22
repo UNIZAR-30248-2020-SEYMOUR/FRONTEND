@@ -112,6 +112,10 @@ export class AccountService {
     return this.http.post(this.apiUrl + '/update_profile', JSON.stringify(user), this.httpOptions);
   }
 
+  /**
+   * Search the profiles which contains the search string.
+   * @param search String to search.
+   */
   getProfiles(search: String): Observable<any> {
     return this.http.post(this.apiUrl + '/search', {textToSearch: search}, this.httpOptions);
   }

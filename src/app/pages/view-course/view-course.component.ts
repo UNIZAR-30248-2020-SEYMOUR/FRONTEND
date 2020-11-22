@@ -8,6 +8,10 @@ import {ActivatedRoute} from '@angular/router';
   templateUrl: './view-course.component.html',
   styleUrls: ['./view-course.component.scss']
 })
+
+/**
+ * This class content the logic of the viewCourse component
+ */
 export class ViewCourseComponent implements OnInit {
   NUM_GET_VIDEOS = 10;
 
@@ -68,6 +72,10 @@ export class ViewCourseComponent implements OnInit {
     this.moreVideos = true;
   }
 
+  /**
+   * Get the information of the course
+   * @private
+   */
   private getCourseData() {
     const observer = this.courseService.getCourseData(this.course.id);
     observer.subscribe(

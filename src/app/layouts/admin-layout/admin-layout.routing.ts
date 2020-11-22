@@ -7,6 +7,7 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { TablesComponent } from '../../pages/tables/tables.component';
 import {ProfileSearchComponent} from '../../pages/profile-search/profile-search.component';
 import {ViewCourseComponent} from '../../pages/view-course/view-course.component';
+import {ViewCourseNoOwnerComponent} from '../../pages/view-course-no-owner/view-course-no-owner.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -15,5 +16,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },
     { path: 'search-profile/:text', component: ProfileSearchComponent },
-    { path: 'view-course/:courseId', component: ViewCourseComponent }
+    { path: 'view-course/:courseId', component: ViewCourseComponent },
+    { path: 'view-course-not-owner/:courseId', component: ViewCourseNoOwnerComponent }
 ];

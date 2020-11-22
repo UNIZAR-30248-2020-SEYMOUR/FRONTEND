@@ -144,20 +144,6 @@ describe('UserProfileComponent', () => {
     expect(document.getElementById('delete-pop-up').hidden).toBeTrue();
   });
 
- /* This test is commented because the browser give error because change a new page, the test pass.
-  it('should show an successful message when trying to delete the profile', () => {
-    expect(document.getElementById('delete-pop-up').hidden).toBeTrue();
-    expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeFalsy();
-    document.getElementById('btn-open-delete-popup').click();
-    fixture.detectChanges();
-    expect(document.getElementById('delete-pop-up').hidden).toBeFalse();
-    document.getElementById('btn-delete').click();
-    component.deleteError = false;
-    fixture.detectChanges();
-    expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeFalsy();
-  });*/
-
-
   it('should open and close the new course pop up', () => {
     expect(document.getElementById('new-course-pop-up').hidden).toBeTrue();
     document.getElementById('btn-open-new-course').click();

@@ -10,7 +10,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 
 /**
- * This class content the logic of the viewCourse component
+ * This class content the logic of the ViewCourseComponent component
  */
 export class ViewCourseComponent implements OnInit {
   NUM_GET_VIDEOS = 10;
@@ -85,7 +85,7 @@ export class ViewCourseComponent implements OnInit {
         description: data.description,
         category: data.category
       }; },
-      error => {console.log(error.status);}
+      error => {console.log(error.status); }
     );
   }
 }

@@ -52,6 +52,7 @@ export class CourseService {
    * @param firstVideo: number of the last video that the GUI have
    */
   getVideos(courseId: number, firstVideo: number, lastVideo: number): Observable<any> {
+    console.log("ENTRO");
     const json = {
       id: courseId,
       firstVideo: firstVideo,

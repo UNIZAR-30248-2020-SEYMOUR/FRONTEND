@@ -48,8 +48,8 @@
               </div>
               <div class="col-2 text-center"></div>
               <div class="col-2 text-center">
-                <input type="button"  (click)="openCreateVideoPopup()" id='btn-open-create-video'
-                       class="btn btn-sm btn-primary" value="Subir video">
+                <input type="button"  (click)="openCreateVideoPopUp()" id='btn-open-create-video'
+                       class="btn btn-sm btn-primary" value="Subir vídeo">
               </div>
               <div class="col-2 text-center">
                 <input type="button" (click)="openEditCoursePopup()" id='btn-open-edit-popup'
@@ -77,6 +77,93 @@
     </div>
     <!--End List of videos-->
 
+  </div>
+  <div class="overlay-pop-up" id="new-course-pop-up" [hidden]="!visibleVideoPopUp">
+    <div class="col-md-7 card p-5">
+      <button id='btn-close-new-course' (click)="closeCreateVideoPopUp()"
+              style="padding: 0; border: none; background: none; position: absolute;top: 20px;right: 30px;">
+        <i class="ni ni-fat-remove"></i>
+      </button>
+      <div class="row">
+        <h1>Subir vídeo</h1>
+      </div>
+      <div class="row">
+        <div class="col-md-12 card p-5">
+          <form [formGroup]="uploadVideoForm">
+            <table style="width: 100%">
+              <tr>
+                <td><h5>Seleccionar vídeo</h5></td>
+                <td><h5>Detalles del vídeo</h5></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3" id="div-title">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                      </div>
+                      <input class="form-control" placeholder="Título" type="text" formControlName="title"
+                             name="title" id="title-input" disabled="">
+                    </div>
+                    <div *ngIf="uploadVideoForm.controls['title'].errors?.required
+                            && uploadVideoForm.controls['title'].touched || titleError"
+                         class="invalid-register">
+                      <span id="required-title-feedback">El título es necesario</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="form-group" >
+                    <input type="file" name="file" id="file" (change)="loadVideo($event)"/>
+                  </div>
+                  <div *ngIf="loadVideoError" class="invalid-register">
+                    <span id="load-video-error-feedback">Error al subir el archivo</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3" id="div-description">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                      </div>
+                      <input class="form-control" placeholder="Descripción" type="text"  formControlName="description"
+                             name="description" id="description-input" disabled="">
+                    </div>
+                    <div *ngIf="uploadVideoForm.controls['description'].errors?.required
+                            && uploadVideoForm.controls['description'].touched
+                            || descriptionError"
+                         class="invalid-register">
+                      <span id="required-description-feedback">La descripción es necesaria</span>
+                    </div>
+                  </div>
+                  <div *ngIf="detailsError"
+                       class="invalid-register">
+                    <span id="details-error-feedback">Se ha producido un error</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="text-right" style="margin-right: 8%">
+                    <input class="btn btn-primary mt-4"
+                           value="Cargar vídeo" type="button" (click)="sendVideo()"/>
+                  </div>
+                </td>
+                <td>
+                  <div class="text-right">
+                    <input class="btn btn-primary mt-4" [disabled]="!loadedVideo"
+                           value="Subir vídeo" type="button" (click)="sendDetails()"/>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

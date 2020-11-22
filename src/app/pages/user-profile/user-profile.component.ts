@@ -28,8 +28,8 @@ export class UserProfileComponent implements OnInit {
 
   updateForm: FormGroup;
   createCourseForm: FormGroup;
-  triyingUser: boolean;
-  triyingCourse: boolean;
+  tryingUser: boolean;
+  tryingCourse: boolean;
   validUser: boolean;
   validEmail: boolean;
   deleteError: boolean;
@@ -66,7 +66,7 @@ export class UserProfileComponent implements OnInit {
    * This method save the user modified data
    */
   saveChanges() {
-    this.triyingUser = true;
+    this.tryingUser = true;
     if (this.updateForm.valid) {
       const user: SelfProfile = {
         uuid: this.cookie.get('uuid'),
@@ -124,7 +124,7 @@ export class UserProfileComponent implements OnInit {
    * This method cancel the user edition blocking the profile form inptus.
    */
   cancelUpdate() {
-    this.triyingUser = false;
+    this.tryingUser = false;
     this.validUser = true;
     this.validEmail = true;
     document.getElementById('input-username').classList.remove('invalid-input');
@@ -170,7 +170,7 @@ export class UserProfileComponent implements OnInit {
   closeNewCoursePopUp() {
     this.popupNewCourseVisible = false;
     this.createCourseForm.reset();
-    this.triyingCourse = false;
+    this.tryingCourse = false;
   }
 
   /**
@@ -184,7 +184,7 @@ export class UserProfileComponent implements OnInit {
    * This method save the course entered in the form.
    */
   saveCourse() {
-    this.triyingCourse = true;
+    this.tryingCourse = true;
     this.updateFeedback();
     if (this.createCourseForm.valid) {
       const combo = (<HTMLSelectElement>document.getElementById('combo-categories'));
@@ -227,7 +227,7 @@ export class UserProfileComponent implements OnInit {
       'description': new FormControl('')
     });
 
-    this.triyingUser = false;
+    this.tryingUser = false;
     this.validUser = true;
     this.validEmail = true;
 
@@ -241,7 +241,7 @@ export class UserProfileComponent implements OnInit {
     this.updateForm.controls['username'].disable();
     this.updateForm.controls['email'].disable();
     this.updateForm.controls['description'].disable();
-    this.triyingCourse = false;
+    this.tryingCourse = false;
   }
 
   /**
@@ -305,6 +305,12 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
+  /**
+   * This method deal with the errors received from the backend
+
+   * @param error: error message received from the backend
+   * @private
+   */
   private dealErrorNotDelete(error: JSON) {
     this.deleteError = true;
   }

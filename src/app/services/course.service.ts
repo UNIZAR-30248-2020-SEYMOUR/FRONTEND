@@ -42,7 +42,6 @@ export class CourseService {
     const json = {
       id: id
     };
-    alert(id);
     return this.http.post(this.apiUrl + '/get_info', JSON.stringify(json), this.httpOptions);
   }
 

@@ -28,7 +28,7 @@ export interface UsersProfile {
 
 export interface Video {
   id: number;
-  videoname: string;
+  name: string;
   description: string;
   videoUrl: string;
 }

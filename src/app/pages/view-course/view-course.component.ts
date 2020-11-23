@@ -73,6 +73,7 @@ export class ViewCourseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
   /**
@@ -89,7 +90,6 @@ export class ViewCourseComponent implements OnInit {
       }
     );
   }
-
 
   openEditCoursePopup() {
 
@@ -187,9 +187,10 @@ export class ViewCourseComponent implements OnInit {
   private showVideos(videos: Array<Video>) {
     if (videos.length < this.NUM_GET_VIDEOS) {
       this.moreVideos = false;
+    } else {
+      this.moreVideos = true;
     }
     videos.forEach(video => this.videos.push(video));
-    this.moreVideos = true;
   }
 
   /**

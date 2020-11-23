@@ -5,6 +5,9 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {By} from '@angular/platform-browser';
 
+/**
+ * Test the correct function of the component UserProfile
+ */
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
@@ -30,12 +33,18 @@ describe('UserProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  /**
+   * Tests the correct functioning of enabling and disabling the update profile form
+   */
   it('should enable and disable the update profile form', () => {
     testCorrectStartState();
     testEnableUpdateProfile();
     testDisableUpdateProfile();
   });
 
+  /**
+   * Test that show a message error if the username is empty when the user try to update profile
+   */
   it('should feedback invalid username because is empty', () => {
     testCorrectStartState();
     testEnableUpdateProfile();
@@ -50,6 +59,9 @@ describe('UserProfileComponent', () => {
     expect(fixture.debugElement.query(By.css('.invalid-input'))).toBeTruthy ();
   });
 
+  /**
+   * Test that show a message error if the username isn't enough long when the user try to update profile
+   */
   it('should feedback invalid username because is short', () => {
     testCorrectStartState();
     testEnableUpdateProfile();
@@ -64,6 +76,9 @@ describe('UserProfileComponent', () => {
     expect(fixture.debugElement.query(By.css('.invalid-input'))).toBeTruthy ();
   });
 
+  /**
+   * Test that show a message error if the username is too long when the user try to update profile
+   */
   it('should feedback invalid username because is long', () => {
     testCorrectStartState();
     testEnableUpdateProfile();
@@ -76,6 +91,9 @@ describe('UserProfileComponent', () => {
     expect(fixture.debugElement.query(By.css('.invalid-input'))).toBeTruthy ();
   });
 
+  /**
+   * Test that show a message error if the email is empty when the user try to update profile
+   */
   it('should feedback invalid email because is empty', () => {
     testCorrectStartState();
     testEnableUpdateProfile();
@@ -88,6 +106,9 @@ describe('UserProfileComponent', () => {
     expect(fixture.debugElement.query(By.css('.invalid-input'))).toBeTruthy ();
   });
 
+  /**
+   * Test that show a message error if the backend response is a error message when the user try to update profile
+   */
   it('should feedback error to update because backend response error', () => {
     testCorrectStartState();
     testEnableUpdateProfile();
@@ -100,6 +121,9 @@ describe('UserProfileComponent', () => {
     expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeTruthy ();
   });
 
+  /**
+   * Test that show a success message when the profile is updated
+   */
   it('should feedback success to update', () => {
     testCorrectStartState();
     testEnableUpdateProfile();
@@ -112,6 +136,9 @@ describe('UserProfileComponent', () => {
     expect(fixture.debugElement.query(By.css('.valid-backend-response'))).toBeTruthy ();
   });
 
+  /**
+   * Test that show and hide the delete profile pop up
+   */
   it('should open and close the delete profile pop up', () => {
     expect(document.getElementById('delete-pop-up').hidden).toBeTrue();
     document.getElementById('btn-open-delete-popup').click();
@@ -122,6 +149,9 @@ describe('UserProfileComponent', () => {
     expect(document.getElementById('delete-pop-up').hidden).toBeTrue();
   });
 
+  /**
+   * Test that show an error message if the backend response is a error message when the user try to delete a profile
+   */
   it('should show an error message when trying to delete the profile', () => {
     expect(document.getElementById('delete-pop-up').hidden).toBeTrue();
     expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeFalsy();
@@ -134,6 +164,9 @@ describe('UserProfileComponent', () => {
     expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeTruthy();
   });
 
+  /**
+   * Tests the correct functioning of cancel the deleted of a profile
+   */
   it('should cancel the deletion of the profile', () => {
     expect(document.getElementById('delete-pop-up').hidden).toBeTrue();
     document.getElementById('btn-open-delete-popup').click();
@@ -144,6 +177,9 @@ describe('UserProfileComponent', () => {
     expect(document.getElementById('delete-pop-up').hidden).toBeTrue();
   });
 
+  /**
+   * Test that show and hide the new course pop up
+   */
   it('should open and close the new course pop up', () => {
     expect(document.getElementById('new-course-pop-up').hidden).toBeTrue();
     document.getElementById('btn-open-new-course').click();
@@ -154,6 +190,9 @@ describe('UserProfileComponent', () => {
     expect(document.getElementById('new-course-pop-up').hidden).toBeTrue();
   });
 
+  /**
+   * Test that show a message error if the course name is empty when the user try to create a new course
+   */
   it('should feedback invalid course name  because is empty', () => {
     expect(document.getElementById('new-course-pop-up').hidden).toBeTrue();
     expect(fixture.debugElement.query(By.css('.invalid-input'))).toBeFalsy();
@@ -169,6 +208,9 @@ describe('UserProfileComponent', () => {
     expect(fixture.debugElement.query(By.css('.invalid-input'))).toBeTruthy ();
   });
 
+  /**
+   * Test that show a message error if the course category is not select when the user try to create a new course
+   */
   it('should feedback invalid course category  because is not select', () => {
     expect(document.getElementById('new-course-pop-up').hidden).toBeTrue();
     document.getElementById('btn-open-new-course').click();
@@ -181,6 +223,9 @@ describe('UserProfileComponent', () => {
     expect((<HTMLInputElement>document.getElementById('div-courseCategory')).classList.contains('invalid-input')).toBeTrue();
   });
 
+  /**
+   * Test the correct functioning when enable the update profile form
+   */
   function testEnableUpdateProfile() {
     document.getElementById('btn-enable-update').click();
     fixture.detectChanges();
@@ -191,6 +236,9 @@ describe('UserProfileComponent', () => {
     expect(component.updateForm.get('description').disabled).toBeFalse();
   }
 
+  /**
+   * Test the correct functioning when disable the update profile form
+   */
   function testDisableUpdateProfile() {
     expect(document.getElementById('btn-update').hidden).toBeFalse();
     expect(document.getElementById('btn-cancel-update').hidden).toBeFalse();
@@ -206,6 +254,9 @@ describe('UserProfileComponent', () => {
     expect(component.updateForm.get('description').disabled).toBeTrue();
   }
 
+  /**
+   * Test that initial state of the GUI is correct
+   */
   function testCorrectStartState() {
     expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeFalsy();
     expect(fixture.debugElement.query(By.css('.valid-backend-response'))).toBeFalsy();

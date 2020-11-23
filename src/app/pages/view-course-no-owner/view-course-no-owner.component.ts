@@ -29,6 +29,7 @@ export class ViewCourseNoOwnerComponent implements OnInit {
         description: ''
       };
     });
+
     this.videos = [];
     this.moreVideos = true;
     this.getCourseData();
@@ -45,7 +46,9 @@ export class ViewCourseNoOwnerComponent implements OnInit {
   getMoreVideos() {
     const observer = this.courseService.getVideos(this.course.id, this.videos.length, (this.videos.length + this.NUM_GET_VIDEOS));
     observer.subscribe(
-      data => this.showVideos(data.videos),
+      data => {
+        this.showVideos(data);
+      },
       error => {
         console.log(error.status);
       }
@@ -60,9 +63,10 @@ export class ViewCourseNoOwnerComponent implements OnInit {
   private showVideos(videos: Array<Video>) {
     if (videos.length < this.NUM_GET_VIDEOS) {
       this.moreVideos = false;
+    } else {
+      this.moreVideos = true;
     }
     videos.forEach(video => this.videos.push(video));
-    this.moreVideos = true;
   }
 
   /**

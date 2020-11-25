@@ -65,20 +65,10 @@ export class ViewCourseComponent implements OnInit {
     this.loadCategories();
     this.getMoreVideos();
 
-    this.uploadVideoForm = this.formBuilder.group({
-      video: [''],
-      title: new FormControl('', [Validators.required ]),
-      description: new FormControl('', [Validators.required])
-    });
-    this.courseId = -1;
-    this.videoId = -1;
+    this.initForms();
 
-    this.loadedVideo = false;
-    this.visibleVideoPopUp = false;
-    this.loadVideoError = false;
-    this.titleError = false;
-    this.descriptionError = false;
-    this.detailsError = false;
+    this.courseId = -1;
+    this.initVariables();
 
     this.uploadVideoForm.controls['title'].disable();
     this.uploadVideoForm.controls['description'].disable();
@@ -244,7 +234,7 @@ export class ViewCourseComponent implements OnInit {
   }
 
   /**
-   *
+   * Init de global variables.
    */
   initVariables() {
     this.videoId = -1;

@@ -76,4 +76,13 @@ export class CourseService {
     };
     return this.http.post(this.apiUrl + '/update_course', JSON.stringify(json), this.httpOptions);
   }
+
+  /**
+   * Remove a course.
+   * @param courseId Id of a course to delete.
+   */
+  removeCourse(courseId: number) {
+    const json = {id: courseId};
+    return this.http.post(this.apiUrl + '/delete', JSON.stringify(json), this.httpOptions);
+  }
 }

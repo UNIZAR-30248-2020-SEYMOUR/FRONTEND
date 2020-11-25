@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {VideosService} from '../../services/videos.service';
-import {Course, Video} from '../../interfaces';
+import {Category, Course, Video} from '../../interfaces';
 import {CourseService} from '../../services/course.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CategoriesService} from '../../services/categories.service';
 
 @Component({
   selector: 'app-view-course',
@@ -20,6 +21,7 @@ export class ViewCourseComponent implements OnInit {
 
   files = [];
   uploadVideoForm: FormGroup;
+  updateCourseForm: FormGroup;
   videoId: number;
   courseId: number;
   loadedVideo: boolean;
@@ -32,23 +34,35 @@ export class ViewCourseComponent implements OnInit {
   course: Course;
   videos: Array<Video>;
   moreVideos: boolean;
+  popupUpdateCourseVisible: boolean;
+  tryingUpdateCourse: boolean;
+  errorUpdateCourseBackend: boolean;
+  categories: Array<Category>;
 
   constructor(private courseService: CourseService,
               private formBuilder: FormBuilder,
               private videoService: VideosService,
-              private route: ActivatedRoute) {
-    this.route.params.subscribe(params => {
-      this.course = {
-        id: params.courseId,
-        coursename: '',
-        category:  {name: '', imageUrl: ''},
-        description: ''
-      };
+              private categoriesService: CategoriesService,
+              private router: ActivatedRoute,
+              private route: Router) {
+    this.router.params.subscribe(params => {
+        this.course = {
+          id: params.courseId,
+          coursename: '',
+          category:  {name: '', imageUrl: ''},
+          description: ''
+        };
+        this.course = {
+          id: params.courseId,
+          coursename: '',
+          category:  {name: '', imageUrl: ''},
+          description: ''
+        };
     });
-
     this.videos = [];
     this.moreVideos = true;
     this.getCourseData();
+    this.loadCategories();
     this.getMoreVideos();
 
     this.uploadVideoForm = this.formBuilder.group({
@@ -90,10 +104,22 @@ export class ViewCourseComponent implements OnInit {
     );
   }
 
-  openEditCoursePopup() {
-
+  /**
+   * Open the update pop up
+   */
+  openUpdateCoursePopup() {
+    this.popupUpdateCourseVisible = true;
   }
-
+  /**
+   * Close the update pop up and put the initial values to the variables and inputs.
+   */
+  closeUpdateCoursePopUp() {
+    this.updateCourseForm.get('courseName').setValue('');
+    this.updateCourseForm.get('courseDescription').setValue('');
+    this.popupUpdateCourseVisible = false;
+    this.tryingUpdateCourse = false;
+    this.errorUpdateCourseBackend = false;
+  }
   /**
    * Load the form with the loaded file.
    * @param event
@@ -201,6 +227,39 @@ export class ViewCourseComponent implements OnInit {
   }
 
   /**
+   * This method initialize and set the validation rules to the forms
+   * @private
+   */
+  private initForms() {
+    this.uploadVideoForm = this.formBuilder.group({
+      video: [''],
+      title: new FormControl('', [Validators.required ]),
+      description: new FormControl('', [Validators.required])
+    });
+    this.updateCourseForm = new FormGroup({
+      'courseName': new FormControl('', [Validators.required]),
+      'courseDescription': new FormControl(''),
+      'courseCategory': new FormControl('' , [Validators.required])
+    });
+  }
+
+  /**
+   *
+   */
+  initVariables() {
+    this.videoId = -1;
+    this.loadedVideo = false;
+    this.visibleVideoPopUp = false;
+    this.popupUpdateCourseVisible = false;
+    this.tryingUpdateCourse = false;
+    this.errorUpdateCourseBackend = false;
+    this.loadVideoError = false;
+    this.titleError = false;
+    this.descriptionError = false;
+    this.detailsError = false;
+  }
+
+  /**
    * Get the information of the course
    * @private
    */
@@ -214,6 +273,86 @@ export class ViewCourseComponent implements OnInit {
         category: data.category
       }; },
       error => {console.log(error.status); }
+    );
+  }
+
+  /**
+   * This method get the categories information from the backend server.
+   * @private
+   */
+  private loadCategories() {
+    const observer = this.categoriesService.getCategories();
+    observer.subscribe(
+      data => { this.categories = data; },
+      (error: HttpErrorResponse) => {console.log(error.status); this.dealNotUser(error.error); }
+    );
+  }
+
+  /**
+   * This method handles the errors from the backend requests
+   * @param error: error message received from the backend
+   * @private
+   */
+  private dealNotUser(error: JSON) {
+    if (error['error'] === 'User does not exist') {
+      this.route.navigate(['/login']);
+    }
+  }
+
+  /**
+   * This method update the course entered in the form.
+   */
+  updateCourse() {
+    this.tryingUpdateCourse = true;
+    if (this.updateCourseFormValid()) {
+      const combo = (<HTMLSelectElement>document.getElementById('combo-categories'));
+      const strUser = combo.options[combo.selectedIndex].text;
+      const auxCourse = {
+        id: this.course.id,
+        coursename: this.updateCourseForm.get('courseName').value,
+        description: this.updateCourseForm.get('courseDescription').value,
+        category: {name: strUser, imageUrl: ''}
+      };
+      this.backendUpdateCourse(auxCourse);
+    }
+  }
+
+  /**
+   * This function verify if the update course is valid.
+   * In case it is valid return true. In case it isn't valid show the error and return false
+   * @private
+   */
+  private updateCourseFormValid(): boolean {
+    let valid = true;
+    if (this.updateCourseForm.get('courseName').value === '') {
+      const courseNameInput = document.getElementById('input-course-name');
+      courseNameInput.classList.remove('invalid-input');
+      courseNameInput.classList.add('invalid-input');
+      valid = false;
+    }
+    if (this.updateCourseForm.get('courseCategory').value === '') {
+      const courseNameInput = document.getElementById('combo-categories');
+      courseNameInput.classList.remove('invalid-input');
+      courseNameInput.classList.add('invalid-input');
+      valid = false;
+    }
+    return valid;
+  }
+
+  /**
+   * This method send a update course petition to the backend server.
+   * @param auxCourse course to update
+   * @private
+   */
+  private backendUpdateCourse(auxCourse: Course) {
+    const observer = this.courseService.updateCourse(auxCourse);
+    observer.subscribe(
+      data => {  this.course.description = data.description;
+                      this.course.coursename = data.coursename;
+                      this.course.category.name = data.name;
+                      this.course.category.imageUrl = data.imageUrl;
+                      this.closeUpdateCoursePopUp(); },
+      error => { console.log(error.status); this.errorUpdateCourseBackend = true; }
     );
   }
 }

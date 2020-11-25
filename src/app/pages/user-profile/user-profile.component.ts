@@ -209,7 +209,7 @@ export class UserProfileComponent implements OnInit {
    * @param course Course to save.
    */
   backendSave(course: Course) {
-    const observer = this.courseService.saveCourse(course);
+    const observer = this.courseService.saveNewCourse(course);
     observer.subscribe(
       data => { this.getUserData(); },
       (error: HttpErrorResponse) => {console.log(error.status); this.dealNotUser(error.error); }

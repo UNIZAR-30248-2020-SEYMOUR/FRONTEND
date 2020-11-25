@@ -5,7 +5,6 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
 
-
 describe('ViewCourseComponent', () => {
   let component: ViewCourseComponent;
   let fixture: ComponentFixture<ViewCourseComponent>;
@@ -60,4 +59,11 @@ describe('ViewCourseComponent', () => {
     fixture.detectChanges();
 
   });
+  /**
+   * Verifies that the component in correctly loaded.
+   */
+   it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
 });

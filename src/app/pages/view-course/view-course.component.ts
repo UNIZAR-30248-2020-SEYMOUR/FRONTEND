@@ -197,6 +197,13 @@ export class ViewCourseComponent implements OnInit {
   closeCreateVideoPopUp() {
     this.visibleVideoPopUp = false;
     this.getMoreVideos();
+    this.uploadVideoForm.reset();
+    this.uploadVideoForm.get('title').setValue('');
+    this.uploadVideoForm.get('description').setValue('');
+    this.uploadVideoForm.get('title').disable();
+    this.uploadVideoForm.get('description').disable();
+    (<HTMLInputElement> document.getElementById('file')).value = '';
+    this.loadedVideo = false;
   }
 
   /**

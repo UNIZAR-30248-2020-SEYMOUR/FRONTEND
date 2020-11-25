@@ -325,7 +325,8 @@ export class ViewCourseComponent implements OnInit {
     observer.subscribe(
       data => {  this.course.description = data.description;
                       this.course.coursename = data.coursename;
-                      this.course.category.name = data.category;
+                      this.course.category.name = data.name;
+                      this.course.category.imageUrl = data.imageUrl;
                       this.closeUpdateCoursePopUp(); },
       error => { console.log(error.status); this.errorUpdateCourseBackend = true; }
     );

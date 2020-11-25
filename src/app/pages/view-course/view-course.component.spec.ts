@@ -23,7 +23,11 @@ describe('ViewCourseComponent', () => {
     fixture.detectChanges();
   });
 
+  /**
+   * Verifies that the component in correctly loaded.
+   */
    it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

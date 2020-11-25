@@ -23,7 +23,7 @@ export class CourseService {
    * Save a course in the backend
    @return Observable that receive the response of the server
    */
-  saveCourse(course: Course): Observable<any> {
+  saveNewCourse(course: Course): Observable<any> {
     const json = {
       owner: this.cookie.get('uuid'),
       coursename: course.coursename,
@@ -61,5 +61,19 @@ export class CourseService {
       lastVideo: lastVideo
     };
     return this.http.post(this.apiUrl + '/get_videos', JSON.stringify(json), this.httpOptions);
+  }
+
+  /**
+   * This method update a course in backend
+   * @param course: data of the course updated
+   */
+  updateCourse(course: Course): Observable<any> {
+    const json = {
+      id: course.id,
+      coursename: course.coursename,
+      description: course.description,
+      category: course.category.name
+    };
+    return this.http.post(this.apiUrl + '/update_course', JSON.stringify(json), this.httpOptions);
   }
 }

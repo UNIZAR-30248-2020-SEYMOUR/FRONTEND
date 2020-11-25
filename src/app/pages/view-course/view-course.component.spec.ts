@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewCourseComponent } from './view-course.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {ReactiveFormsModule} from '@angular/forms';
 
 describe('ViewCourseComponent', () => {
   let component: ViewCourseComponent;
@@ -8,6 +11,7 @@ describe('ViewCourseComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule],
       declarations: [ ViewCourseComponent ]
     })
     .compileComponents();
@@ -19,7 +23,7 @@ describe('ViewCourseComponent', () => {
     fixture.detectChanges();
   });
 
- /*  it('should create', () => {
+   it('should create', () => {
     expect(component).toBeTruthy();
-  });*/
+  });
 });

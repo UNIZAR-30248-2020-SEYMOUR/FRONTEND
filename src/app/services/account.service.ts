@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Login, SelfProfile} from '../interfaces';
 import {CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
-import {placeholdersToParams} from '@angular/compiler/src/render3/view/i18n/util';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +52,20 @@ export class AccountService {
     const uuid = data['UUID'];
     this.cookie.set('uuid', uuid);
   }
+
+  /**
+   * Obtains the courses of the open sesion user
+   * @return Observable that receive the response of the server
+   */
+  getUserNoOwnerData(username: string): Observable<any> {
+    const json = {
+      username: username
+    };
+
+    const params = JSON.stringify(json);
+    return this.http.post(this.apiUrl + '/get_user' , params, this.httpOptions);
+  }
+
 
   /**
    * Obtains the courses of the open sesion user

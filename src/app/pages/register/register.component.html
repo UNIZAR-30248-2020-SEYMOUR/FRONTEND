@@ -66,12 +66,16 @@
               </div>
             </div>
             <div class="form-group">
-              <div class="input-group input-group-alternative">
+              <div class="input-group input-group-alternative" id="div-description">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                 </div>
-                <textarea id="description" class="form-control" formControlName="description" [ngModel]=""
+                <textarea id="description" class="form-control" formControlName="description"
+                          [ngClass]="{'is-invalid': !registerForm.get('description').valid}"
                           placeholder="Descripción" type="text"></textarea>
+              </div>
+              <div *ngIf="registerForm.controls['description'].errors?.maxlength && trying" class="invalid-register">
+                La descripción es demasiado larga
               </div>
             </div>
             <div class="form-group">

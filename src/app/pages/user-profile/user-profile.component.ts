@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Category, Course, SelfProfile} from '../../interfaces';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpErrorResponse} from '@angular/common/http';
 import {AccountService} from '../../services/account.service';
 import {Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
@@ -22,39 +22,41 @@ import {CategoriesService} from '../../services/categories.service';
 export class UserProfileComponent implements OnInit {
   user: SelfProfile;
 
-  courses: Course[];
   disabled: any;
-  valuation: number;
 
   updateForm: FormGroup;
   createCourseForm: FormGroup;
   tryingUser: boolean;
   tryingCourse: boolean;
-  validUser: boolean;
-  validEmail: boolean;
-  deleteError: boolean;
+  deleteProfileError: boolean;
+  deleteCourseError: boolean;
   updateError: boolean;
   popupNewCourseVisible: boolean;
   popupDeleteProfileVisible: boolean;
   categories: Category[];
+  popupDeleteCourseVisible: boolean;
+
+  private validUser: boolean;
+  private validEmail: boolean;
+  private courseToDelete: number;
 
   constructor(private accountService: AccountService, private courseService: CourseService, private categoriesService: CategoriesService,
               private route: Router, private cookie: CookieService) {
+
    this.popupNewCourseVisible = false;
    this.popupDeleteProfileVisible = false;
-   this.deleteError = false;
+   this.deleteProfileError = false;
+   this.deleteCourseError = false;
    this.updateError = false;
     this.user = {
       uuid: '',
       username: 'No válido',
       email: 'noValido@ld.com',
       description: 'lorem ipsum dolor asdfas csadcasdcsadca sdcasd csadcsac',
-      password: ''};
+      password: '',
+      courses: [],
+      rate: 0};
     this.disabled = 'false';
-    this.courses = [{ id: 1, coursename: 'uno', description: 'lid', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}},
-        {id: 2, coursename: 'dos', description: 'lid2', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}},
-        {id: 3, coursename: 'tres', description: 'lid3', category: {name: 'Tech', imageUrl: '/assets/img/categories/otros.jpg'}}],
-    this.valuation = 5.4;
 
 
     this.initializeForms();
@@ -73,7 +75,9 @@ export class UserProfileComponent implements OnInit {
         username: this.updateForm.get('username').value,
         email: this.updateForm.get('email').value,
         password: '',
-        description: this.updateForm.get('description').value
+        description: this.updateForm.get('description').value,
+        courses: [],
+        rate: 0
       };
       const observer = this.accountService.updateProfile(user);
       observer.subscribe(
@@ -146,7 +150,7 @@ export class UserProfileComponent implements OnInit {
         this.user.username = data.username;
         this.user.description = data.description;
         this.user.email = data.email;
-        this.courses = data.courses;
+        this.user.courses = data.courses;
 
       },
       (error: HttpErrorResponse) => {console.log(error.status);  this.dealNotUser(error.error); }
@@ -300,8 +304,8 @@ export class UserProfileComponent implements OnInit {
   deleteUserProfile() {
     const observer = this.accountService.deleteUser(this.cookie.get('uuid'));
     observer.subscribe(
-      data => {this.route.navigate(['/login']); this.deleteError = false; this.closeDeletePopup(); },
-      error => {console.log(error.status); this.dealErrorNotDelete(error.error); }
+      data => {this.route.navigate(['/login']); this.deleteProfileError = false; this.closeDeleteProfilePopup(); },
+      error => {console.log(error.status); this.dealErrorNotDeleteProfile(error.error); }
     );
   }
 
@@ -311,22 +315,62 @@ export class UserProfileComponent implements OnInit {
    * @param error: error message received from the backend
    * @private
    */
-  private dealErrorNotDelete(error: JSON) {
-    this.deleteError = true;
+  private dealErrorNotDeleteProfile(error: JSON) {
+    this.deleteProfileError = true;
   }
 
   /**
    * Shows the user delete pop up
    */
-  openDeletePopup() {
+  openDeleteProfilePopup() {
     this.popupDeleteProfileVisible = true;
   }
 
   /**
    * Closes the user delete pop up
    */
-  closeDeletePopup() {
-    this.deleteError = false;
+  closeDeleteProfilePopup() {
+    this.deleteProfileError = false;
     this.popupDeleteProfileVisible = false;
+  }
+
+  /**
+   * Shows the user delete pop up
+   */
+  openDeleteCoursePopup() {
+    this.popupDeleteCourseVisible = true;
+  }
+
+  /**
+   * Closes the user delete pop up
+   */
+  closeDeleteCoursePopup() {
+    this.deleteCourseError = false;
+    this.popupDeleteCourseVisible = false;
+  }
+
+  /**
+   * Tries to delete a course (Opening a confirm dialog);
+   */
+  tryDeleteCourse(id: number) {
+    this.courseToDelete = id;
+    this.openDeleteCoursePopup();
+  }
+
+  private dealErrorNotDeleteCourse() {
+    this.deleteCourseError = true;
+  }
+
+  /**
+   * Send a deletion request to the backend;
+   */
+  deleteCourse() {
+    const observer = this.courseService.removeCourse(this.courseToDelete);
+    this.closeDeleteCoursePopup();
+
+    observer.subscribe(
+      data => {this.getUserData(); },
+      error => {console.log(error.status); this.dealErrorNotDeleteCourse(); }
+    );
   }
 }

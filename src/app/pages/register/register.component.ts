@@ -5,6 +5,8 @@ import {AccountService} from '../../services/account.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 
+
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -34,7 +36,9 @@ export class RegisterComponent implements OnInit {
       'email': new FormControl('', [Validators.required ]),
       'pswd': new FormControl('', [Validators.required, Validators.minLength(8)]),
       'repeat-pswd': new FormControl('', [Validators.required]),
-      'description': new FormControl('')
+      'description':  new FormControl('', [
+        Validators.maxLength(500)
+      ]),
     });
   }
 
@@ -63,7 +67,9 @@ export class RegisterComponent implements OnInit {
         username: this.registerForm.get('username').value,
         email: this.registerForm.get('email').value,
         password: this.registerForm.get('pswd').value,
-        description: this.registerForm.get('description').value
+        description: this.registerForm.get('description').value,
+        rate: 0,
+        courses: []
       };
       const observer = this.registerService.register(user);
       observer.subscribe(
@@ -104,20 +110,30 @@ export class RegisterComponent implements OnInit {
    * @private
    */
   private updateFeedback() {
-    if (!this.registerForm.controls['username'].valid || !this.validUser) {
-      const usernameInput = document.getElementById('div-username');
+    this.updateUsernameFeedback();
+    this.updateEmailFeedback();
+    this.updatePasswordFeedback();
+    this.updateDescriptionFeedback();
+  }
+
+  /**
+   * Print the description feedback
+   * @private
+   */
+  private updateDescriptionFeedback() {
+    if (!this.registerForm.controls['description'].valid) {
+      const usernameInput = document.getElementById('div-description');
       usernameInput.classList.remove('invalid-input');
       usernameInput.classList.add('invalid-input');
     } else {
-      document.getElementById('div-username').classList.remove('invalid-input');
+      document.getElementById('div-description').classList.remove('invalid-input');
     }
-    if (!this.registerForm.controls['email'].valid || !this.validEmail) {
-      const emailInput = document.getElementById('div-email');
-      emailInput.classList.remove('invalid-input');
-      emailInput.classList.add('invalid-input');
-    } else {
-       document.getElementById('div-email').classList.remove('invalid-input');
-    }
+  }
+  /**
+   * Print the password feedback
+   * @private
+   */
+  private updatePasswordFeedback() {
     if (this.registerForm.controls['pswd'].errors?.required) {
       const pswdInput = document.getElementById('div-pswd');
       pswdInput.classList.remove('invalid-input');
@@ -134,6 +150,32 @@ export class RegisterComponent implements OnInit {
       repeatPswdInput.classList.add('invalid-input');
     } else {
       document.getElementById('div-repeat-pswd').classList.remove('invalid-input');
+    }
+  }
+  /**
+   * Print the email feedback
+   * @private
+   */
+  private updateEmailFeedback() {
+    if (!this.registerForm.controls['email'].valid || !this.validEmail) {
+      const emailInput = document.getElementById('div-email');
+      emailInput.classList.remove('invalid-input');
+      emailInput.classList.add('invalid-input');
+    } else {
+      document.getElementById('div-email').classList.remove('invalid-input');
+    }
+  }
+  /**
+   * Print the username feedback
+   * @private
+   */
+  private updateUsernameFeedback() {
+    if (!this.registerForm.controls['username'].valid || !this.validUser) {
+      const usernameInput = document.getElementById('div-username');
+      usernameInput.classList.remove('invalid-input');
+      usernameInput.classList.add('invalid-input');
+    } else {
+      document.getElementById('div-username').classList.remove('invalid-input');
     }
   }
 }

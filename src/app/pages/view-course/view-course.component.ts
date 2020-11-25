@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {VideosService} from '../../services/videos.service';
@@ -20,7 +20,6 @@ export class ViewCourseComponent implements OnInit {
 
   files = [];
   uploadVideoForm: FormGroup;
-  videoDetailsForm: FormGroup;
   videoId: number;
   courseId: number;
   loadedVideo: boolean;
@@ -38,7 +37,7 @@ export class ViewCourseComponent implements OnInit {
               private formBuilder: FormBuilder,
               private videoService: VideosService,
               private route: ActivatedRoute) {
-    const sub = this.route.params.subscribe(params => {
+    this.route.params.subscribe(params => {
       this.course = {
         id: params.courseId,
         coursename: '',
@@ -97,7 +96,7 @@ export class ViewCourseComponent implements OnInit {
 
   /**
    * Load the form with the loaded file.
-   * @param UI event with the file selection
+   * @param event
    */
   loadVideo(event) {
    if (event.target.files.length > 0) {
@@ -162,6 +161,18 @@ export class ViewCourseComponent implements OnInit {
     }
     this.titleError = this.uploadVideoForm.controls['title'].errors?.required;
     this.descriptionError = this.uploadVideoForm.controls['description'].errors?.required;
+    const titleInput = document.getElementById('div-title');
+    if (this.titleError) {
+      titleInput.classList.add('invalid-input');
+    } else {
+      titleInput.classList.remove('invalid-input');
+    }
+
+    if (this.descriptionError) {
+      document.getElementById('div-description').classList.add('invalid-input');
+    } else {
+      document.getElementById('div-description').classList.remove('invalid-input');
+    }
   }
 
   /**
@@ -185,11 +196,7 @@ export class ViewCourseComponent implements OnInit {
    * @private
    */
   private showVideos(videos: Array<Video>) {
-    if (videos.length < this.NUM_GET_VIDEOS) {
-      this.moreVideos = false;
-    } else {
-      this.moreVideos = true;
-    }
+    this.moreVideos = videos.length >= this.NUM_GET_VIDEOS;
     videos.forEach(video => this.videos.push(video));
   }
 

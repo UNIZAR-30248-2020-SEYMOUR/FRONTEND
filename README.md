@@ -154,8 +154,8 @@ argon-dashboard-angular
 │   │   │   └── user-profile
 │   │   │       ├── user-profile.component.html
 │   │   │       ├── user-profile.component.scss
-│   │   │       ├── user-profile.component.spec.ts
-│   │   │       └── user-profile.component.ts
+│   │   │       ├── user-profile-no-owner.component.spec.ts
+│   │   │       └── user-profile-no-owner.component.ts
 │   │   └── variables
 │   │       └── charts.ts
 │   ├── assets

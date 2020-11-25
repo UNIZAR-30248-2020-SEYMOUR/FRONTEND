@@ -16,7 +16,7 @@
   vertical-align: middle;
 }
 .course-category{
-  margin-left: 25px;
+  margin-left: 20px;
 }
 .course-title{
   text-transform: capitalize;
@@ -113,27 +113,4 @@ h2{
   margin-top: 0.25rem;
   font-size: 80%;
   color: #dc3545;
-}
-.delete-container {
-  width: 20%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.delete-icon{
-  font-size: 25px;
-  cursor: pointer;
-}
-
-.delete-icon:hover{
-  color: #dc3545;
-}
-.btn-close-new-course{
-  padding: 0;
-  border: none;
-  background: none;
-  position: absolute;
-  top: 20px;
-  right: 30px;
-
 }

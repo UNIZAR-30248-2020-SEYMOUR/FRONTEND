@@ -4,6 +4,8 @@ export interface SelfProfile {
   email: string;
   description: string;
   password: string;
+  courses: Course[];
+  rate: number;
 }
 
 export interface Login {
@@ -22,8 +24,11 @@ export interface Category {
   imageUrl: string;
 }
 export interface UsersProfile {
+  rate: number;
   username: string;
+  email: string;
   description: string;
+  courses: Course[];
 }
 
 export interface Video {

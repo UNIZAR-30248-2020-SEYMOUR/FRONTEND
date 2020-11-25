@@ -8,7 +8,6 @@
       md-10">
         <h1 class="display-2 text-white">Resultados de {{searchText}}</h1>
         <p class="text-white mt-0 mb-5">A continuación se muestran los usuarios de la búsqueda</p>
-        <!-- <a href="#!" class="btn btn-info">Edit profile</a>  -->
       </div>
     </div>
   </div>
@@ -22,26 +21,22 @@
             <div class="col-6">
               <h3 class="mb-0">Búsqueda</h3>
             </div>
-
           </div>
         </div>
         <div class="card-body">
           <div class="pl-lg-12">
-
-             <div *ngFor=" let profile of profiles" class="course" >
-               <div class="row">
-               <div class=" col-2">
-                <img class="image-profile" src="https://avatars.dicebear.com/api/human/{{profile.username}}.svg"/>
-               </div>
-               <div class="col-10 card-profile">
-                <!--  <h1 class="h1-profile" [routerLink]="['/user', profile.username]">{{profile.username}}</h1> -->
-                <h1 class="h1-profile">{{profile.username}}</h1>
-                <p class="p-profile">{{profile.description}}</p>
-               </div>
-               </div>
-               <hr class="my-4" />
+            <div *ngFor=" let profile of profiles" class="course" >
+              <div class="row">
+                <div class=" col-2">
+                  <img class="image-profile" src="https://avatars.dicebear.com/api/human/{{profile.username}}.svg"/>
+                </div>
+                <div class="col-10 card-profile" style="padding-top: 2%">
+                  <h1><a [routerLink]="['/user-profile-no-owner', profile.username]">{{profile.username}}</a></h1>
+                  <p class="p-profile">{{profile.description}}</p>
+                </div>
               </div>
-
+             <hr class="my-4" />
+            </div>
           </div>
           <hr class="my-4" />
         </div>

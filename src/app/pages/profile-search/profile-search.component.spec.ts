@@ -1,17 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import { ProfileSearchComponent } from './profile-search.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {ReactiveFormsModule} from '@angular/forms';
 
 describe('ProfileSearchComponent', () => {
   let component: ProfileSearchComponent;
   let fixture: ComponentFixture<ProfileSearchComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule],
       declarations: [ ProfileSearchComponent ]
     })
-    .compileComponents();
-  });
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfileSearchComponent);
@@ -19,7 +23,10 @@ describe('ProfileSearchComponent', () => {
     fixture.detectChanges();
   });
 
-  /*it('should create', () => {
+  /**
+   * Verifica que el componente se ha cargado correctamente.
+   */
+  it('should create', () => {
     expect(component).toBeTruthy();
-  });*/
+  });
 });

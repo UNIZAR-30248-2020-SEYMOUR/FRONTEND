@@ -33,11 +33,11 @@
             <div class="col">
               <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                 <div>
-                  <span class="heading">{{courses.length}}</span>
+                  <span class="heading">{{user.courses.length}}</span>
                   <span class="description">Cursos</span>
                 </div>
                 <div>
-                  <span class="heading">{{valuation}}</span>
+                  <span class="heading">{{user.rate}}</span>
                   <span class="description">Valoración</span>
                 </div>
               </div>
@@ -67,7 +67,7 @@
                      class="btn btn-sm btn-primary" value="Modificar perfil">
             </div>
             <div class="col-2 text-center">
-              <input type="button" [disabled]="!disabled" (click)="openDeletePopup()" id='btn-open-delete-popup'
+              <input type="button" [disabled]="!disabled" (click)="openDeleteProfilePopup()" id="btn-open-delete-profile-popup"
                      class="btn btn-sm btn-primary" value="Borrar perfil">
             </div>
           </div>
@@ -113,16 +113,16 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" >Descripción</label>
+                    <label class="form-control-label" for="input-description" >Descripción</label>
                     <input type="text" id="input-description" formControlName="description"
-                           class="form-control form-control-alternative" placeholder="{{user.description}}" value="">
+                         class="form-control form-control-alternative" placeholder="{{user.description}}" value="">
                   </div>
                 </div>
               </div>
             </div>
             <div class="row align-items-center">
               <div class="col-2 text-center">
-                <input type="button" [hidden]="disabled" (click)="saveChanges()" id='btn-update'class="btn btn-sm btn-primary" value="Guardar">
+                <input type="button" [hidden]="disabled" (click)="saveChanges()" id='btn-update' class="btn btn-sm btn-primary" value="Guardar">
               </div>
 
               <div class="col-2 text-center">
@@ -135,17 +135,25 @@
             <!-- Address -->
             <h6 class="heading-small text-muted mb-4">Tus cursos </h6>
             <div class="pl-lg-4">
-              <div class="row">
+              <div class="row" style="margin-bottom: 20px">
                 <div class="col-1 text-right">
                   <input type="button" id="btn-open-new-course" (click)="openNewCoursePopUp()" class="btn btn-sm btn-primary" value="Nuevo curso">
                 </div>
               </div>
               <div class="row">
-                 <div *ngFor=" let course of courses" class="col-md-5 course" >
-                   <img class="image-course" src="{{course.category.imageUrl}}"/>
-                   <a [routerLink]="['/view-course', course.id]" class="course-title">{{course.coursename}}</a>
-                   <p class="course-category">{{course.category.name}}</p>
-                 </div>
+                <div *ngFor=" let course of user.courses" class="col-md-5 course">
+                  <img class="image-course" src="{{course.category.imageUrl}}"/>
+                  <div style="display: flex;">
+                    <div style="padding-top: 2%; width: 40%">
+                      <a [routerLink]="['/view-course', course.id]" class="course-title">{{course.coursename}}</a>
+                      <p class="course-category">{{course.category.name}}</p>
+                    </div>
+                    <div style="width: 40%"></div>
+                    <div class="delete-container" id="btn-open-delete-course-popup" (click)="tryDeleteCourse(course.id)">
+                      <div class="fa fa-trash delete-icon"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <hr class="my-4" />
@@ -157,8 +165,8 @@
   <!--New Courser PopUp-->
   <div class="overlay-pop-up" id="new-course-pop-up" [hidden]="!popupNewCourseVisible">
     <div class="col-md-7 card p-5">
-      <button id='btn-close-new-course' (click)="closeNewCoursePopUp()"
-         style="padding: 0; border: none; background: none; position: absolute;top: 20px;right: 30px;"><i class="ni ni-fat-remove"></i></button>
+      <button id='btn-close-new-course' (click)="closeNewCoursePopUp()" class="btn-close-new-course">
+        <i class="ni ni-fat-remove"></i></button>
       <h1>Nuevo curso</h1>
       <form role="form" [formGroup]="createCourseForm">
         <div class="form-group">
@@ -200,22 +208,41 @@
   </div>
   <!--End New Courser PopUp-->
 
-  <!--Delete PopUp-->
-  <div class="overlay-pop-up" id='delete-pop-up' [hidden]="!popupDeleteProfileVisible">
+  <!--Delete user PopUp-->
+  <div class="overlay-pop-up" id="delete-profile-pop-up" [hidden]="!popupDeleteProfileVisible">
     <div class="col-md-7 card p-5">
-      <button (click)="closeDeletePopup()" id="btn-close-delete-pop-up"
-         style="padding: 0; border: none; background: none; position: absolute;top: 20px;right: 30px;">
+      <button (click)="closeDeleteProfilePopup()" id="btn-close-delete-profile-pop-up"
+              style="padding: 0; border: none; background: none; position: absolute;top: 20px;right: 30px;">
         <i class="ni ni-fat-remove"></i></button>
       <h3>¿Seguro que quieres eliminar tu perfil?</h3> <i ></i>
-      <div *ngIf="deleteError" class="invalid-backend-response">
+      <div *ngIf="deleteProfileError" class="invalid-backend-response">
         Error al borrar tu cuenta prueba otra vez.
       </div>
       <div class="text-center">
         <button type="button" id="btn-delete" (click)="deleteUserProfile()" class="btn btn-primary mt-4">Aceptar</button>
-        <button type="button" id="btn-cancel-delete"(click)="closeDeletePopup()" class="btn btn-primary mt-4">Cancelar</button>
+        <button type="button" id="btn-cancel-delete-profile" (click)="closeDeleteProfilePopup()" class="btn btn-primary mt-4">Cancelar</button>
       </div>
     </div>
   </div>
-  <!--End Delete PopUp-->
+  <!--End Delete user PopUp-->
+
+  <!--Delete course PopUp-->
+  <div class="overlay-pop-up" id='delete-course-pop-up' [hidden]="!popupDeleteCourseVisible">
+    <div class="col-md-7 card p-5">
+      <button (click)="closeDeleteCoursePopup()" id="btn-course-delete-pop-up"
+              style="padding: 0; border: none; background: none; position: absolute;top: 20px;right: 30px;">
+        <i class="ni ni-fat-remove"></i></button>
+      <h3>¿Seguro que quieres eliminar tu perfil?</h3> <i ></i>
+      <div *ngIf="deleteCourseError" class="invalid-backend-response">
+        Error al borrar tu cuenta prueba otra vez.
+      </div>
+      <div class="text-center">
+        <button type="button" id="btn-delete-course" (click)="deleteCourse()" class="btn btn-primary mt-4">Aceptar</button>
+        <button type="button" id="btn-cancel-delete-course" (click)="closeDeleteCoursePopup()" class="btn btn-primary mt-4">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  <!--End Delete group PopUp-->
+
 </div>
 

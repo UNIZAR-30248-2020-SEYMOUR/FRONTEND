@@ -4,6 +4,7 @@ import { UserProfileComponent } from './user-profile.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {By} from '@angular/platform-browser';
+import {Category} from '../../interfaces';
 
 /**
  * Test the correct function of the component UserProfile
@@ -140,26 +141,26 @@ describe('UserProfileComponent', () => {
    * Test that show and hide the delete profile pop up
    */
   it('should open and close the delete profile pop up', () => {
-    expect(document.getElementById('delete-pop-up').hidden).toBeTrue();
-    document.getElementById('btn-open-delete-popup').click();
+    expect(document.getElementById('delete-profile-pop-up').hidden).toBeTrue();
+    document.getElementById('btn-open-delete-profile-popup').click();
     fixture.detectChanges();
-    expect(document.getElementById('delete-pop-up').hidden).toBeFalse();
-    document.getElementById('btn-close-delete-pop-up').click();
+    expect(document.getElementById('delete-profile-pop-up').hidden).toBeFalse();
+    document.getElementById('btn-close-delete-profile-pop-up').click();
     fixture.detectChanges();
-    expect(document.getElementById('delete-pop-up').hidden).toBeTrue();
+    expect(document.getElementById('delete-profile-pop-up').hidden).toBeTrue();
   });
 
   /**
    * Test that show an error message if the backend response is a error message when the user try to delete a profile
    */
   it('should show an error message when trying to delete the profile', () => {
-    expect(document.getElementById('delete-pop-up').hidden).toBeTrue();
+    expect(document.getElementById('delete-profile-pop-up').hidden).toBeTrue();
     expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeFalsy();
-    document.getElementById('btn-open-delete-popup').click();
+    document.getElementById('btn-open-delete-profile-popup').click();
     fixture.detectChanges();
-    expect(document.getElementById('delete-pop-up').hidden).toBeFalse();
+    expect(document.getElementById('delete-profile-pop-up').hidden).toBeFalse();
     document.getElementById('btn-delete').click();
-    component.deleteError = true;
+    component.deleteProfileError = true;
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeTruthy();
   });
@@ -168,13 +169,13 @@ describe('UserProfileComponent', () => {
    * Tests the correct functioning of cancel the deleted of a profile
    */
   it('should cancel the deletion of the profile', () => {
-    expect(document.getElementById('delete-pop-up').hidden).toBeTrue();
-    document.getElementById('btn-open-delete-popup').click();
+    expect(document.getElementById('delete-profile-pop-up').hidden).toBeTrue();
+    document.getElementById('btn-open-delete-profile-popup').click();
     fixture.detectChanges();
-    expect(document.getElementById('delete-pop-up').hidden).toBeFalse();
-    document.getElementById('btn-cancel-delete').click();
+    expect(document.getElementById('delete-profile-pop-up').hidden).toBeFalse();
+    document.getElementById('btn-cancel-delete-profile').click();
     fixture.detectChanges();
-    expect(document.getElementById('delete-pop-up').hidden).toBeTrue();
+    expect(document.getElementById('delete-profile-pop-up').hidden).toBeTrue();
   });
 
   /**
@@ -270,4 +271,34 @@ describe('UserProfileComponent', () => {
     expect((<HTMLInputElement>document.getElementById('input-username')).classList.contains('invalid-input')).toBeFalse();
     expect((<HTMLInputElement>document.getElementById('input-description')).classList.contains('invalid-input')).toBeFalse();
   }
+
+  /**
+   * Tests the correct functioning of cancel the deletion of a course
+   */
+  it('should cancel the deletion of the course', () => {
+    expect(document.getElementById('delete-course-pop-up').hidden).toBeTrue();
+    component.user.courses = [{ id: 1, coursename: 'testCourse', description: 'test', category: { name: 'Desarrollo personal', imageUrl: 'assets/img/categories/desarrolloPersonal.jpg' }}];
+    fixture.detectChanges();
+    document.getElementById('btn-open-delete-course-popup').click();
+    fixture.detectChanges();
+    expect(document.getElementById('delete-course-pop-up').hidden).toBeFalse();
+    document.getElementById('btn-cancel-delete-course').click();
+    fixture.detectChanges();
+    expect(document.getElementById('delete-course-pop-up').hidden).toBeTrue();
+  });
+
+  /**
+   * Tests the correct functioning of deletion of a course
+   */
+  it('should cancel the deletion of the course', () => {
+    expect(document.getElementById('delete-course-pop-up').hidden).toBeTrue();
+    component.user.courses = [{ id: 1, coursename: 'testCourse', description: 'test', category: { name: 'Desarrollo personal', imageUrl: 'assets/img/categories/desarrolloPersonal.jpg' }}];
+    fixture.detectChanges();
+    document.getElementById('btn-open-delete-course-popup').click();
+    fixture.detectChanges();
+    expect(document.getElementById('delete-course-pop-up').hidden).toBeFalse();
+    document.getElementById('btn-delete-course').click();
+    fixture.detectChanges();
+    expect(document.getElementById('delete-course-pop-up').hidden).toBeTrue();
+  });
 });

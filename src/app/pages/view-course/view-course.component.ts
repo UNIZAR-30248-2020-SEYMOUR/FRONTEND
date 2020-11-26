@@ -83,7 +83,7 @@ export class ViewCourseComponent implements OnInit {
    * This method get videos of the course that is showing
    */
   getMoreVideos() {
-    const observer = this.courseService.getVideos(this.course.id, this.videos.length, (this.videos.length + this.NUM_GET_VIDEOS));
+    const observer = this.courseService.getVideos(this.course.id, this.videos.length + 1, (this.videos.length + this.NUM_GET_VIDEOS));
     observer.subscribe(
       data => {
         this.showVideos(data);
@@ -235,7 +235,7 @@ export class ViewCourseComponent implements OnInit {
     });
     this.updateCourseForm = new FormGroup({
       'courseName': new FormControl('', [Validators.required]),
-      'courseDescription': new FormControl(''),
+      'courseDescription': new FormControl('', [Validators.required]),
       'courseCategory': new FormControl('' , [Validators.required])
     });
   }
@@ -322,9 +322,15 @@ export class ViewCourseComponent implements OnInit {
   private updateCourseFormValid(): boolean {
     let valid = true;
     if (this.updateCourseForm.get('courseName').value === '') {
-      const courseNameInput = document.getElementById('input-course-name');
+      const courseNameInput = document.getElementById('div-courseName');
       courseNameInput.classList.remove('invalid-input');
       courseNameInput.classList.add('invalid-input');
+      valid = false;
+    }
+    if (this.updateCourseForm.get('courseDescription').value === '') {
+      const courseDescriptionInput = document.getElementById('div-courseDescription');
+      courseDescriptionInput.classList.remove('invalid-input');
+      courseDescriptionInput.classList.add('invalid-input');
       valid = false;
     }
     if (this.updateCourseForm.get('courseCategory').value === '') {

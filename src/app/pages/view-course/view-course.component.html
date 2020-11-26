@@ -79,6 +79,7 @@
 
   </div>
 
+
   <!-- Upload video popup-->
   <div class="overlay-pop-up" id="upload-video-pop-up" [hidden]="!visibleVideoPopUp">
     <div class="col-md-7 card p-5">
@@ -169,6 +170,55 @@
     </div>
   </div>
   <!--End Upload video popup-->
+
+  <!--Update Course PopUp-->
+  <div class="overlay-pop-up" id="update-course-pop-up" [hidden]="!popupUpdateCourseVisible">
+    <div class="col-md-7 card p-5">
+      <button id="btn-close-update-course" (click)="closeUpdateCoursePopUp()"
+              style="padding: 0; border: none; background: none; position: absolute;top: 20px;right: 30px;"><i class="ni ni-fat-remove"></i></button>
+      <h1>Editar curso</h1>
+      <form role="form" [formGroup]="updateCourseForm">
+        <div class="form-group">
+          <div class="input-group input-group-alternative mb-3" id="div-courseName">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+            </div>
+            <input id="input-course-name" class="form-control" placeholder="{{course.coursename}}" type="text" formControlName="courseName"
+                   [ngClass]="{'is-invalid': !updateCourseForm.get('courseName').valid}" name="courseName">
+          </div>
+          <div *ngIf="updateCourseForm.controls['courseName'].errors?.required && tryingUpdateCourse" class="invalid-update">
+            <span>El nombre es necesario</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group input-group-alternative mb-3" id="div-courseDescription">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-hat-83"></i></span>
+            </div>
+            <input id="input-description-course" class="form-control" formControlName="courseDescription" [ngModel]=""
+                   placeholder="{{course.description}}" type="text"/>
+          </div>
+          <div *ngIf="updateCourseForm.controls['courseDescription'].errors?.required && tryingUpdateCourse" class="invalid-update">
+            <span>La descripción es necesaria</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group input-group-alternative mb-3" id="div-courseCategory">
+            <select class="form-control select-box" formControlName="courseCategory" id="combo-categories"
+                    [(ngModel)]="course.category.name">
+              <option *ngFor=" let category of categories" value="{{category.name}}">
+                {{category.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </form>
+      <div class="text-center">
+        <button type="button" id="btn-update-course" (click)="updateCourse()" class="btn btn-primary mt-4">Editar curso</button>
+      </div>
+    </div>
+  </div>
+  <!--End Update Course PopUp-->
 </div>
 
 

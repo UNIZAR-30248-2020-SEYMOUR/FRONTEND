@@ -6,6 +6,7 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
 import {Video} from '../../interfaces';
 import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/output_ast';
+import {By} from '@angular/platform-browser';
 
 describe('ViewCourseComponent', () => {
   let component: ViewCourseComponent;
@@ -89,31 +90,55 @@ describe('ViewCourseComponent', () => {
   });
 
   /**
-   * Test that show a message error if the coursename is empty when the user try to update course
+   * Test that open and close the update course pop up
    */
-  it('should ',  () => {
+  it('should open and close the update course pop up',  () => {
     openUpdateCoursePopUp();
+    closeUpdateCoursePopUp();
+  });
 
+  /**
+   * Test that show a message error if the course name is empty when the user try to update course
+   */
+  it('should show a message error if the course name is empty',  () => {
+    openUpdateCoursePopUp();
+    expect(fixture.debugElement.query(By.css('.invalid-input'))).toBeFalsy();
+    component.updateCourseForm.get('courseName').setValue('');
+    document.getElementById('btn-update-course').click();
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('.invalid-input'))).toBeTruthy ();
+    expect((<HTMLInputElement>document.getElementById('div-courseName')).classList.contains('invalid-input')).toBeTrue();
+  });
+
+  /**
+   * Test that show a message error if the course category is empty when the user try to update course
+   */
+  it('should show a message error if the course category is empty',  () => {
+    openUpdateCoursePopUp();
+    expect(fixture.debugElement.query(By.css('.invalid-input'))).toBeFalsy();
+    component.updateCourseForm.get('courseCategory').setValue('');
+    document.getElementById('btn-update-course').click();
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('.invalid-input'))).toBeTruthy ();
+    expect((<HTMLInputElement>document.getElementById('combo-categories')).classList.contains('invalid-input')).toBeTrue();
   });
 
 
+  /**
+   * Open the update course pop up
+   */
   function openUpdateCoursePopUp() {
-    document.getElementById('btn-open-edit-popup').click();
+    (<HTMLInputElement>document.getElementById('btn-open-edit-popup')).click();
     fixture.detectChanges();
-    expect(document.getElementById('update-course-pop-up').hidden).toBeFalse();
+    expect((<HTMLInputElement>document.getElementById('update-course-pop-up')).hidden).toBeFalse();
   }
 
+  /**
+   * Close the update course pop up
+   */
   function closeUpdateCoursePopUp() {
     document.getElementById('btn-close-update-course').click();
     fixture.detectChanges();
-    expect(document.getElementById('update-course-pop-up').hidden).toBeTrue();
+    expect((<HTMLInputElement>document.getElementById('update-course-pop-up')).hidden).toBeTrue();
   }
-
-  function createVideos(numVideos: number): Array<Video> {
-     const videos: Array<Video> = [];
-     for (let i = 0; i < numVideos; i++) {
-       videos.push({id: i, name: i.toString(), description: i.toString(), videoUrl: i.toString()});
-     }
-     return videos;
-   }
 });

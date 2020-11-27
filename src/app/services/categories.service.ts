@@ -8,8 +8,8 @@ import {Observable} from 'rxjs';
 })
 export class CategoriesService {
 
-// private apiUrl = 'http://oc2.danielhuici.ml/';
-  private apiUrl = 'http://localhost:3000/categories';
+  private apiUrl = 'http://oc2.danielhuici.ml/categories';
+  // private apiUrl = 'http://localhost:3000/categories';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

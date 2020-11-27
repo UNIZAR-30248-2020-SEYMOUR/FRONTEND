@@ -10,3 +10,4 @@ addons:
 
 script:
   - npm run test:unit
+  - npm run e2e

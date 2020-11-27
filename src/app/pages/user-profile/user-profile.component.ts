@@ -366,7 +366,7 @@ export class UserProfileComponent implements OnInit {
   deleteCourse() {
     const observer = this.courseService.removeCourse(this.courseToDelete);
     observer.subscribe(
-      data => {this.getUserData(); this.closeDeleteCoursePopup();},
+      data => {this.getUserData(); this.closeDeleteCoursePopup(); },
       error => {console.log(error.status); this.dealErrorNotDeleteCourse(); }
     );
   }

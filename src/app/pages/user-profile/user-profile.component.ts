@@ -311,7 +311,6 @@ export class UserProfileComponent implements OnInit {
 
   /**
    * This method deal with the errors received from the backend
-
    * @param error: error message received from the backend
    * @private
    */
@@ -362,14 +361,12 @@ export class UserProfileComponent implements OnInit {
   }
 
   /**
-   * Send a deletion request to the backend;
+   * Send a deletion course request to the backend;
    */
   deleteCourse() {
     const observer = this.courseService.removeCourse(this.courseToDelete);
-    this.closeDeleteCoursePopup();
-
     observer.subscribe(
-      data => {this.getUserData(); },
+      data => {this.getUserData(); this.closeDeleteCoursePopup();},
       error => {console.log(error.status); this.dealErrorNotDeleteCourse(); }
     );
   }

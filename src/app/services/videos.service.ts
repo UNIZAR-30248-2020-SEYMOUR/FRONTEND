@@ -8,8 +8,8 @@ import {Observable} from 'rxjs';
 })
 export class VideosService {
 
-  private apiUrl = 'http://oc2.danielhuici.ml/videos';
- // private apiUrl = 'http://localhost:3000/videos';
+  // private apiUrl = 'http://oc2.danielhuici.ml/videos';
+  private apiUrl = 'http://localhost:3000/videos';
 
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})

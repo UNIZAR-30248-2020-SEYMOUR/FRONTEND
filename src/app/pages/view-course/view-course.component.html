@@ -198,9 +198,6 @@
             <input id="input-description-course" class="form-control" formControlName="courseDescription" [ngModel]=""
                    placeholder="{{course.description}}" type="text"/>
           </div>
-          <div *ngIf="updateCourseForm.controls['courseDescription'].errors?.required && tryingUpdateCourse" class="invalid-update">
-            <span>La descripción es necesaria</span>
-          </div>
         </div>
         <div class="form-group">
           <div class="input-group input-group-alternative mb-3" id="div-courseCategory">

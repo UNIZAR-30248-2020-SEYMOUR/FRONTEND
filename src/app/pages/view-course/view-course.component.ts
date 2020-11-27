@@ -327,12 +327,6 @@ export class ViewCourseComponent implements OnInit {
       courseNameInput.classList.add('invalid-input');
       valid = false;
     }
-    if (this.updateCourseForm.get('courseDescription').value === '') {
-      const courseDescriptionInput = document.getElementById('div-courseDescription');
-      courseDescriptionInput.classList.remove('invalid-input');
-      courseDescriptionInput.classList.add('invalid-input');
-      valid = false;
-    }
     if (this.updateCourseForm.get('courseCategory').value === '') {
       const courseNameInput = document.getElementById('combo-categories');
       courseNameInput.classList.remove('invalid-input');

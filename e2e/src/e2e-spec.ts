@@ -1,5 +1,7 @@
-import {browser, by, element, ExpectedConditions, protractor} from 'protractor';
-import {url} from 'inspector';
+import {browser, by, element, protractor} from 'protractor';
+import {fs} from '@angular-devkit/core/node';
+const path = require('path');
+
 
 describe('E2E Tests (Seymour)', () => {
 
@@ -13,6 +15,96 @@ describe('E2E Tests (Seymour)', () => {
     browser.actions().click(element(by.id('register-button'))).perform();
     expect(browser.getCurrentUrl()).toContain('user-profile');
   });
+
+  it('Should create a course in the application', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    browser.actions().click(element(by.buttonText('Nuevo curso'))).perform();
+    element.all(by.name('courseName')).sendKeys('Curso De Angular');
+    element.all(by.id('descripcion-curso')).sendKeys('En este curso de Angular aprenderéis muuuuuuuuchas cosas');
+    browser.actions().click(element(by.id('combo-categories'))).perform();
+    browser.element(by.css('#combo-categories [value=\'Software\']')).click();
+    browser.actions().click(element(by.buttonText('Guardar curso'))).perform();
+    browser.navigate().back();
+    browser.navigate().forward();
+    expect(element.all(by.className('course-title')).getText()).toContain('Curso De Angular');
+  });
+
+  it('Should upload a video with details', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    browser.actions().click(element(by.className('course-title'))).perform();
+    browser.actions().click(element(by.id('btn-open-create-video'))).perform();
+    const absolutePath = path.resolve(__dirname, '../videos_to_upload/test-video.mp4');
+    element(by.css('input[type="file"]')).sendKeys(absolutePath);
+    element(by.id('btn-send-video')).click();
+    element(by.id('title-input')).sendKeys('video-title-test');
+    element(by.id('description-input')).sendKeys('video-description-test');
+    element(by.id('btn-send-details')).click();
+    expect(element.all(by.className('h1-course')).getText()).toContain('video-title-test');
+    expect(element.all(by.className('p-course')).getText()).toContain('video-description-test');
+  });
+
+  it('Should remove a course in the application', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    browser.actions().click(element(by.className('fa fa-trash delete-icon'))).perform();
+    browser.actions().click(element(by.id('btn-delete-course'))).perform();
+    browser.navigate().back();
+    browser.navigate().forward();
+    expect(element.all(by.className('image-course')).count()).toBe(0);
+  });
+
+  it('Should create a course without description in the application', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    browser.actions().click(element(by.buttonText('Nuevo curso'))).perform();
+    element.all(by.name('courseName')).sendKeys('Curso sin descripcion');
+    browser.actions().click(element(by.id('combo-categories'))).perform();
+    browser.element(by.css('#combo-categories [value=\'Software\']')).click();
+    browser.actions().click(element(by.buttonText('Guardar curso'))).perform();
+    browser.navigate().back();
+    browser.navigate().forward();
+    expect(element.all(by.className('course-title')).getText()).toContain('Curso Sin Descripcion');
+  });
+
+  it('Should update a course without description in the application', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    browser.actions().click(element(by.className('course-title'))).perform();
+    browser.actions().click(element(by.buttonText('Editar Curso'))).perform();
+    element.all(by.id('input-course-name')).sendKeys('Curso con descripcion');
+    element.all(by.id('input-description-course')).sendKeys('Esta es la descripcion de un curso con descripcion');
+    browser.actions().click(element(by.id('combo-categories'))).perform();
+    browser.element(by.css('#combo-categories [value=\'Marketing\']')).click();
+    browser.actions().click(element(by.buttonText('Editar curso'))).perform();
+    expect(element.all(by.className('heading')).getText()).toContain('CURSO CON DESCRIPCION');
+    expect(element.all(by.className('description')).getText()).toContain('Esta es la descripcion de un curso con descripcion');
+    expect(element.all(by.className('description')).getText()).toContain('Marketing');
+  });
+
+  it('Should visualize a course', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    browser.actions().click(element(by.className('course-title'))).perform();
+    expect(element.all(by.className('heading')).getText()).toContain('CURSO CON DESCRIPCION');
+    expect(element.all(by.className('description')).getText()).toContain('Esta es la descripcion de un curso con descripcion');
+    expect(element.all(by.className('description')).getText()).toContain('Marketing');
+  });
+
+
 
   it('Should find himself in the searcher', async () => {
     browser.get('/#/login');
@@ -208,37 +300,6 @@ describe('E2E Tests (Seymour)', () => {
     expect(browser.getCurrentUrl()).toContain('login');
   });
 
-  it('Should create a course in the application', async () => {
-    browser.get('/#/login');
-    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
-    element.all(by.id('passwordInput')).sendKeys('password1234');
-    browser.actions().click(element(by.id('login-button'))).perform();
-    browser.actions().click(element(by.buttonText('Nuevo curso'))).perform();
-    element.all(by.name('courseName')).sendKeys('Curso De Angular');
-    element.all(by.id('descripcion-curso')).sendKeys('En este curso de Angular aprenderéis muuuuuuuuchas cosas');
-    browser.actions().click(element(by.id('combo-categories'))).perform();
-    browser.element(by.css('#combo-categories [value=\'Software\']')).click();
-    browser.actions().click(element(by.buttonText('Guardar curso'))).perform();
-    browser.navigate().back();
-    browser.navigate().forward();
-    expect(element.all(by.className('course-title')).getText()).toContain('Curso De Angular');
-  });
-
-  it('Should create a course without description in the application', async () => {
-    browser.get('/#/login');
-    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
-    element.all(by.id('passwordInput')).sendKeys('password1234');
-    browser.actions().click(element(by.id('login-button'))).perform();
-    browser.actions().click(element(by.buttonText('Nuevo curso'))).perform();
-    element.all(by.name('courseName')).sendKeys('Curso');
-    browser.actions().click(element(by.id('combo-categories'))).perform();
-    browser.element(by.css('#combo-categories [value=\'Software\']')).click();
-    browser.actions().click(element(by.buttonText('Guardar curso'))).perform();
-    browser.navigate().back();
-    browser.navigate().forward();
-    expect(element.all(by.className('course-title')).getText()).toContain('Curso');
-  });
-
   it('Should NOT create a course in the application because coursename was not provided', async () => {
     browser.get('/#/login');
     element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
@@ -332,5 +393,6 @@ describe('E2E Tests (Seymour)', () => {
     browser.actions().click(element(by.id('btn-delete'))).perform();
     expect(element.all(by.className('text-white')).getText()).toContain('¡Bienvenido!');
   });
+
 });
 

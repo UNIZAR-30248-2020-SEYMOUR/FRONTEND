@@ -151,6 +151,21 @@ describe('UserProfileComponent', () => {
   });
 
   /**
+   * Tests the correct functioning of cancel the deletion of a course
+   */
+  it('should cancel the deletion of the course', () => {
+    expect(document.getElementById('delete-course-pop-up').hidden).toBeTrue();
+    component.user.courses = [{ id: 1, coursename: 'testCourse', description: 'test', category: { name: 'Desarrollo personal', imageUrl: 'assets/img/categories/desarrolloPersonal.jpg' }}];
+    fixture.detectChanges();
+    document.getElementById('btn-open-delete-course-popup').click();
+    fixture.detectChanges();
+    expect(document.getElementById('delete-course-pop-up').hidden).toBeFalse();
+    document.getElementById('btn-cancel-delete-course').click();
+    fixture.detectChanges();
+    expect(document.getElementById('delete-course-pop-up').hidden).toBeTrue();
+  });
+
+  /**
    * Test that show an error message if the backend response is a error message when the user try to delete a profile
    */
   it('should show an error message when trying to delete the profile', () => {
@@ -271,34 +286,4 @@ describe('UserProfileComponent', () => {
     expect((<HTMLInputElement>document.getElementById('input-username')).classList.contains('invalid-input')).toBeFalse();
     expect((<HTMLInputElement>document.getElementById('input-description')).classList.contains('invalid-input')).toBeFalse();
   }
-
-  /**
-   * Tests the correct functioning of cancel the deletion of a course
-   */
-  it('should cancel the deletion of the course', () => {
-    expect(document.getElementById('delete-course-pop-up').hidden).toBeTrue();
-    component.user.courses = [{ id: 1, coursename: 'testCourse', description: 'test', category: { name: 'Desarrollo personal', imageUrl: 'assets/img/categories/desarrolloPersonal.jpg' }}];
-    fixture.detectChanges();
-    document.getElementById('btn-open-delete-course-popup').click();
-    fixture.detectChanges();
-    expect(document.getElementById('delete-course-pop-up').hidden).toBeFalse();
-    document.getElementById('btn-cancel-delete-course').click();
-    fixture.detectChanges();
-    expect(document.getElementById('delete-course-pop-up').hidden).toBeTrue();
-  });
-
-  /**
-   * Tests the correct functioning of deletion of a course
-   */
-  it('should cancel the deletion of the course', () => {
-    expect(document.getElementById('delete-course-pop-up').hidden).toBeTrue();
-    component.user.courses = [{ id: 1, coursename: 'testCourse', description: 'test', category: { name: 'Desarrollo personal', imageUrl: 'assets/img/categories/desarrolloPersonal.jpg' }}];
-    fixture.detectChanges();
-    document.getElementById('btn-open-delete-course-popup').click();
-    fixture.detectChanges();
-    expect(document.getElementById('delete-course-pop-up').hidden).toBeFalse();
-    document.getElementById('btn-delete-course').click();
-    fixture.detectChanges();
-    expect(document.getElementById('delete-course-pop-up').hidden).toBeTrue();
-  });
 });

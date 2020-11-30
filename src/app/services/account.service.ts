@@ -13,7 +13,8 @@ import {Observable} from 'rxjs';
  */
 export class AccountService {
   // private apiUrl = 'http://oc2.danielhuici.ml/users';
-  private apiUrl = 'http://localhost:3000/users';
+  // private apiUrl = 'http://localhost:3000/users';
+  private apiUrl = 'http://91.250.180.41:3000/users';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

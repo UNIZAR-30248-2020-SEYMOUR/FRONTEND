@@ -12,8 +12,8 @@ import {Observable} from 'rxjs';
  * This class contains de logic of do the requests for operations necessary for user accounts
  */
 export class AccountService {
-  // private apiUrl = 'http://oc2.danielhuici.ml/users';
-  private apiUrl = 'http://localhost:3000/users';
+  private apiUrl = 'http://oc2.danielhuici.ml/users';
+  // private apiUrl = 'http://localhost:3000/users';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

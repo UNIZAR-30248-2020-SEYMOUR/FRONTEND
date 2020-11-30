@@ -9,8 +9,8 @@ import {Observable} from 'rxjs';
 })
 export class CourseService {
 
-  // private apiUrl = 'http://oc2.danielhuici.ml/courses';
-  private apiUrl = 'http://localhost:3000/courses';
+  private apiUrl = 'http://oc2.danielhuici.ml/courses';
+  // private apiUrl = 'http://localhost:3000/courses';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

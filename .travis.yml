@@ -9,4 +9,4 @@ addons:
   chrome: stable
 
 script:
-  - npm run test:unit
+  - npm run test:unit 

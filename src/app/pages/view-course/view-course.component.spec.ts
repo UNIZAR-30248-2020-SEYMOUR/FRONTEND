@@ -4,8 +4,6 @@ import { ViewCourseComponent } from './view-course.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
-import {Video} from '../../interfaces';
-import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/output_ast';
 import {By} from '@angular/platform-browser';
 
 describe('ViewCourseComponent', () => {
@@ -42,7 +40,7 @@ describe('ViewCourseComponent', () => {
   /**
    * Tests that an error feedback is displayed if the description fields are empty
    */
-  it('should show a error feedback in the title and descrition inputs', () => {
+  it('should show a error feedback in the title and description inputs', () => {
     expect(document.getElementById('upload-video-pop-up').hidden).toBeTrue();
     document.getElementById('btn-open-create-video').click();
     const btSendDetails  = (<HTMLInputElement>document.getElementById('btn-send-details'));
@@ -62,6 +60,7 @@ describe('ViewCourseComponent', () => {
     fixture.detectChanges();
 
   });
+
   /**
    * Verifies that the component in correctly loaded.
    */

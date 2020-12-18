@@ -10,8 +10,8 @@ import {Observable} from 'rxjs';
 export class CourseService {
 
   // private apiUrl = 'http://oc2.danielhuici.ml/courses';
-  // private apiUrl = 'http://localhost:3000/courses';
-  private apiUrl = 'http://91.250.180.41:3000/courses';
+  private apiUrl = 'http://localhost:3000/courses';
+  //private apiUrl = 'http://91.250.180.41:3000/courses';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -82,5 +82,9 @@ export class CourseService {
   removeCourse(courseId: number) {
     const json = {id: courseId};
     return this.http.post(this.apiUrl + '/delete', JSON.stringify(json), this.httpOptions);
+  }
+
+  getCourses(search: string, category: string): Observable<any> {
+    return this.http.post(this.apiUrl + '/search', {textToSearch: search, category: category}, this.httpOptions);
   }
 }

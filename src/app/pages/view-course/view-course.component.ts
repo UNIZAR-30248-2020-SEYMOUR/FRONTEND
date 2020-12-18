@@ -45,6 +45,7 @@ export class ViewCourseComponent implements OnInit {
               private categoriesService: CategoriesService,
               private router: ActivatedRoute,
               private route: Router) {
+
     this.router.params.subscribe(params => {
         this.course = {
           id: params.courseId,

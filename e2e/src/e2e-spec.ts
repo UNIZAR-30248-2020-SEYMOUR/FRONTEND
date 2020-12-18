@@ -116,7 +116,7 @@ describe('E2E Tests (Seymour)', () => {
     expect(element.all(by.className('course')).count()).toBe(1);  // the name "course" is not the most appropriate
   });
 
-  it('Should not find an inexistent user in the searcher', async () => {
+  it('Should not find an nonexistent user in the searcher', async () => {
     browser.get('/#/login');
     element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
     element.all(by.id('passwordInput')).sendKeys('password1234');

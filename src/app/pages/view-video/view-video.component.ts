@@ -21,6 +21,8 @@ export class ViewVideoComponent implements OnInit {
   NUM_GET_VIDEOS = 10;
 
   currentVideoObtained: boolean;
+  owner: String;
+  rate: number
   video: Video;
   course: Course;
   videos: Array<Video>;
@@ -31,6 +33,8 @@ export class ViewVideoComponent implements OnInit {
     this.videos = [];
     this.moreVideos = true;
     this.currentVideoObtained = false;
+    this.owner = '';
+    this.rate = 0;
     this.getParams();
     this.getVideoData();
     this.getCourseData();
@@ -133,6 +137,8 @@ export class ViewVideoComponent implements OnInit {
     const observer = this.videoService.getVideoData(this.video.id);
     observer.subscribe(
       data => {
+        this.rate = data.rate;
+        this.owner = data.owner;
         this.video = {
           id: this.video.id,
           name: data.title,

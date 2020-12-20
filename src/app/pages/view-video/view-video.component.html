@@ -23,7 +23,8 @@
                 <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                   <div>
                     <span class="heading">{{video.name}}</span>
-                    <span class="description">{{course.coursename}}</span>
+                    <span [routerLink]="['/view-course-no-owner', course.id]" class="description">{{course.coursename}}</span>
+                      <p [routerLink]="['/user-profile-no-owner', owner]" class="p-course">{{owner}}</p>
                   </div>
                 </div>
               </div>
@@ -49,7 +50,7 @@
             </div>
           </div>
           <div class="card-body">
-            <video  style="width: 100%" src='{{video.videoUrl}}' controls> <!--src='{{video.videoUrl}}' controls>-->
+            <video  style="width: 100%" src='{{video.videoUrl}}' controls>
               Tu navegador no implementa el elemento <code>video</code>.
             </video>
           </div>

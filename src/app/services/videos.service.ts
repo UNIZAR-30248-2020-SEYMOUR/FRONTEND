@@ -8,9 +8,9 @@ import {Observable} from 'rxjs';
 })
 export class VideosService {
 
-  //private apiUrl = 'http://oc2.danielhuici.ml/videos';
+  // private apiUrl = 'http://oc2.danielhuici.ml/videos';
   private apiUrl = 'http://localhost:3000/videos';
-  //private apiUrl = 'http://91.250.180.41:3000/videos';
+  // private apiUrl = 'http://91.250.180.41:3000/videos';
 
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -34,5 +34,14 @@ export class VideosService {
   sendDetails(details: {course: number, video: number, title: string, description: string}) {
     const params = JSON.stringify(details);
     return this.http.post(this.apiUrl + '/details' , params, this.httpOptions);
+  }
+
+  /**
+   * Do a request to get the information of the video
+   * @param id Id of the video to get the information
+   */
+  getVideoData(id: number): Observable<any> {
+    const json = {id: id};
+    return this.http.post(this.apiUrl + '/get_video', JSON.stringify(json), this.httpOptions);
   }
 }

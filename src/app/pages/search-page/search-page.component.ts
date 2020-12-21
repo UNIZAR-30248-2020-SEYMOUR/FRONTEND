@@ -68,8 +68,6 @@ export class SearchPageComponent implements OnInit {
   }
 
   private loadCourses(search: string, category: string) {
-    this.courses = [{"id":2,"coursename":"course2","description":"course2","category":{"name":"Desarrollo personal","imageUrl":"assets/img/categories/desarrolloPersonal.jpg"}},
-      {"id":1,"coursename":"course1","description":"course1","category":{"name":"Música","imageUrl":"assets/img/categories/musica.jpg"}}]
     const observer = this.courseService.getCourses(search, category);
     observer.subscribe(
       data => {

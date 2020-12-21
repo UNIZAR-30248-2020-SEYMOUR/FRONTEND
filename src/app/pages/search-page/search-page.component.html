@@ -7,7 +7,7 @@
       <div class="col-lg-7 col-drive
       md-10">
         <h1 class="display-2 text-white">Resultados de {{searchText}}</h1>
-        <p class="text-white mt-0 mb-5">A continuación se muestran los usuarios de la búsqueda</p>
+        <p class="text-white mt-0 mb-5">A continuación se muestran los resultados de la búsqueda</p>
       </div>
     </div>
   </div>
@@ -76,7 +76,7 @@
                   <img class="image-course" src="{{course.category.imageUrl}}"/>
                 </div>
                 <div class="col-10 card-profile" style="padding-top: 2%">
-                  <h1><a >{{course.coursename}}</a></h1> <!--[routerLink]="['/user-profile-no-owner', profile.username]"-->
+                  <h1><a [routerLink]="['/view-course-no-owner', course.id]">{{course.coursename}}</a></h1>
                   <p class="p-profile">{{course.description}}</p>
                 </div>
               </div>
@@ -89,7 +89,7 @@
                   <img class="image-profile" src="https://avatars.dicebear.com/api/human/{{profile.username}}.svg"/>
                 </div>
                 <div class="col-10 card-profile" style="padding-top: 2%">
-                  <h1><a >{{profile.username}}</a></h1> <!--[routerLink]="['/user-profile-no-owner', profile.username]"-->
+                  <h1><a [routerLink]="['/user-profile-no-owner', profile.username]">{{profile.username}}</a></h1>
                   <p class="p-profile">{{profile.description}}</p>
                 </div>
               </div>

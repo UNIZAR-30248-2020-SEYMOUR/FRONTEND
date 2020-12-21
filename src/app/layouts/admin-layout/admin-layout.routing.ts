@@ -16,8 +16,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'tables',         component: TablesComponent },
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },
-    { path: 'search-profile/:text', component: SearchPageComponent },
-    { path: 'search-profile/:text', component: SearchPageComponent },
+    { path: 'search-page/:text', component: SearchPageComponent },
+    { path: 'search-page/:text', component: SearchPageComponent },
     { path: 'user-profile-no-owner/:username', component: UserProfileNoOwnerComponent},
     { path: 'view-course/:courseId', component: ViewCourseComponent },
     { path: 'view-course-no-owner/:courseId', component: ViewCourseNoOwnerComponent }

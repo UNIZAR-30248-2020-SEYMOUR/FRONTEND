@@ -22,8 +22,10 @@ export class DashboardComponent implements OnInit {
   public salesChart;
   public clicked = true;
   public clicked1 = false;
+  currentRate: any;
 
   constructor(private cookies: CookieService) {
+    this.currentRate = 1.3;
   }
 
   ngOnInit() {
@@ -59,5 +61,7 @@ export class DashboardComponent implements OnInit {
     this.salesChart.data.datasets[0].data = this.data;
     this.salesChart.update();
   }
-
+  getRating(data){
+    console.log(data)
+  }
 }

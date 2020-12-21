@@ -20,6 +20,7 @@ import {CourseService} from './services/course.service';
 import {CategoriesService} from './services/categories.service';
 
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import {VideosService} from './services/videos.service';
 
 
 
@@ -41,7 +42,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     HelpComponent,
     SearchPageComponent
   ],
-  providers: [AccountService, CookieService, CourseService, CategoriesService],
+  providers: [AccountService, CookieService, CourseService, CategoriesService, VideosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

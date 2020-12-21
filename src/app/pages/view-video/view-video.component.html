@@ -3,7 +3,7 @@
   <span class="mask bg-gradient-danger opacity-8"></span>
   <div class="container-fluid ">
     <div class="row">
-      <!-- General information of the course -->
+      <!-- General information of the video -->
       <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
         <div class="card card-course shadow">
           <div class="row justify-content-center">
@@ -22,25 +22,41 @@
               <div class="col">
                 <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                   <div>
-                    <span class="heading">{{course.coursename}}</span>
-                    <span class="description">{{course.category.name}}</span>
+                    <span class="heading">{{video.name}}</span>
+                    <span [routerLink]="['/view-course-no-owner', course.id]" class="description">{{course.coursename}}</span>
+                      <p [routerLink]="['/user-profile-no-owner', owner]" class="p-course">{{owner}}</p>
                   </div>
                 </div>
               </div>
             </div>
             <div class="text-center">
             <span class="description">
-              {{course.description }}
+              {{video.description }}
             </span>
             </div>
           </div>
         </div>
       </div>
-      <!--End General information of the course -->
+      <!--End General information of the video -->
 
-      <!-- List of videos-->
+      <!-- Video Player-->
       <div class="col-xl-8 order-xl-1">
         <div class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-6">
+                <h3 class="mb-0">Reproductor de vídeo</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <video  style="width: 100%" src='{{video.videoUrl}}' controls>
+              Tu navegador no implementa el elemento <code>video</code>.
+            </video>
+          </div>
+    <!--End  Video Player-->
+          <hr class="my-4" />
+    <!-- List of videos-->
           <div class="card-header bg-white border-0">
             <div class="row align-items-center">
               <div class="col-6">
@@ -65,10 +81,7 @@
           </div>
         </div>
       </div>
-    </div>
     <!--End List of videos-->
-
+    </div>
   </div>
 </div>
-
-

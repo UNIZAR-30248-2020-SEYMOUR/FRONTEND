@@ -44,7 +44,15 @@ export class ViewCourseNoOwnerComponent implements OnInit {
    * This method get videos of the course that is showing
    */
   getMoreVideos() {
-    const observer = this.courseService.getVideos(this.course.id, this.videos.length, (this.videos.length + this.NUM_GET_VIDEOS));
+    let numVideos;
+    if (this.videos.length == 0) {
+      numVideos = 1;
+    } else {
+      numVideos = this.videos.length + 1;
+    }
+    const observer = this.courseService.getVideos(this.course.id,
+      numVideos,
+      (this.videos.length + this.NUM_GET_VIDEOS));
     observer.subscribe(
       data => {
         this.showVideos(data);

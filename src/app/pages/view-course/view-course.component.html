@@ -61,7 +61,7 @@
             <div class="pl-lg-12">
               <div *ngFor=" let video of videos" class="course" >
                 <div class="col-10 card-course" >
-                  <h1 class="h1-course">{{video.name}}</h1>
+                  <h1 [routerLink]="['/view-video', course.id, video.id]" class="h1-course">{{video.name}}</h1>
                   <p class="p-course">{{video.description}}</p>
                 </div>
               </div>

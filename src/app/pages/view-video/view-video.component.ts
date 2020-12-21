@@ -54,7 +54,8 @@ export class ViewVideoComponent implements OnInit {
         id: params.videoId,
         name: '',
         description: '',
-        videoUrl: ''
+        videoUrl: '',
+        imagePreview: ''
       };
 
       this.course = {
@@ -143,7 +144,8 @@ export class ViewVideoComponent implements OnInit {
           id: this.video.id,
           name: data.title,
           description: data.description,
-          videoUrl: this.apiUrl + data.location
+          videoUrl: this.apiUrl + data.location,
+          imagePreview: data.imagePreview
         };
       },
       error => {console.log(error.status); }

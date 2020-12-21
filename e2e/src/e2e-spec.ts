@@ -49,6 +49,17 @@ describe('E2E Tests (Seymour)', () => {
     expect(element.all(by.className('p-course')).getText()).toContain('video-description-test');
   });
 
+  it('Should watch the video', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    browser.actions().click(element(by.className('course-title'))).perform();
+    browser.actions().click(element(by.className('h1-course'))).perform();
+    expect(element.all(by.className('heading')).getText()).toContain('VIDEO-TITLE-TEST');
+    expect(element.all(by.className('description')).getText()).toContain('video-description-test');
+  });
+
   it('Should remove a course in the application', async () => {
     browser.get('/#/login');
     element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
@@ -104,8 +115,6 @@ describe('E2E Tests (Seymour)', () => {
     expect(element.all(by.className('description')).getText()).toContain('Marketing');
   });
 
-
-
   it('Should find himself in the searcher', async () => {
     browser.get('/#/login');
     element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
@@ -116,7 +125,7 @@ describe('E2E Tests (Seymour)', () => {
     expect(element.all(by.className('course')).count()).toBe(1);  // the name "course" is not the most appropriate
   });
 
-  it('Should not find an nonexistent user in the searcher', async () => {
+  it('Should not find a nonexistent user in the searcher', async () => {
     browser.get('/#/login');
     element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
     element.all(by.id('passwordInput')).sendKeys('password1234');
@@ -144,6 +153,58 @@ describe('E2E Tests (Seymour)', () => {
     element.all(by.name('search')).sendKeys('Raúl');
     browser.actions().sendKeys(protractor.Key.ENTER).perform();
     expect(element.all(by.className('course')).count()).toBe(2);  // the name "course" is not the most appropriate
+  });
+
+  it('Should access into the second "Raúl" profile', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    element.all(by.name('search')).sendKeys('Raúl');
+    browser.actions().sendKeys(protractor.Key.ENTER).perform();
+    browser.actions().click(element(by.linkText('Raúl Javierre Without Description'))).perform();
+    expect(browser.getCurrentUrl()).toContain('#/user-profile-no-owner/Ra%C3%BAl%20Javierre%20Without%20Description');
+  });
+
+  it('Should find the created course in the searcher', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    element.all(by.name('search')).sendKeys('Curso con descripcion');
+    browser.actions().sendKeys(protractor.Key.ENTER).perform();
+    browser.actions().click(element(by.id('combo-type'))).perform();
+    browser.element(by.css('#combo-type [value=\'course\']')).click();
+    browser.actions().click(element(by.id('btn-update'))).perform();
+    expect(element.all(by.className('course')).count()).toBe(1);
+  });
+
+  it('Should access into the created course in the searcher', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    element.all(by.name('search')).sendKeys('Curso con descripcion');
+    browser.actions().sendKeys(protractor.Key.ENTER).perform();
+    browser.actions().click(element(by.id('combo-type'))).perform();
+    browser.element(by.css('#combo-type [value=\'course\']')).click();
+    browser.actions().click(element(by.id('btn-update'))).perform();
+    expect(element.all(by.className('course')).count()).toBe(1);
+    browser.actions().click(element(by.linkText('Curso con descripcion'))).perform();
+    expect(browser.getCurrentUrl()).toContain('#/view-course-no-owner/2');
+  });
+
+  it('Should not find a nonexistent course in the searcher', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    element.all(by.name('search')).sendKeys('Curso de Java');
+    browser.actions().sendKeys(protractor.Key.ENTER).perform();
+    browser.actions().click(element(by.id('combo-type'))).perform();
+    browser.element(by.css('#combo-type [value=\'course\']')).click();
+    browser.actions().click(element(by.id('btn-update'))).perform();
+    expect(element.all(by.className('course')).count()).toBe(0);
   });
 
   it('Should NOT register in the application because there is an user with same username)', async () => {

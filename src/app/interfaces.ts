@@ -36,4 +36,5 @@ export interface Video {
   name: string;
   description: string;
   videoUrl: string;
+  imagePreview: string;
 }

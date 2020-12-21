@@ -41,7 +41,7 @@
             </div>
 
             <div class="pl-lg-4 col-4" style="margin-top: 20px;" id="course-filter-input-group" [hidden]="!isCourse">
-              <label class="form-control-label" for="input-searchText" >Categoria</label>
+              <label class="form-control-label" for="input-searchText" >Categoría</label>
               <select class="form-control select-box" formControlName="courseCategory" id="combo-categories">
                 <option value="" selected>Todos</option>
                 <option *ngFor="let category of categories" value="{{category.name}}">

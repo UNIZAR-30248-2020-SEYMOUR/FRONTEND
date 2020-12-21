@@ -1,70 +1,85 @@
 <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
-  <div class="container-fluid ">
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row" >
+      <div class="col-lg-7 col-drive
+      md-10">
+        <h1 class="display-2 text-white">{{course.coursename}}</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--7">
     <div class="row">
-      <!-- General information of the course -->
-      <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
-        <div class="card card-course shadow">
-          <div class="row justify-content-center">
-            <div class="col-lg-3 order-lg-2">
-              <div class="card-profile-image">
-                <a href="javascript:void(0)">
-                  <img src="{{course.category.imageUrl}}" style="width: 400px" >
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-          </div>
-          <div class="card-body pt-0 pt-md-4">
-            <div class="row">
-              <div class="col">
-                <div class="card-profile-stats d-flex justify-content-center mt-md-5">
-                  <div>
-                    <span class="heading">{{course.coursename}}</span>
-                    <span class="description">{{course.category.name}}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="text-center">
-            <span class="description">
-              {{course.description }}
-            </span>
+    <!-- General information of the course -->
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+      <div class="card card-course shadow">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <a href="javascript:void(0)">
+                <img src="{{course.category.imageUrl}}" style="width: 400px" >
+              </a>
             </div>
           </div>
         </div>
-      </div>
-      <!--End General information of the course -->
-
-      <!-- List of videos-->
-      <div class="col-xl-8 order-xl-1">
-        <div class="card bg-secondary shadow">
-          <div class="card-header bg-white border-0">
-            <div class="row align-items-center">
-              <div class="col-6">
-                <h3 class="mb-0">Vídeos</h3>
-              </div>
-              <div class="col-2 text-center"></div>
-              <div class="col-2 text-center">
-                <input type="button"  (click)="openCreateVideoPopUp()" id='btn-open-create-video'
-                       class="btn btn-sm btn-primary" value="Subir vídeo">
-              </div>
-              <div class="col-2 text-center">
-                <input type="button" (click)="openUpdateCoursePopup()" id='btn-open-edit-popup'
-                       class="btn btn-sm btn-primary" value="Editar Curso">
+        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+        </div>
+        <div class="card-body pt-0 pt-md-4">
+          <div class="row">
+            <div class="col">
+              <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                <div>
+                  <span class="heading">{{course.coursename}}</span>
+                  <span class="description">{{course.category.name}}</span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="card-body">
-            <div class="pl-lg-12">
-              <div *ngFor=" let video of videos" class="course" >
-                <div class="col-10 card-course" >
+          <div class="text-center">
+          <span class="description">
+            {{course.description }}
+          </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--End General information of the course -->
+
+    <!-- List of videos-->
+    <div class="col-xl-8 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-6">
+              <h3 class="mb-0">Vídeos</h3>
+            </div>
+            <div class="col-2 text-center"></div>
+            <div class="col-2 text-center">
+              <input type="button"  (click)="openCreateVideoPopUp()" id='btn-open-create-video'
+                     class="btn btn-sm btn-primary" value="Subir vídeo">
+            </div>
+            <div class="col-2 text-center">
+              <input type="button" (click)="openUpdateCoursePopup()" id='btn-open-edit-popup'
+                     class="btn btn-sm btn-primary" value="Editar Curso">
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="pl-lg-12">
+            <div *ngFor=" let video of videos">
+              <div class="row" style="display: flex">
+                <div class="col-3">
+                  <img class="image-course" src="data:image/png;base64,{{video.imagePreview}}"/>
+                </div>
+                <div class="col-9" style="padding-top: 2%">
                   <h1 [routerLink]="['/view-video', course.id, video.id]" class="h1-course">{{video.name}}</h1>
                   <p class="p-course">{{video.description}}</p>
                 </div>
               </div>
+              <hr class="my-4" />
             </div>
             <hr class="my-4" />
             <div class="text-center">
@@ -74,61 +89,59 @@
           </div>
         </div>
       </div>
-    </div>
-    <!--End List of videos-->
-
+  <!--End List of videos-->
   </div>
 
 
-  <!-- Upload video popup-->
-  <div class="overlay-pop-up" id="upload-video-pop-up" [hidden]="!visibleVideoPopUp">
-    <div class="col-md-7 card p-5">
-      <button id='btn-close-upload-video' (click)="closeCreateVideoPopUp()"
-              style="padding: 0; border: none; background: none; position: absolute;top: 20px;right: 30px;">
-        <i class="ni ni-fat-remove"></i>
-      </button>
-      <div class="row">
-        <h1>Subir vídeo</h1>
-      </div>
-      <div class="row">
-        <div class="col-md-12 card p-5">
-          <form [formGroup]="uploadVideoForm">
-            <table style="width: 100%">
-              <tr>
-                <td><h5>Seleccionar vídeo</h5></td>
-                <td><h5>Detalles del vídeo</h5></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>
-                  <div class="form-group">
-                    <div class="input-group input-group-alternative mb-3" id="div-title">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                      </div>
-                      <input class="form-control" placeholder="Título" type="text" formControlName="title"
-                             name="title" id="title-input" disabled="" >
-                    </div>
-                    <div *ngIf="uploadVideoForm.controls['title'].errors?.required
+    <!-- Upload video popup-->
+    <div class="overlay-pop-up" id="upload-video-pop-up" [hidden]="!visibleVideoPopUp">
+        <div class="col-md-7 card p-5">
+          <button id='btn-close-upload-video' (click)="closeCreateVideoPopUp()"
+                  style="padding: 0; border: none; background: none; position: absolute;top: 20px;right: 30px;">
+            <i class="ni ni-fat-remove"></i>
+          </button>
+          <div class="row">
+            <h1>Subir vídeo</h1>
+          </div>
+          <div class="row">
+            <div class="col-md-12 card p-5">
+              <form [formGroup]="uploadVideoForm">
+                <table style="width: 100%">
+                  <tr>
+                    <td><h5>Seleccionar vídeo</h5></td>
+                    <td><h5>Detalles del vídeo</h5></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative mb-3" id="div-title">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                          </div>
+                          <input class="form-control" placeholder="Título" type="text" formControlName="title"
+                                 name="title" id="title-input" disabled="" >
+                        </div>
+                        <div *ngIf="uploadVideoForm.controls['title'].errors?.required
                             && uploadVideoForm.controls['title'].touched || titleError" id="div-video-title"
-                         class="invalid-register">
-                      <span id="required-title-feedback">El título es necesario</span>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="form-group" >
-                    <input type="file" name="file" id="file" (change)="loadVideo($event)"/>
-                  </div>
-                  <div *ngIf="loadVideoError" class="invalid-register">
-                    <span id="load-video-error-feedback">Error al subir el archivo</span>
-                  </div>
-                </td>
-                <td>
+                             class="invalid-register">
+                          <span id="required-title-feedback">El título es necesario</span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-group" >
+                        <input type="file" name="file" id="file" (change)="loadVideo($event)"/>
+                      </div>
+                      <div *ngIf="loadVideoError" class="invalid-register">
+                        <span id="load-video-error-feedback">Error al subir el archivo</span>
+                      </div>
+                    </td>
+                    <td>
 
-                    <div class="form-group">
+                      <div class="form-group">
                         <div class="input-group input-group-alternative mb-3" id="div-description">
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
@@ -143,32 +156,32 @@
                           <span id="required-description-feedback">La descripción es necesaria</span>
                         </div>
                       </div>
-                    <div *ngIf="detailsError"
-                         class="invalid-register">
-                      <span id="details-error-feedback">Se ha producido un error</span>
-                    </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="text-right" style="margin-right: 8%">
-                    <input class="btn btn-primary mt-4" id="btn-send-video"
-                           value="Cargar vídeo" type="button" (click)="sendVideo()"/>
-                  </div>
-                </td>
-                <td>
-                  <div class="text-right">
-                    <input class="btn btn-primary mt-4" [disabled]="!loadedVideo" id="btn-send-details"
-                           value="Subir vídeo" type="button" (click)="sendDetails()"/>
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </form>
+                      <div *ngIf="detailsError"
+                           class="invalid-register">
+                        <span id="details-error-feedback">Se ha producido un error</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="text-right" style="margin-right: 8%">
+                        <input class="btn btn-primary mt-4" id="btn-send-video"
+                               value="Cargar vídeo" type="button" (click)="sendVideo()"/>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="text-right">
+                        <input class="btn btn-primary mt-4" [disabled]="!loadedVideo" id="btn-send-details"
+                               value="Subir vídeo" type="button" (click)="sendDetails()"/>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
   <!--End Upload video popup-->
 
   <!--Update Course PopUp-->
@@ -216,6 +229,5 @@
     </div>
   </div>
   <!--End Update Course PopUp-->
+  </div>
 </div>
-
-

@@ -25,8 +25,6 @@
               </div>
             </div>
           </div>
-          <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-          </div>
           <div class="card-body pt-0 pt-md-4">
             <div class="row">
               <div class="col">
@@ -40,9 +38,9 @@
               </div>
             </div>
             <div class="text-center">
-            <span class="description">
-              {{video.description }}
-            </span>
+              <span class="description">
+                {{video.description }}
+              </span>
             </div>
           </div>
         </div>
@@ -78,10 +76,10 @@
             <div class="pl-lg-12">
               <div *ngFor=" let video of videos">
                 <div class="row" style="display: flex">
-                  <div class="col-3">
-                    <img class="image-course" src="data:image/png;base64, {{video.imagePreview}}"/>
+                  <div class="col-4">
+                    <img class="image-course" src="data:image/png;base64,{{video.imagePreview}}"/>
                   </div>
-                  <div class="col-9" style="padding-top: 2%">
+                  <div class="col-8" style="padding-top: 2%">
                     <h1 [routerLink]="['/view-video', course.id, video.id]" class="h1-course">{{video.name}}</h1>
                     <p class="p-course">{{video.description}}</p>
                   </div>
@@ -95,6 +93,7 @@
               </div>
             </div>
           </div>
+        </div>
       </div>
     <!--End List of videos-->
     </div>

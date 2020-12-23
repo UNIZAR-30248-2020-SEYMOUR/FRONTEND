@@ -64,7 +64,7 @@
               <div *ngFor=" let video of videos">
                 <div class="row" style="display: flex">
                   <div class="col-3">
-                    <img class="image-course" src="data:image/png;base64, {{video.imagePreview}}"/>
+                    <img class="image-course" src="data:image/png;base64,{{video.imagePreview}}"/>
                   </div>
                   <div class="col-9" style="padding-top: 2%">
                     <h1 [routerLink]="['/view-video', course.id, video.id]" class="h1-course">{{video.name}}</h1>

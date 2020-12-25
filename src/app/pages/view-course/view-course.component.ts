@@ -101,6 +101,7 @@ export class ViewCourseComponent implements OnInit {
   openUpdateCoursePopup() {
     this.popupUpdateCourseVisible = true;
   }
+
   /**
    * Close the update pop up and put the initial values to the variables and inputs.
    */
@@ -111,6 +112,7 @@ export class ViewCourseComponent implements OnInit {
     this.tryingUpdateCourse = false;
     this.errorUpdateCourseBackend = false;
   }
+
   /**
    * Load the form with the loaded file.
    * @param event

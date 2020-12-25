@@ -39,4 +39,4 @@ testem.log
 Thumbs.db
 
 #Configuration travis test
-karma.conf.js 
+src/karma.conf.js

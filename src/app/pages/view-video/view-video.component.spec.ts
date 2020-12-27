@@ -4,6 +4,7 @@ import { ViewVideoComponent } from './view-video.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
+import {By} from '@angular/platform-browser';
 
 /**
  * Unit test of ViewVideoComponent
@@ -50,5 +51,30 @@ describe('ViewVideoComponent', () => {
     component.moreVideos = true;
     fixture.detectChanges();
     expect(document.getElementById('btn-get-videos').hidden).toBeFalse();
+  });
+
+  /**
+   * Test that show a message error if the user try to add a empty comment
+   */
+  it('should show a message error when try to add a empty commentary', () => {
+    expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeFalsy();
+    component.commentForm.get('comment').setValue('');
+    document.getElementById('btn-comment').click();
+    fixture.detectChanges();
+    expect((<HTMLInputElement>document.getElementById('div-comment'))
+      .classList.contains('invalid-input')).toBeTrue();
+  });
+
+  /**
+   * Test that doesn't show a message error if the user try to add a empty comment
+   */
+  it('shouldn\'t show a message error when try to add correct commentary', () => {
+    expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeFalsy();
+    component.commentForm.get('comment').setValue('Comment');
+    document.getElementById('btn-comment').click();
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeFalsy();
+    expect((<HTMLInputElement>document.getElementById('div-comment'))
+      .classList.contains('invalid-input')).toBeFalse();
   });
 });

@@ -115,13 +115,14 @@
                            formControlName="comment" [ngClass]="{'is-invalid' : !commentForm.get('comment').valid}"
                            name="comment">
                   </div>
-                  <div *ngIf="commentForm.controls['comment'].errors?.required && tryingComment" class="invalid-backend-response">
+                  <div *ngIf="commentForm.controls['comment'].errors?.required && tryingComment"
+                       class="invalid-backend-response">
                     <span id="required-comment-feedback">El nombre de usuario es necesario</span>
                   </div>
                 </div>
             </div>
               <div class="col-2">
-                <button type="button" id="comment-button" (click)="comment()" class="btn btn-primary">Comentar</button>
+                <button type="button" id="btn-comment" (click)="comment()" class="btn btn-primary">Comentar</button>
               </div>
             </div>
         </form>

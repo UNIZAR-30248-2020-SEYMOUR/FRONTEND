@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Course, Video} from '../../interfaces';
+import {Commentary, Course, Video} from '../../interfaces';
 import {CourseService} from '../../services/course.service';
 import {VideosService} from '../../services/videos.service';
 import {ActivatedRoute} from '@angular/router';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AccountService} from '../../services/account.service';
 
 @Component({
   selector: 'app-view-video',
@@ -22,19 +24,20 @@ export class ViewVideoComponent implements OnInit {
 
   currentVideoObtained: boolean;
   owner: String;
-  rate: number
+  rate: number;
   video: Video;
   course: Course;
   videos: Array<Video>;
+  comments: Array<Commentary>;
   moreVideos: boolean;
+  tryingComment: boolean;
+  commentForm: FormGroup;
+
   constructor(private courseService: CourseService,
               private videoService: VideosService,
+              private accountService: AccountService,
               private route: ActivatedRoute) {
-    this.videos = [];
-    this.moreVideos = true;
-    this.currentVideoObtained = false;
-    this.owner = '';
-    this.rate = 0;
+    this.initializeVariables();
     this.getParams();
     this.getVideoData();
     this.getCourseData();
@@ -42,6 +45,24 @@ export class ViewVideoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  /**
+   * This method initialize the variables of the class and set the validation rules to the forms
+   * @private
+   */
+  private initializeVariables() {
+    this.videos = [];
+    this.comments = [];
+    this.moreVideos = true;
+    this.tryingComment = false;
+    this.currentVideoObtained = false;
+    this.owner = '';
+    this.rate = 0;
+
+    this.commentForm = new FormGroup({
+      'comment' : new FormControl('', [ Validators.required])
+    });
   }
 
   /**
@@ -140,6 +161,7 @@ export class ViewVideoComponent implements OnInit {
       data => {
         this.rate = data.rate;
         this.owner = data.owner;
+        this.comments = data.comments;
         this.video = {
           id: this.video.id,
           name: data.title,
@@ -150,5 +172,26 @@ export class ViewVideoComponent implements OnInit {
       },
       error => {console.log(error.status); }
     );
+  }
+
+  /**
+   * This method verify if the comment is valid and if is valid send the comment do to the user
+   */
+  public comment() {
+    const commentInput = document.getElementById('div-comment');
+    this.tryingComment = true;
+    if (this.commentForm.controls['comment'].valid) {
+      const observer = this.videoService.comment(this.commentForm.get('comment').value, this.video.id);
+      observer.subscribe(
+        data => {this.tryingComment = false; this.comments = [];
+        this.getVideoData();
+        commentInput.classList.remove('invalid-input');
+        },
+        error => {console.log(error.status); }
+      );
+    } else {
+      commentInput.classList.remove('invalid-input');
+      commentInput.classList.add('invalid-input');
+    }
   }
 }

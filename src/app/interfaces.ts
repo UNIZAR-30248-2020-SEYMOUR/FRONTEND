@@ -38,3 +38,8 @@ export interface Video {
   videoUrl: string;
   imagePreview: string;
 }
+
+export interface Commentary {
+  username: string;
+  comment: string;
+}

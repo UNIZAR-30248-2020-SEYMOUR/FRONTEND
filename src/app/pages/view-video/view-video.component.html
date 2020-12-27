@@ -65,37 +65,91 @@
     <!--End  Video Player-->
           <hr class="my-4" />
     <!-- List of videos-->
-          <div class="card-header bg-white border-0">
-            <div class="row align-items-center">
-              <div class="col-6">
-                <h3 class="mb-0">Vídeos</h3>
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-6">
+                  <h3 class="mb-0">Vídeos</h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="pl-lg-12">
+                <div *ngFor=" let video of videos">
+                  <div class="row" style="display: flex">
+                    <div class="col-4">
+                      <img class="image-course" src="data:image/png;base64,{{video.imagePreview}}"/>
+                    </div>
+                    <div class="col-8" style="padding-top: 2%">
+                      <h1 [routerLink]="['/view-video', course.id, video.id]" class="h1-course">{{video.name}}</h1>
+                      <p class="p-course">{{video.description}}</p>
+                    </div>
+                  </div>
+                  <hr class="my-4" />
+                </div>
+                <div class="text-center">
+                  <input type="button" id="btn-get-videos" (click)="getMoreVideos()" class="btn btn-sm btn-primary"
+                         style="font-size: 100%" [hidden]="!moreVideos" value="Mostrar Más videos">
+                </div>
               </div>
             </div>
           </div>
+
+    <!--End List of videos-->
+          <hr class="my-4" />
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-6">
+              <h3 class="mb-0">Comentarios</h3>
+            </div>
+          </div>
+        </div>
+       <!-- Comments area-->
+          <!-- Commentary Form -->
+          <form role="form" [formGroup]="commentForm">
+            <div class="row justify-content-center">
+              <div class="col-6">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3" id="div-comment">
+                    <input class="form-control" placeholder="Escribe aquí tu comentario..." type="text"
+                           formControlName="comment" [ngClass]="{'is-invalid' : !commentForm.get('comment').valid}"
+                           name="comment">
+                  </div>
+                  <div *ngIf="commentForm.controls['comment'].errors?.required && tryingComment" class="invalid-backend-response">
+                    <span id="required-comment-feedback">El nombre de usuario es necesario</span>
+                  </div>
+                </div>
+            </div>
+              <div class="col-2">
+                <button type="button" id="comment-button" (click)="comment()" class="btn btn-primary">Comentar</button>
+              </div>
+            </div>
+        </form>
+          <!-- End Commentary Form -->
+            <!-- List of comments -->
           <div class="card-body">
             <div class="pl-lg-12">
-              <div *ngFor=" let video of videos">
+              <div *ngFor=" let comment of comments">
                 <div class="row" style="display: flex">
-                  <div class="col-4">
-                    <img class="image-course" src="data:image/png;base64,{{video.imagePreview}}"/>
+                  <div class="col-2">
+                    <a href="javascript:void(0)">
+                      <img [routerLink]="['/user-profile-no-owner', comment.username]" style="width: 100px" src="https://avatars.dicebear.com/api/human/{{comment.username}}.svg" class="rounded-circle">
+                    </a>
                   </div>
                   <div class="col-8" style="padding-top: 2%">
-                    <h1 [routerLink]="['/view-video', course.id, video.id]" class="h1-course">{{video.name}}</h1>
-                    <p class="p-course">{{video.description}}</p>
+                    <p [routerLink]="['/user-profile-no-owner', comment.username]" class="h1-course">{{comment.username}}</p>
+                    <h5>
+                      {{comment.comment}}</h5>
                   </div>
                 </div>
                 <hr class="my-4" />
               </div>
-              <hr class="my-4" />
-              <div class="text-center">
-                <input type="button" id="btn-get-videos" (click)="getMoreVideos()" class="btn btn-sm btn-primary"
-                       style="font-size: 100%" [hidden]="!moreVideos" value="Mostrar Más videos">
-              </div>
             </div>
           </div>
+          <!-- End List of comments -->
+        <!--End Comments area-->
         </div>
       </div>
-    <!--End List of videos-->
     </div>
   </div>
 

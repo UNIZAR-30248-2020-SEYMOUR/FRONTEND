@@ -44,4 +44,18 @@ export class VideosService {
     const json = {id: id};
     return this.http.post(this.apiUrl + '/get_video', JSON.stringify(json), this.httpOptions);
   }
+
+  /**
+   * Do a request to add a comment to a video
+   * @param comment: Comment to add in the video
+   * @param video: Video which wants to add the comment
+   */
+  comment(comment, video: number): Observable<any> {
+    const json = {
+      video: video,
+      uuid: this.cookie.get('uuid'),
+      comment: comment
+    };
+    return this.http.post(this.apiUrl + '/comment', JSON.stringify(json), this.httpOptions);
+  }
 }

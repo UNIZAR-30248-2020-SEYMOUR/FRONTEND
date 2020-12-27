@@ -17,18 +17,20 @@ import {ViewCourseComponent} from '../../pages/view-course/view-course.component
 import {ViewCourseNoOwnerComponent} from '../../pages/view-course-no-owner/view-course-no-owner.component';
 import {UserProfileNoOwnerComponent} from '../../pages/user-profile-no-owner/user-profile-no-owner.component';
 import {ViewVideoComponent} from '../../pages/view-video/view-video.component';
+import {ComponentsModule} from "../../components/components.module";
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(AdminLayoutRoutes),
-        FormsModule,
-        HttpClientModule,
-        NgbModule,
-        ClipboardModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(AdminLayoutRoutes),
+    FormsModule,
+    HttpClientModule,
+    NgbModule,
+    ClipboardModule,
+    ReactiveFormsModule,
+    ComponentsModule
+  ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,

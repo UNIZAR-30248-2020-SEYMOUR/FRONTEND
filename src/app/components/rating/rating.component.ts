@@ -19,6 +19,7 @@ export class RatingComponent implements OnInit {
   }
 
   addRate(currentRate: any) {
+    this.currentRate = currentRate;
     this.ratingChange.emit(currentRate);
   }
 }

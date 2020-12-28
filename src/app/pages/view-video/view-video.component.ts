@@ -203,7 +203,6 @@ export class ViewVideoComponent implements OnInit {
     const observer = this.videoService.addRatting(this.video.id, newRate);
     observer.subscribe(
       data => {
-        alert(data.rate);
         this.video.rate = data.rate;
       },
       error => {console.log(error.status); }

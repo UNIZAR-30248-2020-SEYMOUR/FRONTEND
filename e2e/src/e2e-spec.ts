@@ -60,6 +60,29 @@ describe('E2E Tests (Seymour)', () => {
     expect(element.all(by.className('description')).getText()).toContain('video-description-test');
   });
 
+  it('Should rate the video', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    browser.actions().click(element(by.className('course-title'))).perform();
+    browser.actions().click(element(by.className('h1-course'))).perform();
+    browser.actions().click(element(by.tagName('app-rating'))).perform(); // rate = 3
+    expect(element.all(by.tagName('app-rating')).getAttribute('ng-reflect-current-rate')).toContain('3');
+  });
+
+  it('Should comment the video', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    browser.actions().click(element(by.className('course-title'))).perform();
+    browser.actions().click(element(by.className('h1-course'))).perform();
+    element.all(by.name('comment')).sendKeys('First comment!');
+    browser.actions().click(element(by.id('btn-comment'))).perform();
+    expect(element.all(by.className('col-8')).getText()).not.toBeNull();
+  });
+
   it('Should remove a course in the application', async () => {
     browser.get('/#/login');
     element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
@@ -99,9 +122,9 @@ describe('E2E Tests (Seymour)', () => {
     browser.actions().click(element(by.id('combo-categories'))).perform();
     browser.element(by.css('#combo-categories [value=\'Marketing\']')).click();
     browser.actions().click(element(by.buttonText('Editar curso'))).perform();
-    expect(element.all(by.className('heading')).getText()).toContain('CURSO CON DESCRIPCION');
-    expect(element.all(by.className('description')).getText()).toContain('Esta es la descripcion de un curso con descripcion');
-    expect(element.all(by.className('description')).getText()).toContain('Marketing');
+    expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*Curso con descripcion.*');
+    expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*Esta es la descripcion de un curso con descripcion');
+    expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*MARKETING.*');
   });
 
   it('Should visualize a course', async () => {
@@ -110,9 +133,9 @@ describe('E2E Tests (Seymour)', () => {
     element.all(by.id('passwordInput')).sendKeys('password1234');
     browser.actions().click(element(by.id('login-button'))).perform();
     browser.actions().click(element(by.className('course-title'))).perform();
-    expect(element.all(by.className('heading')).getText()).toContain('CURSO CON DESCRIPCION');
-    expect(element.all(by.className('description')).getText()).toContain('Esta es la descripcion de un curso con descripcion');
-    expect(element.all(by.className('description')).getText()).toContain('Marketing');
+    expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*Curso con descripcion.*');
+    expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*Esta es la descripcion de un curso con descripcion.*');
+    expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*MARKETING.*');
   });
 
   it('Should find himself in the searcher', async () => {

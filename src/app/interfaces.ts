@@ -18,6 +18,7 @@ export interface Course {
   coursename: string;
   description: string;
   category: Category;
+  rate: number;
 }
 export interface Category {
   name: string;
@@ -37,6 +38,7 @@ export interface Video {
   description: string;
   videoUrl: string;
   imagePreview: string;
+  rate: number;
 }
 
 export interface Commentary {

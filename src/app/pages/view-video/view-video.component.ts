@@ -58,7 +58,6 @@ export class ViewVideoComponent implements OnInit {
     this.tryingComment = false;
     this.currentVideoObtained = false;
     this.owner = '';
-    this.rate = 0;
 
     this.commentForm = new FormGroup({
       'comment' : new FormControl('', [ Validators.required])
@@ -76,14 +75,16 @@ export class ViewVideoComponent implements OnInit {
         name: '',
         description: '',
         videoUrl: '',
-        imagePreview: ''
+        imagePreview: '',
+        rate: 0
       };
 
       this.course = {
         id: params.courseId,
         coursename: '',
         category:  {name: '', imageUrl: ''},
-        description: ''
+        description: '',
+        rate: 0
       };
     });
   }
@@ -142,7 +143,8 @@ export class ViewVideoComponent implements OnInit {
           id: this.course.id,
           coursename: data.name,
           description: data.description,
-          category: data.category
+          category: data.category,
+          rate: 0
         };
       },
       error => {
@@ -159,7 +161,6 @@ export class ViewVideoComponent implements OnInit {
     const observer = this.videoService.getVideoData(this.video.id);
     observer.subscribe(
       data => {
-        this.rate = data.rate;
         this.owner = data.owner;
         this.comments = data.comments;
         this.video = {
@@ -167,7 +168,8 @@ export class ViewVideoComponent implements OnInit {
           name: data.title,
           description: data.description,
           videoUrl: this.apiUrl + data.location,
-          imagePreview: data.imagePreview
+          imagePreview: data.imagePreview,
+          rate: data.rate
         };
       },
       error => {console.log(error.status); }
@@ -193,5 +195,18 @@ export class ViewVideoComponent implements OnInit {
       commentInput.classList.remove('invalid-input');
       commentInput.classList.add('invalid-input');
     }
+  }
+
+  setRatting(newRate: any) {
+
+
+    const observer = this.videoService.addRatting(this.video.id, newRate);
+    observer.subscribe(
+      data => {
+        alert(data.rate);
+        this.video.rate = data.rate;
+      },
+      error => {console.log(error.status); }
+    );
   }
 }

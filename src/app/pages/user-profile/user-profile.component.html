@@ -35,7 +35,7 @@
                   <span class="description">Cursos</span>
                 </div>
                 <div>
-                  <span class="heading">{{user.rate}}</span>
+                  <span class="heading"><app-rating [editable]="false" [currentRate]="user.rate"></app-rating></span>
                   <span class="description">Valoración</span>
                 </div>
               </div>
@@ -46,7 +46,7 @@
               {{user.username}}
             </h3>
             <div class="h5 font-weight-300">
-              <i class="ni location_pin mr-2"></i>{{user.email }}
+              <i class="ni location_pin mr-2"></i>{{user.email}}
             </div>
           </div>
         </div>

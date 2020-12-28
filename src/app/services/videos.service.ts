@@ -58,4 +58,12 @@ export class VideosService {
     };
     return this.http.post(this.apiUrl + '/comment', JSON.stringify(json), this.httpOptions);
   }
+  addRatting(videoID: number, newRate: number): Observable<any> {
+    const json = {
+      video: videoID,
+      uuid: this.cookie.get('uuid'),
+      rate: newRate
+    };
+    return this.http.post(this.apiUrl + '/rate', JSON.stringify(json), this.httpOptions);
+  }
 }

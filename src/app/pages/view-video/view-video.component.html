@@ -38,9 +38,12 @@
               </div>
             </div>
             <div class="text-center">
+              <span class="heading">Valoración</span> <br>
+              <app-rating [editable]="true" [currentRate]="video.rate" (ratingChange)="setRatting($event)"></app-rating><br>
               <span class="description">
                 {{video.description }}
               </span>
+
             </div>
           </div>
         </div>

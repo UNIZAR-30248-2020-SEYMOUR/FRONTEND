@@ -51,14 +51,10 @@ export class ViewCourseComponent implements OnInit {
           id: params.courseId,
           coursename: '',
           category:  {name: '', imageUrl: ''},
-          description: ''
+          description: '',
+          rate: 0
         };
-        this.course = {
-          id: params.courseId,
-          coursename: '',
-          category:  {name: '', imageUrl: ''},
-          description: ''
-        };
+
     });
     this.videos = [];
     this.moreVideos = true;
@@ -270,7 +266,8 @@ export class ViewCourseComponent implements OnInit {
         id: this.course.id,
         coursename: data.name,
         description: data.description,
-        category: data.category
+        category: data.category,
+        rate: data.rate
       }; },
       error => {console.log(error.status); }
     );
@@ -311,7 +308,8 @@ export class ViewCourseComponent implements OnInit {
         id: this.course.id,
         coursename: this.updateCourseForm.get('courseName').value,
         description: this.updateCourseForm.get('courseDescription').value,
-        category: {name: strUser, imageUrl: ''}
+        category: {name: strUser, imageUrl: ''},
+        rate: 0
       };
       this.backendUpdateCourse(auxCourse);
     }

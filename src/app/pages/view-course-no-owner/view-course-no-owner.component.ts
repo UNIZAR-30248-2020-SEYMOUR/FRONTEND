@@ -26,7 +26,8 @@ export class ViewCourseNoOwnerComponent implements OnInit {
         id: params.courseId,
         coursename: '',
         category:  {name: '', imageUrl: ''},
-        description: ''
+        description: '',
+        rate: 0
       };
     });
 
@@ -84,11 +85,13 @@ export class ViewCourseNoOwnerComponent implements OnInit {
   private getCourseData() {
     const observer = this.courseService.getCourseData(this.course.id);
     observer.subscribe(
-      data => {this.course = {
+      data => {
+        this.course = {
         id: this.course.id,
         coursename: data.name,
         description: data.description,
-        category: data.category
+        category: data.category,
+        rate: data.rate
       }; },
       error => {console.log(error.status); }
     );

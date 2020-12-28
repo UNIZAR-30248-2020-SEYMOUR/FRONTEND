@@ -21,7 +21,7 @@
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image">
                 <a href="javascript:void(0)">
-                  <img src="{{course.category.imageUrl}}" style="width: 400px" >
+                  <img src="{{course.category.imageUrl}}" style="width: 400px"  >
                 </a>
               </div>
             </div>
@@ -35,14 +35,18 @@
                   <div>
                     <span class="heading">{{course.coursename}}</span>
                     <span class="description">{{course.category.name}}</span>
+                    <div class="text-center">
+                    <span class="description">
+                      {{course.description }}
+                    </span> <br>
+                      <app-rating [editable]="false" [currentRate]="course.rate"></app-rating>
+                      <span class="description">
+                      ({{course.rate}})
+                    </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="text-center">
-            <span class="description">
-              {{course.description }}
-            </span>
             </div>
           </div>
         </div>

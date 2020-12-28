@@ -32,16 +32,23 @@
             <div class="col">
               <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                 <div>
-                  <span class="heading">{{course.coursename}}</span>
-                  <span class="description">{{course.category.name}}</span>
+                  <span class="heading">{{course.category.name}}</span>
+                  <span class="description">Categoría</span>
+                </div>
+                <div>
+                  <span class="heading"><app-rating [editable]="false" [currentRate]="course.rate"></app-rating></span>
+                  <span class="description">Valoración</span>
                 </div>
               </div>
             </div>
           </div>
           <div class="text-center">
-          <span class="description">
-            {{course.description }}
-          </span>
+            <h3 id="username">
+              {{course.coursename}}
+            </h3>
+            <div class="h5 font-weight-300">
+              <i class="ni location_pin mr-2"></i>{{course.description}}
+            </div>
           </div>
         </div>
       </div>

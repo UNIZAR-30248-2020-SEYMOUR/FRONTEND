@@ -151,7 +151,7 @@ export class UserProfileComponent implements OnInit {
         this.user.description = data.description;
         this.user.email = data.email;
         this.user.courses = data.courses;
-
+        this.user.rate = data.rate;
       },
       (error: HttpErrorResponse) => {console.log(error.status);  this.dealNotUser(error.error); }
     );
@@ -198,7 +198,8 @@ export class UserProfileComponent implements OnInit {
         id: -1,
         coursename: this.createCourseForm.get('courseName').value,
         description: this.createCourseForm.get('courseDescription').value,
-        category: {name: strUser, imageUrl: ''}};
+        category: {name: strUser, imageUrl: ''},
+        rate: 0};
       this.backendSave(course);
       this.closeNewCoursePopUp();
     }

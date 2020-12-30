@@ -155,7 +155,11 @@ describe('UserProfileComponent', () => {
    */
   it('should cancel the deletion of the course', () => {
     expect(document.getElementById('delete-course-pop-up').hidden).toBeTrue();
-    component.user.courses = [{ id: 1, coursename: 'testCourse', description: 'test', category: { name: 'Desarrollo personal', imageUrl: 'assets/img/categories/desarrolloPersonal.jpg'}, rate: 0}];
+    component.user.courses = [{ id: 1, coursename: 'testCourse',
+      description: 'test',
+      category: { name: 'Desarrollo personal', imageUrl: 'assets/img/categories/desarrolloPersonal.jpg'},
+      rate: 0,
+      ownername: ''}];
     fixture.detectChanges();
     document.getElementById('btn-open-delete-course-popup').click();
     fixture.detectChanges();

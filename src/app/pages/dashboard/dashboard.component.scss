@@ -1,22 +1,15 @@
-.gift {
+.star {
   position: relative;
   display: inline-block;
   font-size: 3rem;
   color: #d3d3d3;
 }
 .full {
-  color: #ffa600;
+  color: #eabf30;
 }
 .half {
   position: absolute;
   display: inline-block;
   overflow: hidden;
-  color: #ffa600;
+  color: #eabf30;
 }
-
-ngb-rating {
-  font-size: 100px;
-  color: #ffa600;
-}
-
-

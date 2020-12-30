@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import Chart from 'chart.js';
 
 // core components
@@ -23,9 +23,13 @@ export class DashboardComponent implements OnInit {
   public clicked = true;
   public clicked1 = false;
   currentRate: any;
+  rates: number[];
+  averages: number;
+
 
   constructor(private cookies: CookieService) {
-    this.currentRate = 1.3;
+    this.currentRate = 2.5;
+    this.rates = [];
   }
 
   ngOnInit() {
@@ -63,5 +67,15 @@ export class DashboardComponent implements OnInit {
   }
   getRating(data){
     console.log(data)
+  }
+
+  addRate(currentRate: any) {
+    this.averages = 0;
+    this.rates.push(currentRate);
+    for (let r of this.rates){
+      this.averages += r;
+    }
+    this.averages /= this.rates.length;
+    this.currentRate = this.averages;
   }
 }

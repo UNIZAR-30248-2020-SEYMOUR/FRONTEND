@@ -3,15 +3,13 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
 import {Course} from '../interfaces';
 import {Observable} from 'rxjs';
+import {SERVER_URL} from "./services.configuration";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseService {
-
-  // private apiUrl = 'http://oc2.danielhuici.ml/courses';
-  private apiUrl = 'http://localhost:3000/courses';
-  // private apiUrl = 'http://91.250.180.41:3000/courses';
+  private API_URL = SERVER_URL +'/courses';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -32,7 +30,7 @@ export class CourseService {
       category: course.category.name
     };
     const params = JSON.stringify(json);
-    return this.http.post(this.apiUrl + '/create_course', params, this.httpOptions);
+    return this.http.post(this.API_URL + '/create_course', params, this.httpOptions);
   }
 
   /**
@@ -43,7 +41,7 @@ export class CourseService {
     const json = {
       id: id
     };
-    return this.http.post(this.apiUrl + '/get_info', JSON.stringify(json), this.httpOptions);
+    return this.http.post(this.API_URL + '/get_info', JSON.stringify(json), this.httpOptions);
   }
 
   /**
@@ -58,7 +56,7 @@ export class CourseService {
       firstVideo: firstVideo,
       lastVideo: lastVideo
     };
-    return this.http.post(this.apiUrl + '/get_videos', JSON.stringify(json), this.httpOptions);
+    return this.http.post(this.API_URL + '/get_videos', JSON.stringify(json), this.httpOptions);
   }
 
   /**
@@ -72,7 +70,7 @@ export class CourseService {
       description: course.description,
       category: course.category.name
     };
-    return this.http.post(this.apiUrl + '/update_course', JSON.stringify(json), this.httpOptions);
+    return this.http.post(this.API_URL + '/update_course', JSON.stringify(json), this.httpOptions);
   }
 
   /**
@@ -81,10 +79,39 @@ export class CourseService {
    */
   removeCourse(courseId: number) {
     const json = {id: courseId};
-    return this.http.post(this.apiUrl + '/delete', JSON.stringify(json), this.httpOptions);
+    return this.http.post(this.API_URL + '/delete', JSON.stringify(json), this.httpOptions);
   }
 
+  /**
+   * This function gets the courses which has similar name to the search text.
+   * @param search Text to search.
+   * @param category Category to filter the results.
+   */
   getCourses(search: string, category: string): Observable<any> {
-    return this.http.post(this.apiUrl + '/search', {textToSearch: search, category: category}, this.httpOptions);
+    return this.http.post(this.API_URL + '/search', {textToSearch: search, category: category}, this.httpOptions);
+  }
+
+  /**
+   * This function subscribes a user to a course.
+   * @param courseId Course to subscribe.
+   */
+  subscribe(courseId: number): Observable<any> {
+    return this.http.post(this.API_URL + '/subscribe', {id_course: courseId, id_user: this.cookie.get('uuid')}, this.httpOptions);
+  }
+
+  /**
+   * This function unsubscribes a user to a course
+   * @param courseId Course to unsubscribe
+   */
+  unsubscribe(courseId: number): Observable<any> {
+    return this.http.post(this.API_URL + '/unsubscribe', {id_course: courseId, id_user: this.cookie.get('uuid')}, this.httpOptions);
+  }
+
+  /**
+   * This function check if a user is currently subscribed to a course.
+   * @param courseId Course identification to check subscription.
+   */
+  checkSubscribed(courseId: number): Observable<any> {
+    return this.http.post(this.API_URL + '/check_subscription', {id_course: courseId, id_user: this.cookie.get('uuid')}, this.httpOptions);
   }
 }

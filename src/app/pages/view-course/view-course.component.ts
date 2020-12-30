@@ -6,6 +6,8 @@ import {Category, Course, Video} from '../../interfaces';
 import {CourseService} from '../../services/course.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CategoriesService} from '../../services/categories.service';
+import {CookieService} from "ngx-cookie-service";
+import {manageGenericError} from "../error/error.component";
 
 @Component({
   selector: 'app-view-course',
@@ -52,9 +54,9 @@ export class ViewCourseComponent implements OnInit {
           coursename: '',
           category:  {name: '', imageUrl: ''},
           description: '',
-          rate: 0
+          rate: 0,
+          ownername: ''
         };
-
     });
     this.videos = [];
     this.moreVideos = true;
@@ -87,6 +89,7 @@ export class ViewCourseComponent implements OnInit {
       },
       error => {
         console.log(error.status);
+        manageGenericError(error, this.route);
       }
     );
   }
@@ -262,14 +265,18 @@ export class ViewCourseComponent implements OnInit {
   private getCourseData() {
     const observer = this.courseService.getCourseData(this.course.id);
     observer.subscribe(
-      data => {this.course = {
-        id: this.course.id,
-        coursename: data.name,
-        description: data.description,
-        category: data.category,
-        rate: data.rate
-      }; },
-      error => {console.log(error.status); }
+      data => {
+        this.course = {
+          id: this.course.id,
+          coursename: data.name,
+          description: data.description,
+          category: data.category,
+          rate: data.rate,
+          ownername: data.ownername
+        };
+      },
+      error => {console.log(error.status);
+        manageGenericError(error, this.route);}
     );
   }
 
@@ -281,7 +288,9 @@ export class ViewCourseComponent implements OnInit {
     const observer = this.categoriesService.getCategories();
     observer.subscribe(
       data => { this.categories = data; },
-      (error: HttpErrorResponse) => {console.log(error.status); this.dealNotUser(error.error); }
+      (error: HttpErrorResponse) => {
+        console.log(error.status);
+        manageGenericError(error, this.route);      }
     );
   }
 
@@ -309,7 +318,8 @@ export class ViewCourseComponent implements OnInit {
         coursename: this.updateCourseForm.get('courseName').value,
         description: this.updateCourseForm.get('courseDescription').value,
         category: {name: strUser, imageUrl: ''},
-        rate: 0
+        rate: 0,
+        ownername: ''
       };
       this.backendUpdateCourse(auxCourse);
     }
@@ -350,7 +360,10 @@ export class ViewCourseComponent implements OnInit {
                       this.course.category.name = data.name;
                       this.course.category.imageUrl = data.imageUrl;
                       this.closeUpdateCoursePopUp(); },
-      error => { console.log(error.status); this.errorUpdateCourseBackend = true; }
+      error => {
+        console.log(error.status);
+        this.errorUpdateCourseBackend = true;
+      }
     );
   }
 }

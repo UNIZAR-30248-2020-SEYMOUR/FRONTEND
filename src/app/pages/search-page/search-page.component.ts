@@ -7,6 +7,7 @@ import {Category, Course, UsersProfile} from '../../interfaces';
 import {CourseService} from "../../services/course.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CategoriesService} from "../../services/categories.service";
+import {manageGenericError} from "../error/error.component";
 
 @Component({
   selector: 'app-search',
@@ -28,7 +29,7 @@ export class SearchPageComponent implements OnInit {
   categories: Category[];
   isCourse: boolean;
 
-  constructor(private accountService: AccountService, private categoriesService: CategoriesService,
+  constructor(private accountService: AccountService, private router: Router, private categoriesService: CategoriesService,
               private courseService: CourseService, private cookie: CookieService, private route: ActivatedRoute) {
     this.profiles = [];
     this.courses = [];
@@ -55,7 +56,7 @@ export class SearchPageComponent implements OnInit {
   }
 
   /**
-   * Search the profiles wich contains the search string.
+   * Search the profiles which contains the search string.
    * @param search String to search.
    * @private
    */
@@ -63,17 +64,27 @@ export class SearchPageComponent implements OnInit {
     const observer = this.accountService.getProfiles(search);
     observer.subscribe(
       data => { this.profiles = data; },
-      (error: HttpErrorResponse) => {console.log(error.status); }
+      (error: HttpErrorResponse) => {
+        manageGenericError(error, this.router);
+      }
     );
   }
 
+  /**
+   * Gets all the courses which coincides with the text and category parameters.
+   * @param search Course name to search.
+   * @param category to filter.
+   */
   private loadCourses(search: string, category: string) {
     const observer = this.courseService.getCourses(search, category);
     observer.subscribe(
       data => {
         this.courses = data;
       },
-      (error: HttpErrorResponse) => {console.log(error.status); }
+      (error: HttpErrorResponse) => {
+        console.log(error.status);
+        manageGenericError(error, this.router);
+      }
     );
   }
 
@@ -85,7 +96,10 @@ export class SearchPageComponent implements OnInit {
     const observer = this.categoriesService.getCategories();
     observer.subscribe(
       data => { this.categories = data; },
-      (error: HttpErrorResponse) => {console.log(error.status); this.dealNotUser(error.error); }
+      (error: HttpErrorResponse) => {
+        console.log(error.status);
+        manageGenericError(error, this.router);
+      }
     );
   }
 

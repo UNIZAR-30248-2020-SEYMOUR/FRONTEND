@@ -2,15 +2,13 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
+import {SERVER_URL} from "./services.configuration";
 
 @Injectable({
   providedIn: 'root'
 })
 export class VideosService {
-
-  // private apiUrl = 'http://oc2.danielhuici.ml/videos';
-  private apiUrl = 'http://localhost:3000/videos';
-  // private apiUrl = 'http://91.250.180.41:3000/videos';
+  private API_URL = SERVER_URL + '/videos';
 
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -24,7 +22,7 @@ export class VideosService {
    * @param formData form with the video.
    */
   uploadVideo(formData: FormData): Observable<any> {
-    return this.http.post(this.apiUrl + '/upload', formData);
+    return this.http.post(this.API_URL + '/upload', formData);
   }
 
   /**
@@ -33,7 +31,7 @@ export class VideosService {
    */
   sendDetails(details: {course: number, video: number, title: string, description: string}) {
     const params = JSON.stringify(details);
-    return this.http.post(this.apiUrl + '/details' , params, this.httpOptions);
+    return this.http.post(this.API_URL + '/details' , params, this.httpOptions);
   }
 
   /**
@@ -42,7 +40,7 @@ export class VideosService {
    */
   getVideoData(id: number): Observable<any> {
     const json = {id: id};
-    return this.http.post(this.apiUrl + '/get_video', JSON.stringify(json), this.httpOptions);
+    return this.http.post(this.API_URL + '/get_video', JSON.stringify(json), this.httpOptions);
   }
 
   /**
@@ -56,14 +54,20 @@ export class VideosService {
       uuid: this.cookie.get('uuid'),
       comment: comment
     };
-    return this.http.post(this.apiUrl + '/comment', JSON.stringify(json), this.httpOptions);
+    return this.http.post(this.API_URL + '/comment', JSON.stringify(json), this.httpOptions);
   }
+
+  /**
+   * This function send a video rating to the server
+   * @param videoID video identification.
+   * @param newRate Rating number.
+   */
   addRatting(videoID: number, newRate: number): Observable<any> {
     const json = {
       video: videoID,
       uuid: this.cookie.get('uuid'),
       rate: newRate
     };
-    return this.http.post(this.apiUrl + '/rate', JSON.stringify(json), this.httpOptions);
+    return this.http.post(this.API_URL + '/rate', JSON.stringify(json), this.httpOptions);
   }
 }

@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Login, SelfProfile} from '../interfaces';
 import {CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
+import {SERVER_URL} from "./services.configuration";
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,11 @@ import {Observable} from 'rxjs';
  * This class contains de logic of do the requests for operations necessary for user accounts
  */
 export class AccountService {
-  // private apiUrl = 'http://oc2.danielhuici.ml/users';
-  private apiUrl = 'http://localhost:3000/users';
-  //private apiUrl = 'http://91.250.180.41:3000/users';
+  private API_URL = SERVER_URL + '/users';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-  private headers: HttpHeaders;
 
   constructor(private http: HttpClient, private cookie: CookieService) {
   }
@@ -31,7 +29,7 @@ export class AccountService {
    */
   register(user: SelfProfile): Observable<any> {
     const params = JSON.stringify(user);
-    return this.http.post(this.apiUrl + '/register' , params, this.httpOptions);
+    return this.http.post(this.API_URL + '/register' , params, this.httpOptions);
   }
 
   /**
@@ -42,7 +40,7 @@ export class AccountService {
   login(loginData: Login): Observable<any> {
     const params = JSON.stringify(loginData);
 
-    return this.http.post(this.apiUrl + '/login' , params, this.httpOptions);
+    return this.http.post(this.API_URL + '/login' , params, this.httpOptions);
   }
 
   /**
@@ -64,7 +62,7 @@ export class AccountService {
     };
 
     const params = JSON.stringify(json);
-    return this.http.post(this.apiUrl + '/get_user' , params, this.httpOptions);
+    return this.http.post(this.API_URL + '/get_user' , params, this.httpOptions);
   }
 
 
@@ -78,7 +76,7 @@ export class AccountService {
     };
 
     const params = JSON.stringify(json);
-    return this.http.post(this.apiUrl + '/user_profile' , params, this.httpOptions);
+    return this.http.post(this.API_URL + '/user_profile' , params, this.httpOptions);
   }
 
   /**
@@ -93,7 +91,7 @@ export class AccountService {
       token: idToken
     };
     const params = JSON.stringify(json);
-    return this.http.post(this.apiUrl + '/reset_password' , params, this.httpOptions);
+    return this.http.post(this.API_URL + '/reset_password' , params, this.httpOptions);
   }
 
   /**
@@ -106,7 +104,7 @@ export class AccountService {
       email: email
     };
     const params = JSON.stringify(json);
-    return this.http.post(this.apiUrl + '/forgot_password', params, this.httpOptions);
+    return this.http.post(this.API_URL + '/forgot_password', params, this.httpOptions);
   }
 
   /**
@@ -115,7 +113,7 @@ export class AccountService {
    */
   deleteUser(uuid: string): Observable<any> {
     const json = {uuid: uuid};
-    return this.http.post(this.apiUrl + '/delete', JSON.stringify(json), this.httpOptions);
+    return this.http.post(this.API_URL + '/delete', JSON.stringify(json), this.httpOptions);
   }
 
   /**
@@ -123,7 +121,7 @@ export class AccountService {
    * @param user to update the information
    */
   updateProfile(user: SelfProfile): Observable<any> {
-    return this.http.post(this.apiUrl + '/update_profile', JSON.stringify(user), this.httpOptions);
+    return this.http.post(this.API_URL + '/update_profile', JSON.stringify(user), this.httpOptions);
   }
 
   /**
@@ -131,6 +129,6 @@ export class AccountService {
    * @param search String to search.
    */
   getProfiles(search: String): Observable<any> {
-    return this.http.post(this.apiUrl + '/search', {textToSearch: search}, this.httpOptions);
+    return this.http.post(this.API_URL + '/search', {textToSearch: search}, this.httpOptions);
   }
 }

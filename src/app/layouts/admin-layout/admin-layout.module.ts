@@ -18,7 +18,6 @@ import {ViewCourseNoOwnerComponent} from '../../pages/view-course-no-owner/view-
 import {UserProfileNoOwnerComponent} from '../../pages/user-profile-no-owner/user-profile-no-owner.component';
 import {ViewVideoComponent} from '../../pages/view-video/view-video.component';
 import {ComponentsModule} from "../../components/components.module";
-// import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [

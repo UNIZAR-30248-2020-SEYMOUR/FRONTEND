@@ -4,6 +4,7 @@ import {SelfProfile} from '../../interfaces';
 import {AccountService} from '../../services/account.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {CookieService} from "ngx-cookie-service";
 
 
 
@@ -22,7 +23,7 @@ export class RegisterComponent implements OnInit {
   validUser: boolean;
   validEmail: boolean;
 
-  constructor(private registerService: AccountService, private route: Router) {
+  constructor(private registerService: AccountService, private cookie: CookieService, private route: Router) {
     this.trying = false;
     this.validUser = true;
     this.validEmail = true;
@@ -73,8 +74,14 @@ export class RegisterComponent implements OnInit {
       };
       const observer = this.registerService.register(user);
       observer.subscribe(
-        data => {this.registerService.saveUser(data); this.route.navigate(['/user-profile']); },
-        (error: HttpErrorResponse) => {this.dealNotRegister(error.error); }
+        data => {
+          this.registerService.saveUser(data);
+          this.cookie.set('username', user.username)
+          this.route.navigate(['/user-profile']);
+          },
+        (error: HttpErrorResponse) => {
+          this.dealNotRegister(error.error);
+        }
       );
     }
     this.updateFeedback();

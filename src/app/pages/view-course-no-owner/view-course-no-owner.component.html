@@ -61,6 +61,13 @@
               <div class="col-6">
                 <h3 class="mb-0">Vídeos</h3>
               </div>
+              <div class="col-4 text-center"></div>
+              <div class="col-2 text-center">
+                <input type="button"   (click)="subscribeToCourse()" id='btn-unsubscribe-course'
+                       class="btn btn-sm btn-neutral" value="Suscríbete" [hidden]="subscribed || isYourCourse">
+                <input type="button"  (click)="unsubscribeToCourse()" id='btn-subscribe-course' [hidden]="!subscribed || isYourCourse "
+                       class="btn btn-sm btn-primary" value="Suscrito">
+              </div>
             </div>
           </div>
           <div class="card-body">

@@ -21,6 +21,7 @@ import {CategoriesService} from './services/categories.service';
 
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import {VideosService} from './services/videos.service';
+import { ErrorComponent } from './pages/error/error.component';
 
 
 
@@ -40,7 +41,8 @@ import {VideosService} from './services/videos.service';
     AdminLayoutComponent,
     AuthLayoutComponent,
     HelpComponent,
-    SearchPageComponent
+    SearchPageComponent,
+    ErrorComponent
   ],
   providers: [AccountService, CookieService, CourseService, CategoriesService, VideosService],
   bootstrap: [AppComponent]

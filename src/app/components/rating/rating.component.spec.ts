@@ -22,10 +22,16 @@ describe('RatingComponent', () => {
     fixture.detectChanges();
   });
 
+  /**
+   * This function checks if the component is correctly created.
+   */
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  /**
+   * Checks if the component updates correctly the rating values.
+   */
   it('should change the rating', () => {
     component.addRate(4.5)
     fixture.detectChanges();
@@ -38,6 +44,9 @@ describe('RatingComponent', () => {
     expect(document.querySelectorAll('.half').length).toBe(0)
   });
 
+  /**
+   * This function tests if displays correctly the full and the half stars.
+   */
   it('should display the rating', () => {
     component.currentRate = 4.5
     fixture.detectChanges();

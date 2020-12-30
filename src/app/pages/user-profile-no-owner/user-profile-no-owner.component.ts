@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {CourseService} from '../../services/course.service';
 import {CategoriesService} from '../../services/categories.service';
+import {manageGenericError} from "../error/error.component";
 
 
 
@@ -57,19 +58,10 @@ export class UserProfileNoOwnerComponent implements OnInit {
         this.user.courses = data.courses;
         this.user.rate = data.rate;
       },
-      (error: HttpErrorResponse) => {console.log(error.status);  this.dealNotUser(error.error); }
+      (error: HttpErrorResponse) => {
+        console.log(error.status);
+        manageGenericError(error, this.route);
+      }
     );
   }
-
-  /**
-   * This method handles the errors from the backend requests
-   * @param error: error message received from the backend
-   * @private
-   */
-  private dealNotUser(error: JSON) {
-    if (error['error'] === 'User does not exist') {
-      this.route.navigate(['/login']);
-    }
-  }
-
 }

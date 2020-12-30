@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {Commentary, Course, Video} from '../../interfaces';
 import {CourseService} from '../../services/course.service';
 import {VideosService} from '../../services/videos.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AccountService} from '../../services/account.service';
+import {manageGenericError} from "../error/error.component";
+import {SERVER_URL} from "../../services/services.configuration";
 
 @Component({
   selector: 'app-view-video',
@@ -16,9 +18,7 @@ import {AccountService} from '../../services/account.service';
  * This class content the logic of the ViewVideo component
  */
 export class ViewVideoComponent implements OnInit {
-  // private apiUrl = 'http://oc2.danielhuici.ml/';
-  private apiUrl = 'http://localhost:3000/';
-  // private apiUrl = 'http://91.250.180.41:3000/';
+
 
   NUM_GET_VIDEOS = 10;
 
@@ -36,6 +36,7 @@ export class ViewVideoComponent implements OnInit {
   constructor(private courseService: CourseService,
               private videoService: VideosService,
               private accountService: AccountService,
+              private router: Router,
               private route: ActivatedRoute) {
     this.initializeVariables();
     this.getParams();
@@ -69,7 +70,7 @@ export class ViewVideoComponent implements OnInit {
    * @private
    */
   private getParams() {
-    const sub = this.route.params.subscribe(params => {
+    this.route.params.subscribe(params => {
       this.video = {
         id: params.videoId,
         name: '',
@@ -84,7 +85,8 @@ export class ViewVideoComponent implements OnInit {
         coursename: '',
         category:  {name: '', imageUrl: ''},
         description: '',
-        rate: 0
+        rate: 0,
+        ownername: ''
       };
     });
   }
@@ -111,6 +113,7 @@ export class ViewVideoComponent implements OnInit {
       },
       error => {
         console.log(error.status);
+        manageGenericError(error, this.router);
       }
     );
   }
@@ -144,11 +147,13 @@ export class ViewVideoComponent implements OnInit {
           coursename: data.name,
           description: data.description,
           category: data.category,
-          rate: 0
+          rate: 0,
+          ownername: ''
         };
       },
       error => {
         console.log(error.status);
+        manageGenericError(error, this.router);
       }
     );
   }
@@ -167,12 +172,15 @@ export class ViewVideoComponent implements OnInit {
           id: this.video.id,
           name: data.title,
           description: data.description,
-          videoUrl: this.apiUrl + data.location,
+          videoUrl: SERVER_URL + '/' + data.location,
           imagePreview: data.imagePreview,
           rate: data.rate
         };
       },
-      error => {console.log(error.status); }
+      error => {
+        console.log(error.status);
+        manageGenericError(error, this.router);
+      }
     );
   }
 
@@ -189,7 +197,10 @@ export class ViewVideoComponent implements OnInit {
         this.getVideoData();
         commentInput.classList.remove('invalid-input');
         },
-        error => {console.log(error.status); }
+        error => {
+          console.log(error.status);
+          manageGenericError(error, this.router);
+        }
       );
     } else {
       commentInput.classList.remove('invalid-input');
@@ -198,15 +209,16 @@ export class ViewVideoComponent implements OnInit {
   }
 
   setRatting(newRate: any) {
-
-
     const observer = this.videoService.addRatting(this.video.id, newRate);
     observer.subscribe(
       data => {
         alert(data.rate);
         this.video.rate = data.rate;
       },
-      error => {console.log(error.status); }
+      error => {
+        console.log(error.status);
+        manageGenericError(error, this.router);
+      }
     );
   }
 }

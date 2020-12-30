@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import {HelpComponent} from './pages/help/help.component';
+import {ErrorComponent} from "./pages/error/error.component";
 
 const routes: Routes = [
   {
@@ -33,10 +34,14 @@ const routes: Routes = [
         component: HelpComponent,
         }
     ]
+  },{
+    path: 'error/:code/:message',
+    component: ErrorComponent
   }, {
     path: '**',
     redirectTo: 'login'
   },
+
 
 ];
 

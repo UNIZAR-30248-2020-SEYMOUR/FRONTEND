@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {CourseService} from '../../services/course.service';
 import {CategoriesService} from '../../services/categories.service';
+import {manageGenericError} from "../error/error.component";
 
 
 
@@ -40,7 +41,8 @@ export class UserProfileComponent implements OnInit {
   private validEmail: boolean;
   private courseToDelete: number;
 
-  constructor(private accountService: AccountService, private courseService: CourseService, private categoriesService: CategoriesService,
+  constructor(private accountService: AccountService, private courseService: CourseService,
+              private categoriesService: CategoriesService, private router:Router,
               private route: Router, private cookie: CookieService) {
 
    this.popupNewCourseVisible = false;
@@ -152,20 +154,12 @@ export class UserProfileComponent implements OnInit {
         this.user.email = data.email;
         this.user.courses = data.courses;
         this.user.rate = data.rate;
+        this.cookie.set('username', this.user.username);
       },
-      (error: HttpErrorResponse) => {console.log(error.status);  this.dealNotUser(error.error); }
+      (error: HttpErrorResponse) => {console.log(error.status);
+        manageGenericError(error, this.router);
+      }
     );
-  }
-
-  /**
-   * This method handles the errors from the backend requests
-   * @param error: error message received from the backend
-   * @private
-   */
-  private dealNotUser(error: JSON) {
-    if (error['error'] === 'User does not exist') {
-      this.route.navigate(['/login']);
-    }
   }
 
   /**
@@ -199,7 +193,9 @@ export class UserProfileComponent implements OnInit {
         coursename: this.createCourseForm.get('courseName').value,
         description: this.createCourseForm.get('courseDescription').value,
         category: {name: strUser, imageUrl: ''},
-        rate: 0};
+        rate: 0,
+        ownername: ''
+      };
       this.backendSave(course);
       this.closeNewCoursePopUp();
     }
@@ -213,7 +209,10 @@ export class UserProfileComponent implements OnInit {
     const observer = this.courseService.saveNewCourse(course);
     observer.subscribe(
       data => { this.getUserData(); },
-      (error: HttpErrorResponse) => {console.log(error.status); this.dealNotUser(error.error); }
+      (error: HttpErrorResponse) => {
+        console.log(error.status);
+        manageGenericError(error, this.router);
+      }
     );
   }
 
@@ -257,7 +256,10 @@ export class UserProfileComponent implements OnInit {
     const observer = this.categoriesService.getCategories();
     observer.subscribe(
       data => { this.categories = data; },
-      (error: HttpErrorResponse) => {console.log(error.status); this.dealNotUser(error.error); }
+      (error: HttpErrorResponse) => {
+        console.log(error.status);
+        manageGenericError(error, this.router);
+      }
     );
   }
 
@@ -368,7 +370,9 @@ export class UserProfileComponent implements OnInit {
     const observer = this.courseService.removeCourse(this.courseToDelete);
     observer.subscribe(
       data => {this.getUserData(); this.closeDeleteCoursePopup(); },
-      error => {console.log(error.status); this.dealErrorNotDeleteCourse(); }
+      error => {console.log(error.status);
+        this.dealErrorNotDeleteCourse();
+      }
     );
   }
 }

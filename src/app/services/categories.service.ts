@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
+import {SERVER_URL} from "./services.configuration";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriesService {
 
-  // private apiUrl = 'http://oc2.danielhuici.ml/categories';
-  private apiUrl = 'http://localhost:3000/categories';
-  //private apiUrl = 'http://91.250.180.41:3000/categories';
-
+  API_URL = SERVER_URL +'/categories';
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient, private cookie: CookieService) {
+  constructor(private http: HttpClient) {
   }
 
   /**
@@ -24,6 +21,6 @@ export class CategoriesService {
    @return Observable that receive the response of the server
    */
   getCategories(): Observable<any> {
-    return this.http.post(this.apiUrl + '/get_list', null, this.httpOptions);
+    return this.http.post(this.API_URL + '/get_list', null, this.httpOptions);
   }
 }

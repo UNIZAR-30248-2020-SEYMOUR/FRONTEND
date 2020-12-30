@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Login} from '../../interfaces';
 import {AccountService} from '../../services/account.service';
 import {Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
+import {CookieService} from "ngx-cookie-service";
 
 
 @Component({
@@ -25,8 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   invalidPassword: boolean;
   emailSent: boolean;
 
-
-  constructor(private loginService: AccountService, private route: Router) {
+  constructor(private loginService: AccountService, private cookie: CookieService, private route: Router) {
     this.triedLogin = false;
     this.triedSendEmail = false;
     this.invalidPassword = false;
@@ -71,8 +71,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       };
       const observer = this.loginService.login(user);
       observer.subscribe(
-          data => {this.loginService.saveUser(data); this.route.navigate(['/user-profile']); },
-          (error: HttpErrorResponse) => {console.log(error.status); this.dealNotLogin(error.error); }
+          data => {
+            this.loginService.saveUser(data);
+            this.cookie.set('username', data.username);
+            this.route.navigate(['/user-profile']);
+            },
+          (error: HttpErrorResponse) => {
+            console.log(error.status);
+            this.dealNotLogin(error.error); }
         );
     }
   }

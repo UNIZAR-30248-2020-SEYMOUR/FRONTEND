@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Course, Video} from '../../interfaces';
 import {CourseService} from '../../services/course.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CookieService} from "ngx-cookie-service";
+import {manageGenericError} from "../error/error.component";
 
 @Component({
   selector: 'app-view-course-no-owner',
@@ -19,18 +21,22 @@ export class ViewCourseNoOwnerComponent implements OnInit {
   course: Course;
   videos: Array<Video>;
   moreVideos: boolean;
+  subscribed: boolean;
+  isYourCourse: boolean;
 
-  constructor(private courseService: CourseService, private route: ActivatedRoute) {
+  constructor(private courseService: CourseService, private route: ActivatedRoute, private router: Router,
+              private cookies: CookieService) {
     const sub = this.route.params.subscribe(params => {
       this.course = {
         id: params.courseId,
         coursename: '',
         category:  {name: '', imageUrl: ''},
         description: '',
-        rate: 0
+        rate: 0,
+        ownername: ''
       };
     });
-
+    this.checkSubscribed(this.course.id);
     this.videos = [];
     this.moreVideos = true;
     this.getCourseData();
@@ -60,6 +66,7 @@ export class ViewCourseNoOwnerComponent implements OnInit {
       },
       error => {
         console.log(error.status);
+        manageGenericError(error, this.router);
       }
     );
   }
@@ -70,11 +77,7 @@ export class ViewCourseNoOwnerComponent implements OnInit {
    * @private
    */
   private showVideos(videos: Array<Video>) {
-    if (videos.length < this.NUM_GET_VIDEOS) {
-      this.moreVideos = false;
-    } else {
-      this.moreVideos = true;
-    }
+    this.moreVideos = videos.length >= this.NUM_GET_VIDEOS;
     videos.forEach(video => this.videos.push(video));
   }
 
@@ -91,10 +94,62 @@ export class ViewCourseNoOwnerComponent implements OnInit {
         coursename: data.name,
         description: data.description,
         category: data.category,
-        rate: data.rate
-      }; },
-      error => {console.log(error.status); }
+        rate: data.rate,
+        ownername: data.ownername
+      };
+        this.isYourCourse = this.course.ownername === this.cookies.get('username');
+      },
+      error => {console.log(error.status);
+        manageGenericError(error, this.router);
+      }
     );
   }
 
+  /**
+   * This function subscribes a user to a course.
+   */
+  subscribeToCourse(){
+    const observer = this.courseService.subscribe(this.course.id);
+    observer.subscribe(
+      data => {
+        this.subscribed = true;
+      },
+      error => {console.log(error.status);
+        this.subscribed = false;
+        manageGenericError(error, this.router);
+      }
+    );
+  }
+
+  /**
+   * This function unsubscribes a user to a course
+   */
+  unsubscribeToCourse(){
+    const observer = this.courseService.unsubscribe(this.course.id);
+    observer.subscribe(
+      data => {
+        this.subscribed = false;
+      },
+      error => {console.log(error.status);
+        this.subscribed = true;
+        manageGenericError(error, this.router);
+      }
+    );
+  }
+
+  /**
+   * This function checks if a user is subscribed to a course.
+   * @param id Identification of the course which you want to check the subscription.
+   */
+  checkSubscribed(id: number){
+    const observer = this.courseService.checkSubscribed(id);
+    observer.subscribe(
+      data => {
+        this.subscribed = false;
+      },
+      error => {console.log(error.status);
+        this.subscribed = true;
+      }
+    );
+  }
 }

@@ -19,6 +19,7 @@ export interface Course {
   description: string;
   category: Category;
   rate: number;
+  ownername: string;
 }
 export interface Category {
   name: string;

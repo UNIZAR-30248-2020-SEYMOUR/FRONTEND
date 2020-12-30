@@ -18,6 +18,10 @@ export class RatingComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Sets the new rate and notifies to the father component.
+   * @param currentRate New rating value.
+   */
   addRate(currentRate: any) {
     this.currentRate = currentRate;
     this.ratingChange.emit(currentRate);

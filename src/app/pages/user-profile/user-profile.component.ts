@@ -72,6 +72,9 @@ export class UserProfileComponent implements OnInit {
     this.getFeed();
   }
 
+  ngOnInit() {
+  }
+
   /**
    * This method save the user modified data
    */
@@ -117,9 +120,7 @@ export class UserProfileComponent implements OnInit {
     this.validEmail = true;
     document.getElementById('input-username').classList.remove('invalid-input');
     document.getElementById('input-email').classList.remove('invalid-input');
-  }
-
-  ngOnInit() {
+    this.getUserData();
   }
 
   /**
@@ -313,7 +314,9 @@ export class UserProfileComponent implements OnInit {
   deleteUserProfile() {
     const observer = this.accountService.deleteUser(this.cookie.get('uuid'));
     observer.subscribe(
-      data => {this.route.navigate(['/login']); this.deleteProfileError = false; this.closeDeleteProfilePopup(); },
+      data => {this.route.navigate(['/login']);
+      this.deleteProfileError = false;
+      this.closeDeleteProfilePopup(); },
       error => {console.log(error.status); this.dealErrorNotDeleteProfile(error.error); }
     );
   }

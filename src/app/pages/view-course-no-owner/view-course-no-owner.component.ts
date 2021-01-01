@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Course, Video} from '../../interfaces';
 import {CourseService} from '../../services/course.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CookieService} from "ngx-cookie-service";
-import {manageGenericError} from "../error/error.component";
+import {CookieService} from 'ngx-cookie-service';
+import {manageGenericError} from '../error/error.component';
 
 @Component({
   selector: 'app-view-course-no-owner',
@@ -108,7 +108,7 @@ export class ViewCourseNoOwnerComponent implements OnInit {
   /**
    * This function subscribes a user to a course.
    */
-  subscribeToCourse(){
+  subscribeToCourse() {
     const observer = this.courseService.subscribe(this.course.id);
     observer.subscribe(
       data => {
@@ -124,7 +124,7 @@ export class ViewCourseNoOwnerComponent implements OnInit {
   /**
    * This function unsubscribes a user to a course
    */
-  unsubscribeToCourse(){
+  unsubscribeToCourse() {
     const observer = this.courseService.unsubscribe(this.course.id);
     observer.subscribe(
       data => {
@@ -141,7 +141,7 @@ export class ViewCourseNoOwnerComponent implements OnInit {
    * This function checks if a user is subscribed to a course.
    * @param id Identification of the course which you want to check the subscription.
    */
-  checkSubscribed(id: number){
+  checkSubscribed(id: number) {
     const observer = this.courseService.checkSubscribed(id);
     observer.subscribe(
       data => {

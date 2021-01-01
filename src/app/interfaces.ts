@@ -42,6 +42,16 @@ export interface Video {
   rate: number;
 }
 
+export interface VideoFeed {
+  id: number;
+  title: string;
+  description: string;
+  videoUrl: string;
+  imagePreview: string;
+  rate: number;
+  course: number;
+}
+
 export interface Commentary {
   username: string;
   comment: string;

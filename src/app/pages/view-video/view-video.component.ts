@@ -5,8 +5,8 @@ import {VideosService} from '../../services/videos.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AccountService} from '../../services/account.service';
-import {manageGenericError} from "../error/error.component";
-import {SERVER_URL} from "../../services/services.configuration";
+import {manageGenericError} from '../error/error.component';
+import {SERVER_URL} from '../../services/services.configuration';
 
 @Component({
   selector: 'app-view-video',

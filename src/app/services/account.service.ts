@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Login, SelfProfile} from '../interfaces';
 import {CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
-import {SERVER_URL} from "./services.configuration";
+import {SERVER_URL} from './services.configuration';
 
 @Injectable({
   providedIn: 'root'
@@ -130,5 +130,20 @@ export class AccountService {
    */
   getProfiles(search: String): Observable<any> {
     return this.http.post(this.API_URL + '/search', {textToSearch: search}, this.httpOptions);
+  }
+
+  /**
+   * This function do a request to get videos of the user feed
+   * @param uuid: user id to get the fedd
+   * @param firstVideo: position of the first video to get
+   * @param lastVideo: position of the last video to get
+   */
+  getFeed(uuid: string, firstVideo: number, lastVideo: number): Observable<any> {
+    const json = {
+      uuid: uuid,
+      firstVideo: firstVideo,
+      lastVideo: lastVideo
+    };
+    return this.http.post(this.API_URL + '/feed', JSON.stringify(json), this.httpOptions);
   }
 }

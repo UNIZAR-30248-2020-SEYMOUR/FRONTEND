@@ -4,7 +4,7 @@ import {SelfProfile} from '../../interfaces';
 import {AccountService} from '../../services/account.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {CookieService} from "ngx-cookie-service";
+import {CookieService} from 'ngx-cookie-service';
 
 
 
@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit {
       observer.subscribe(
         data => {
           this.registerService.saveUser(data);
-          this.cookie.set('username', user.username)
+          this.cookie.set('username', user.username);
           this.route.navigate(['/user-profile']);
           },
         (error: HttpErrorResponse) => {

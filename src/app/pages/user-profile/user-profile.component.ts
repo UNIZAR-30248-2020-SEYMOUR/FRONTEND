@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Category, Course, SelfProfile} from '../../interfaces';
+import {Category, Course, SelfProfile, Video, VideoFeed} from '../../interfaces';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AccountService} from '../../services/account.service';
@@ -7,8 +7,7 @@ import {Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {CourseService} from '../../services/course.service';
 import {CategoriesService} from '../../services/categories.service';
-import {manageGenericError} from "../error/error.component";
-
+import {manageGenericError} from '../error/error.component';
 
 
 @Component({
@@ -21,6 +20,8 @@ import {manageGenericError} from "../error/error.component";
  * This class contains de logic of the user-profile.
  */
 export class UserProfileComponent implements OnInit {
+  NUM_GET_FEED = 10;
+
   user: SelfProfile;
 
   disabled: any;
@@ -36,13 +37,15 @@ export class UserProfileComponent implements OnInit {
   popupDeleteProfileVisible: boolean;
   categories: Category[];
   popupDeleteCourseVisible: boolean;
+  moreFeed: boolean;
+  feed: Array<VideoFeed>;
 
   private validUser: boolean;
   private validEmail: boolean;
   private courseToDelete: number;
 
   constructor(private accountService: AccountService, private courseService: CourseService,
-              private categoriesService: CategoriesService, private router:Router,
+              private categoriesService: CategoriesService, private router: Router,
               private route: Router, private cookie: CookieService) {
 
    this.popupNewCourseVisible = false;
@@ -50,6 +53,8 @@ export class UserProfileComponent implements OnInit {
    this.deleteProfileError = false;
    this.deleteCourseError = false;
    this.updateError = false;
+   this.moreFeed = true;
+   this.feed = [];
     this.user = {
       uuid: '',
       username: 'No válido',
@@ -62,8 +67,9 @@ export class UserProfileComponent implements OnInit {
 
 
     this.initializeForms();
-     this.getUserData();
-     this.loadCategories();
+    this.getUserData();
+    this.loadCategories();
+    this.getFeed();
   }
 
   /**
@@ -156,7 +162,7 @@ export class UserProfileComponent implements OnInit {
         this.user.rate = data.rate;
         this.cookie.set('username', this.user.username);
       },
-      (error: HttpErrorResponse) => {console.log(error.status);
+      error => {console.log(error.status + 'getUserData');
         manageGenericError(error, this.router);
       }
     );
@@ -256,8 +262,8 @@ export class UserProfileComponent implements OnInit {
     const observer = this.categoriesService.getCategories();
     observer.subscribe(
       data => { this.categories = data; },
-      (error: HttpErrorResponse) => {
-        console.log(error.status);
+      error => {
+        console.log(error.status + 'loadCategories');
         manageGenericError(error, this.router);
       }
     );
@@ -374,5 +380,32 @@ export class UserProfileComponent implements OnInit {
         this.dealErrorNotDeleteCourse();
       }
     );
+  }
+
+  /**
+   * This method get videos of the feed that is showing
+   */
+  private getFeed() {
+    const observer = this.accountService.getFeed(this.cookie.get('uuid'),
+      this.feed.length,
+      (this.feed.length + this.NUM_GET_FEED));
+    observer.subscribe(
+      data => {
+        this.showFeed(data);
+      },
+      error => {
+        console.log(error.status);
+        manageGenericError(error, this.router);
+      });
+  }
+
+  /**
+   * Add new videos to show in the GUI
+   * @param videos: list of videos to add
+   * @private
+   */
+  private showFeed(videos: Array<VideoFeed>) {
+    this.moreFeed = videos.length >= this.NUM_GET_FEED;
+    videos.forEach(video => this.feed.push(video));
   }
 }

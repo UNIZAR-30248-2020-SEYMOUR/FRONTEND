@@ -29,6 +29,8 @@ export class ViewCourseComponent implements OnInit {
   loadedVideo: boolean;
   visibleVideoPopUp: boolean;
   loadVideoError: boolean;
+  videoSizeError: boolean;
+  videoFormatError: boolean;
   descriptionError: boolean;
   titleError: boolean;
   detailsError: boolean;
@@ -40,6 +42,9 @@ export class ViewCourseComponent implements OnInit {
   tryingUpdateCourse: boolean;
   errorUpdateCourseBackend: boolean;
   categories: Array<Category>;
+
+  VIDEO_FORMAT_ERROR_CODE = 'Video format must be video/mp4';
+  VIDEO_SIZE_ERROR_CODE = 'Video must not exceed 200 MiB';
 
   constructor(private courseService: CourseService,
               private formBuilder: FormBuilder,
@@ -145,7 +150,8 @@ export class ViewCourseComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           this.loadedVideo = false;
-          this.loadVideoError = true;
+          this.videoSizeError = error.error.error == this.VIDEO_SIZE_ERROR_CODE;
+          this.videoFormatError = error.error.error == this.VIDEO_FORMAT_ERROR_CODE;
           this.uploadVideoForm.controls['title'].disable();
           this.uploadVideoForm.controls['description'].disable();
         }
@@ -256,6 +262,8 @@ export class ViewCourseComponent implements OnInit {
     this.titleError = false;
     this.descriptionError = false;
     this.detailsError = false;
+    this.videoSizeError = false;
+    this.videoFormatError = false;
   }
 
   /**

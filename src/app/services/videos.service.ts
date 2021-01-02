@@ -7,9 +7,9 @@ import {SERVER_URL} from "./services.configuration";
 @Injectable({
   providedIn: 'root'
 })
+
 export class VideosService {
   private API_URL = SERVER_URL + '/videos';
-
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };

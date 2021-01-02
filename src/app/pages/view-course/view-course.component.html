@@ -144,6 +144,12 @@
                   <div *ngIf="loadVideoError" class="invalid-register">
                     <span id="load-video-error-feedback">Error al subir el archivo</span>
                   </div>
+                  <div *ngIf="videoSizeError" class="invalid-register">
+                    <span id="video-size-error-feedback">El archivo debe tener un tamaño máximo de 200MB</span>
+                  </div>
+                  <div *ngIf="videoFormatError" class="invalid-register">
+                    <span id="video-format-error-feedback">El archivo debe tener un formato mp4</span>
+                  </div>
                 </td>
                 <td>
 

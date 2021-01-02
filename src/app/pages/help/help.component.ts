@@ -4,7 +4,7 @@ import {AuthLayoutRoutes} from '../../layouts/auth-layout/auth-layout.routing';
 
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-help',
   templateUrl: './help.component.html',
   styleUrls: ['./help.component.scss']
 })

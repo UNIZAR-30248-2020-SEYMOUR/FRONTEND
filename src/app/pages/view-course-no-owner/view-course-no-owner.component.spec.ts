@@ -49,4 +49,6 @@ describe('ViewCourseNoOwnerComponent', () => {
     fixture.detectChanges();
     expect(document.getElementById('btn-get-videos').hidden).toBeFalse();
   });
+
+
 });

@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { ROUTES } from '../sidebar/sidebar.component';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Location} from '@angular/common';
 import { Router } from '@angular/router';
 import {CookieService} from "ngx-cookie-service";
 
@@ -23,7 +22,6 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listTitles = ROUTES.filter(listTitle => listTitle);
     this.username = this.cookie.get("username");
     this.logged = this.username != '';
   }

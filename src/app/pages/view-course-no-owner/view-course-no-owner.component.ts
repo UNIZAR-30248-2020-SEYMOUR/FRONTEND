@@ -36,6 +36,7 @@ export class ViewCourseNoOwnerComponent implements OnInit {
         ownername: ''
       };
     });
+    this.subscribed = false;
     this.checkSubscribed(this.course.id);
     this.videos = [];
     this.moreVideos = true;
@@ -98,6 +99,7 @@ export class ViewCourseNoOwnerComponent implements OnInit {
         ownername: data.ownername
       };
         this.isYourCourse = this.course.ownername === this.cookies.get('username');
+        this.isYourCourse = false;
       },
       error => {console.log(error.status);
         manageGenericError(error, this.router);
@@ -145,10 +147,10 @@ export class ViewCourseNoOwnerComponent implements OnInit {
     const observer = this.courseService.checkSubscribed(id);
     observer.subscribe(
       data => {
-        this.subscribed = false;
+        this.subscribed = data.status == 'true';
       },
       error => {console.log(error.status);
-        this.subscribed = true;
+        this.subscribed = false;
       }
     );
   }

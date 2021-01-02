@@ -244,6 +244,26 @@ describe('UserProfileComponent', () => {
   });
 
   /**
+   * Test that the button get more videos of the feed is not showing
+   */
+  it('should not show the button that get more videos of the feed', () => {
+    expect(document.getElementById('btn-get-feed').hidden).toBeFalse();
+    component.moreFeed = false;
+    fixture.detectChanges();
+    expect(document.getElementById('btn-get-feed').hidden).toBeTrue();
+  });
+
+  /**
+   * Test that show correctly the option get more videos of the feed
+   */
+  it('should show the button that get more videos of the feed', () => {
+    expect(document.getElementById('btn-get-feed').hidden).toBeFalse();
+    component.moreFeed = true;
+    fixture.detectChanges();
+    expect(document.getElementById('btn-get-feed').hidden).toBeFalse();
+  });
+
+  /**
    * Test the correct functioning when enable the update profile form
    */
   function testEnableUpdateProfile() {

@@ -3,13 +3,13 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
 import {Course} from '../interfaces';
 import {Observable} from 'rxjs';
-import {SERVER_URL} from "./services.configuration";
+import {SERVER_URL} from './services.configuration';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseService {
-  private API_URL = SERVER_URL +'/courses';
+  private API_URL = SERVER_URL + '/courses';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

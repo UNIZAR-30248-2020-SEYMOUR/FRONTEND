@@ -5,8 +5,8 @@ import {VideosService} from '../../services/videos.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AccountService} from '../../services/account.service';
-import {manageGenericError} from "../error/error.component";
-import {SERVER_URL} from "../../services/services.configuration";
+import {manageGenericError} from '../error/error.component';
+import {SERVER_URL} from '../../services/services.configuration';
 
 @Component({
   selector: 'app-view-video',
@@ -37,12 +37,14 @@ export class ViewVideoComponent implements OnInit {
               private videoService: VideosService,
               private accountService: AccountService,
               private router: Router,
-              private route: ActivatedRoute) {
-    this.initializeVariables();
-    this.getParams();
-    this.getVideoData();
-    this.getCourseData();
-    this.getMoreVideos();
+              private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.params.subscribe(routeParams => {
+      this.initializeVariables();
+      this.getParams();
+      this.getVideoData();
+      this.getCourseData();
+      this.getMoreVideos();
+    });
   }
 
   ngOnInit(): void {
@@ -70,7 +72,7 @@ export class ViewVideoComponent implements OnInit {
    * @private
    */
   private getParams() {
-    this.route.params.subscribe(params => {
+    this.activatedRoute.params.subscribe(params => {
       this.video = {
         id: params.videoId,
         name: '',
@@ -208,6 +210,10 @@ export class ViewVideoComponent implements OnInit {
     }
   }
 
+  /**
+   * Add a rate to the video
+   * @param newRate: Rate to add of the video
+   */
   setRatting(newRate: any) {
     const observer = this.videoService.addRatting(this.video.id, newRate);
     observer.subscribe(

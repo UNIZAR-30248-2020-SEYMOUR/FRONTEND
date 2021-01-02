@@ -37,8 +37,6 @@ export class UserProfileComponent implements OnInit {
   popupDeleteProfileVisible: boolean;
   categories: Category[];
   popupDeleteCourseVisible: boolean;
-  moreFeed: boolean;
-  feed: Array<VideoFeed>;
 
   private validUser: boolean;
   private validEmail: boolean;
@@ -53,8 +51,6 @@ export class UserProfileComponent implements OnInit {
    this.deleteProfileError = false;
    this.deleteCourseError = false;
    this.updateError = false;
-   this.moreFeed = true;
-   this.feed = [];
     this.user = {
       uuid: '',
       username: 'No válido',
@@ -65,11 +61,9 @@ export class UserProfileComponent implements OnInit {
       rate: 0};
     this.disabled = 'false';
 
-
     this.initializeForms();
     this.getUserData();
     this.loadCategories();
-    this.getFeed();
   }
 
   ngOnInit() {
@@ -383,32 +377,5 @@ export class UserProfileComponent implements OnInit {
         this.dealErrorNotDeleteCourse();
       }
     );
-  }
-
-  /**
-   * This method get videos of the feed that is showing
-   */
-  private getFeed() {
-    const observer = this.accountService.getFeed(this.cookie.get('uuid'),
-      this.feed.length,
-      (this.feed.length + this.NUM_GET_FEED));
-    observer.subscribe(
-      data => {
-        this.showFeed(data);
-      },
-      error => {
-        console.log(error.status);
-        manageGenericError(error, this.router);
-      });
-  }
-
-  /**
-   * Add new videos to show in the GUI
-   * @param videos: list of videos to add
-   * @private
-   */
-  private showFeed(videos: Array<VideoFeed>) {
-    this.moreFeed = videos.length >= this.NUM_GET_FEED;
-    videos.forEach(video => this.feed.push(video));
   }
 }

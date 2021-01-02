@@ -4,7 +4,7 @@ import {Login} from '../../interfaces';
 import {AccountService} from '../../services/account.service';
 import {Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
-import {CookieService} from "ngx-cookie-service";
+import {CookieService} from 'ngx-cookie-service';
 
 
 @Component({
@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           data => {
             this.loginService.saveUser(data);
             this.cookie.set('username', data.username);
-            this.route.navigate(['/user-profile']);
+            this.route.navigate(['/feed']);
             },
           (error: HttpErrorResponse) => {
             console.log(error.status);

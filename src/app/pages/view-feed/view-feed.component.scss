@@ -1,0 +1,32 @@
+.course {
+  background-color: #e9ecef;
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  padding: 0px;
+  min-height: 370px;
+  border-radius: 5px;
+}
+
+.image-course{
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  width: 100%;
+  vertical-align: middle;
+}
+.course-category{
+  margin-left: 25px;
+}
+.course-title{
+  text-transform: capitalize;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+h1{
+  font-size: 60px;
+}
+h2{
+  font-size: 50px;
+}

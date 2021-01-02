@@ -6,9 +6,11 @@ import {ViewCourseComponent} from '../../pages/view-course/view-course.component
 import {ViewCourseNoOwnerComponent} from '../../pages/view-course-no-owner/view-course-no-owner.component';
 import {UserProfileNoOwnerComponent} from '../../pages/user-profile-no-owner/user-profile-no-owner.component';
 import {ViewVideoComponent} from '../../pages/view-video/view-video.component';
+import {ViewFeedComponent} from '../../pages/view-feed/view-feed.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'user-profile',   component: UserProfileComponent },
+    { path: 'feed',   component: ViewFeedComponent },
     { path: 'search-page/:text', component: SearchPageComponent },
     { path: 'search-page/:text', component: SearchPageComponent },
     { path: 'user-profile-no-owner/:username', component: UserProfileNoOwnerComponent},

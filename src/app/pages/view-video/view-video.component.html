@@ -20,7 +20,7 @@
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image">
                 <a href="javascript:void(0)">
-                  <img src="{{course.category.imageUrl}}" style="width: 400px" >
+                  <img alt="Image placeholder" src="{{course.category.imageUrl}}" style="width: 400px" >
                 </a>
               </div>
             </div>
@@ -81,7 +81,7 @@
                 <div *ngFor=" let video of videos">
                   <div class="row" style="display: flex">
                     <div class="col-4">
-                      <img class="image-course" [routerLink]="['/view-video', course.id, video.id]"
+                      <img alt="Image placeholder" class="image-course" [routerLink]="['/view-video', course.id, video.id]"
                            src="data:image/png;base64,{{video.imagePreview}}"/>
                     </div>
                     <div class="col-8" style="padding-top: 2%">
@@ -115,9 +115,11 @@
               <div class="col-6">
                 <div class="form-group">
                   <div class="input-group input-group-alternative mb-3" id="div-comment">
-                    <input class="form-control" placeholder="Escribe aquí tu comentario..." type="text"
-                           formControlName="comment" [ngClass]="{'is-invalid' : !commentForm.get('comment').valid}"
-                           name="comment">
+                    <label>
+                      <input alt="Image placeholder" class="form-control" placeholder="Escribe aquí tu comentario..." type="text"
+                             formControlName="comment" [ngClass]="{'is-invalid' : !commentForm.get('comment').valid}"
+                             name="comment">
+                    </label>
                   </div>
                   <div *ngIf="commentForm.controls['comment'].errors?.required && tryingComment"
                        class="invalid-backend-response">
@@ -138,7 +140,7 @@
                 <div class="row" style="display: flex">
                   <div class="col-2">
                     <a href="javascript:void(0)">
-                      <img [routerLink]="['/user-profile-no-owner', comment.username]" style="width: 100px" src="https://avatars.dicebear.com/api/human/{{comment.username}}.svg" class="rounded-circle">
+                      <img alt="Image placeholder" [routerLink]="['/user-profile-no-owner', comment.username]" style="width: 100px" src="https://avatars.dicebear.com/api/human/{{comment.username}}.svg" class="rounded-circle">
                     </a>
                   </div>
                   <div class="col-8" style="padding-top: 2%">

@@ -98,8 +98,8 @@ export class ViewCourseNoOwnerComponent implements OnInit {
         rate: data.rate,
         ownername: data.ownername
       };
+
         this.isYourCourse = this.course.ownername === this.cookies.get('username');
-        this.isYourCourse = false;
       },
       error => {console.log(error.status);
         manageGenericError(error, this.router);

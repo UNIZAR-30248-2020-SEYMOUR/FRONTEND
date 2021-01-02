@@ -54,7 +54,7 @@ describe('ViewVideoComponent', () => {
   });
 
   /**
-   * Test that show a message error if the user try to add a empty comment
+   * Test that show a message error if the user tries to add an empty comment
    */
   it('should show a message error when try to add a empty commentary', () => {
     expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeFalsy();
@@ -66,7 +66,7 @@ describe('ViewVideoComponent', () => {
   });
 
   /**
-   * Test that doesn't show a message error if the user try to add a empty comment
+   * Test that doesn't show a message error if the user tries to add an empty comment
    */
   it('shouldn\'t show a message error when try to add correct commentary', () => {
     expect(fixture.debugElement.query(By.css('.invalid-backend-response'))).toBeFalsy();

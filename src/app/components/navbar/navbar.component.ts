@@ -10,7 +10,7 @@ import {CookieService} from "ngx-cookie-service";
 })
 export class NavbarComponent implements OnInit {
   public focus;
-  public listTitles: any[];
+
   public location: Location;
   private searchText: string;
   private username: string;

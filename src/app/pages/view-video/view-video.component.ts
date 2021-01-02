@@ -19,9 +19,7 @@ import {SERVER_URL} from '../../services/services.configuration';
  */
 export class ViewVideoComponent implements OnInit {
 
-
   NUM_GET_VIDEOS = 10;
-
   currentVideoObtained: boolean;
   owner: String;
   rate: number;
@@ -187,7 +185,7 @@ export class ViewVideoComponent implements OnInit {
   }
 
   /**
-   * This method verify if the comment is valid and if is valid send the comment do to the user
+   * This method verifies if the comment is valid. if it is valid then sends the comment to the user
    */
   public comment() {
     const commentInput = document.getElementById('div-comment');
@@ -211,7 +209,7 @@ export class ViewVideoComponent implements OnInit {
   }
 
   /**
-   * Add a rate to the video
+   * This method adds a rate to the video
    * @param newRate: Rate to add of the video
    */
   setRatting(newRate: any) {

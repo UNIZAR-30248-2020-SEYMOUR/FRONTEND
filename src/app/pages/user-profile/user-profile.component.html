@@ -142,11 +142,11 @@
                 <div *ngFor=" let course of user.courses" class="col-md-5 course">
                   <img class="image-course" src="{{course.category.imageUrl}}"/>
                   <div style="display: flex;">
-                    <div style="padding-top: 2%; width: 40%">
+                    <div style="padding-top: 2%; width: 80%">
                       <a [routerLink]="['/view-course', course.id]" class="course-title">{{course.coursename}}</a>
                       <p class="course-category">{{course.category.name}}</p>
                     </div>
-                    <div style="width: 40%"></div>
+
                     <div class="delete-container" id="btn-open-delete-course-popup" (click)="tryDeleteCourse(course.id)">
                       <div class="fa fa-trash delete-icon"></div>
                     </div>

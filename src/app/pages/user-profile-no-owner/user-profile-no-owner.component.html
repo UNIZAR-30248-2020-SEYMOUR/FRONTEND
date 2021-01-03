@@ -36,8 +36,10 @@
                   <span class="description">Cursos</span>
                 </div>
                 <div>
-                  <span class="heading">{{user.rate}}</span>
-                  <span class="description">Valoración</span>
+                  <div>
+                    <span class="heading"><app-rating [editable]="false" [currentRate]="user.rate"></app-rating></span>
+                    <span class="description">Valoración</span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -25,9 +25,14 @@ export class ErrorComponent implements OnInit {
 
 }
 export function manageGenericError(error: HttpErrorResponse, router:Router){
+  alert(JSON.stringify(error));
+
+
   if (error['error'] === 'User does not exist')
     this.route.navigate(['/login']);
 
+  if(error.status === 0)
+    router.navigate(['error', "ERROR", "Se ha producido un error en el servidor"]);
   if(error.status === 500)
     router.navigate(['error', 500, "Se ha producido un error en el servidor"]);
   if(error.status === 404)

@@ -157,7 +157,8 @@ export class UserProfileComponent implements OnInit {
         this.user.rate = data.rate;
         this.cookie.set('username', this.user.username);
       },
-      error => {console.log(error.status + 'getUserData');
+      error => {
+        console.log(error.status + 'getUserData');
         manageGenericError(error, this.router);
       }
     );

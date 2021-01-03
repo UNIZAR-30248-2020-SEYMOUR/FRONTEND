@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           data => {
             this.loginService.saveUser(data);
             this.cookie.set('username', data.username);
-            this.route.navigate(['/feed']);
+            this.route.navigate(['/user-profile']);
             },
           (error: HttpErrorResponse) => {
             console.log(error.status);

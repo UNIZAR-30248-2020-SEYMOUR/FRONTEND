@@ -77,7 +77,7 @@ export class RegisterComponent implements OnInit {
         data => {
           this.registerService.saveUser(data);
           this.cookie.set('username', user.username);
-          this.route.navigate(['/feed']);
+          this.route.navigate(['/user-profile']);
           },
         (error: HttpErrorResponse) => {
           this.dealNotRegister(error.error);

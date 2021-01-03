@@ -49,6 +49,54 @@ describe('E2E Tests (Seymour)', () => {
     expect(element.all(by.className('p-course')).getText()).toContain('video-description-test');
   });
 
+  it('Should find himself in the searcher', async () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    element.all(by.name('search')).sendKeys('Raúl Javierre');
+    browser.actions().sendKeys(protractor.Key.ENTER).perform();
+    expect(element.all(by.className('course')).count()).toBe(1);  // the name "course" is not the most appropriate
+  });
+
+  it('Should register in the application and go to the profile without description', async () => {
+    browser.get('/#/register');
+    element.all(by.id('username-input')).sendKeys('Raúl Javierre Without Description');
+    element.all(by.id('email-input')).sendKeys('javierreraulwithoutdescription@gmail.com');
+    element.all(by.id('pswd-input')).sendKeys('password1234');
+    element.all(by.id('repeat-pswd-input')).sendKeys('password1234');
+    browser.actions().click(element(by.id('register-button'))).perform();
+    expect(browser.getCurrentUrl()).toContain('user-profile');
+  });
+
+  it('Should subscribe to a course', () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraulwithoutdescription@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    element.all(by.name('search')).sendKeys('Curso De Angular');
+    browser.actions().sendKeys(protractor.Key.ENTER).perform();
+    browser.actions().click(element(by.id('combo-type'))).perform();
+    browser.element(by.css('#combo-type [value=\'course\']')).click();
+    browser.actions().click(element(by.id('btn-update'))).perform();
+    expect(element.all(by.className('course')).count()).toBe(1);
+    browser.actions().click(element(by.linkText('Curso De Angular'))).perform();
+    expect(browser.getCurrentUrl()).toContain('#/view-course-no-owner/1');
+    expect(element.all(by.id('btn-subscribe-course')).getAttribute('hidden')).toBeTruthy();
+    browser.actions().click(element(by.buttonText('Suscríbete'))).perform();
+    expect(element.all(by.id('btn-unsubscribe-course')).getAttribute('hidden')).toBeTruthy();
+  });
+
+  it('Should see his feed', () => {
+    browser.get('/#/login');
+    element.all(by.id('emailInput')).sendKeys('javierreraulwithoutdescription@gmail.com');
+    element.all(by.id('passwordInput')).sendKeys('password1234');
+    browser.actions().click(element(by.id('login-button'))).perform();
+    browser.get('/#/feed');
+    expect(element.all(by.className('h1-course')).getText()).toContain('video-title-test');
+    expect(element.all(by.className('p-course')).getText()).toContain('video-description-test');
+  });
+
   it('Should watch the video', async () => {
     browser.get('/#/login');
     element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
@@ -144,16 +192,6 @@ describe('E2E Tests (Seymour)', () => {
     expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*MARKETING.*');
   });
 
-  it('Should find himself in the searcher', async () => {
-    browser.get('/#/login');
-    element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
-    element.all(by.id('passwordInput')).sendKeys('password1234');
-    browser.actions().click(element(by.id('login-button'))).perform();
-    element.all(by.name('search')).sendKeys('Raúl Javierre');
-    browser.actions().sendKeys(protractor.Key.ENTER).perform();
-    expect(element.all(by.className('course')).count()).toBe(1);  // the name "course" is not the most appropriate
-  });
-
   it('Should not find a nonexistent user in the searcher', async () => {
     browser.get('/#/login');
     element.all(by.id('emailInput')).sendKeys('javierreraul@gmail.com');
@@ -162,16 +200,6 @@ describe('E2E Tests (Seymour)', () => {
     element.all(by.name('search')).sendKeys('Pepito que no existe');
     browser.actions().sendKeys(protractor.Key.ENTER).perform();
     expect(element.all(by.className('course')).count()).toBe(0);  // the name "course" is not the most appropriate
-  });
-
-  it('Should register in the application and go to the profile without description', async () => {
-    browser.get('/#/register');
-    element.all(by.id('username-input')).sendKeys('Raúl Javierre Without Description');
-    element.all(by.id('email-input')).sendKeys('javierreraulwithoutdescription@gmail.com');
-    element.all(by.id('pswd-input')).sendKeys('password1234');
-    element.all(by.id('repeat-pswd-input')).sendKeys('password1234');
-    browser.actions().click(element(by.id('register-button'))).perform();
-    expect(browser.getCurrentUrl()).toContain('user-profile');
   });
 
   it('Should find both Raúl users in the searcher', async () => {

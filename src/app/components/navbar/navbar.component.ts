@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Location} from '@angular/common';
 import { Router } from '@angular/router';
-import {CookieService} from "ngx-cookie-service";
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-navbar',
@@ -22,14 +22,15 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.username = this.cookie.get("username");
+    this.username = this.cookie.get('username');
     this.logged = this.username != '';
   }
 
   search() {
     this.router.navigate(['search-page', this.searchText]);
   }
-  logout(){
+
+  logout() {
     this.username = '';
     this.logged = false;
     this.cookie.deleteAll();

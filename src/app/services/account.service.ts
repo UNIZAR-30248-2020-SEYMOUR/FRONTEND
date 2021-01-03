@@ -49,6 +49,7 @@ export class AccountService {
    */
   public saveUser(data: Object) {
     const uuid = data['UUID'];
+    this.cookie.delete('uuid');
     this.cookie.set('uuid', uuid);
   }
 

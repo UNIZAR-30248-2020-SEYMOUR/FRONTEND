@@ -115,11 +115,9 @@
               <div class="col-6">
                 <div class="form-group">
                   <div class="input-group input-group-alternative mb-3" id="div-comment">
-                    <label>
-                      <input alt="Image placeholder" class="form-control" placeholder="Escribe aquí tu comentario..." type="text"
-                             formControlName="comment" [ngClass]="{'is-invalid' : !commentForm.get('comment').valid}"
-                             name="comment">
-                    </label>
+                    <input alt="Image placeholder" class="form-control" placeholder="Escribe aquí tu comentario..." type="text"
+                           formControlName="comment" [ngClass]="{'is-invalid' : !commentForm.get('comment').valid}"
+                           name="comment">
                   </div>
                   <div *ngIf="commentForm.controls['comment'].errors?.required && tryingComment"
                        class="invalid-backend-response">

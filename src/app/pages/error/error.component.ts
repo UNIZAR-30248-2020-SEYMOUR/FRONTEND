@@ -25,8 +25,6 @@ export class ErrorComponent implements OnInit {
 
 }
 export function manageGenericError(error: HttpErrorResponse, router:Router){
-  alert(JSON.stringify(error));
-
 
   if (error['error'] === 'User does not exist')
     this.route.navigate(['/login']);

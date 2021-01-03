@@ -4,7 +4,6 @@ import { SearchPageComponent } from './search-page.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
-import {By} from "protractor";
 
 describe('SearchComponent', () => {
   let component: SearchPageComponent;
@@ -24,14 +23,10 @@ describe('SearchComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should hide the categories selector',() => {
+  it('should hide the categories selector', () => {
     expect(document.getElementById('course-filter-input-group').hidden).toBeTrue();
-    /*const select = (<HTMLSelectElement>document.getElementById("combo-categories"));
-    select.selectedIndex = 1;
-    select.dispatchEvent(new Event('change'));*/
 
-
-    const select: HTMLSelectElement = (<HTMLSelectElement>document.getElementById("combo-type"));
+    const select: HTMLSelectElement = (<HTMLSelectElement>document.getElementById('combo-type'));
     select.value = select.options[1].value;  // <-- select a new value
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();

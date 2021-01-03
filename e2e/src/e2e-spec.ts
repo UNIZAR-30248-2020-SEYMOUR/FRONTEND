@@ -1,5 +1,4 @@
 import {browser, by, element, protractor} from 'protractor';
-import {fs} from '@angular-devkit/core/node';
 const path = require('path');
 
 
@@ -23,7 +22,8 @@ describe('E2E Tests (Seymour)', () => {
     browser.actions().click(element(by.id('login-button'))).perform();
     browser.actions().click(element(by.buttonText('Nuevo curso'))).perform();
     element.all(by.name('courseName')).sendKeys('Curso De Angular');
-    element.all(by.id('descripcion-curso')).sendKeys('En este curso de Angular aprenderéis muuuuuuuuchas cosas');
+    element.all(by.id('descripcion-curso'))
+      .sendKeys('En este curso de Angular aprenderéis muuuuuuuuchas cosas');
     browser.actions().click(element(by.id('combo-categories'))).perform();
     browser.element(by.css('#combo-categories [value=\'Software\']')).click();
     browser.actions().click(element(by.buttonText('Guardar curso'))).perform();
@@ -68,7 +68,8 @@ describe('E2E Tests (Seymour)', () => {
     browser.actions().click(element(by.className('course-title'))).perform();
     browser.actions().click(element(by.className('h1-course'))).perform();
     browser.actions().click(element(by.tagName('app-rating'))).perform(); // rate = 3
-    expect(element.all(by.tagName('app-rating')).getAttribute('ng-reflect-current-rate')).toContain('3');
+    expect(element.all(by.tagName('app-rating'))
+      .getAttribute('ng-reflect-current-rate')).toContain('3');
   });
 
   it('Should comment the video', async () => {
@@ -118,12 +119,15 @@ describe('E2E Tests (Seymour)', () => {
     browser.actions().click(element(by.className('course-title'))).perform();
     browser.actions().click(element(by.buttonText('Editar Curso'))).perform();
     element.all(by.id('input-course-name')).sendKeys('Curso con descripcion');
-    element.all(by.id('input-description-course')).sendKeys('Esta es la descripcion de un curso con descripcion');
+    element.all(by.id('input-description-course'))
+      .sendKeys('Esta es la descripcion de un curso con descripcion');
     browser.actions().click(element(by.id('combo-categories'))).perform();
     browser.element(by.css('#combo-categories [value=\'Marketing\']')).click();
     browser.actions().click(element(by.buttonText('Editar curso'))).perform();
-    expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*Curso con descripcion.*');
-    expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*Esta es la descripcion de un curso con descripcion');
+    expect(element.all(by.className('card card-course shadow')).getText())
+      .toMatch('.*Curso con descripcion.*');
+    expect(element.all(by.className('card card-course shadow')).getText())
+      .toMatch('.*Esta es la descripcion de un curso con descripcion');
     expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*MARKETING.*');
   });
 
@@ -133,8 +137,10 @@ describe('E2E Tests (Seymour)', () => {
     element.all(by.id('passwordInput')).sendKeys('password1234');
     browser.actions().click(element(by.id('login-button'))).perform();
     browser.actions().click(element(by.className('course-title'))).perform();
-    expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*Curso con descripcion.*');
-    expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*Esta es la descripcion de un curso con descripcion.*');
+    expect(element.all(by.className('card card-course shadow')).getText())
+      .toMatch('.*Curso con descripcion.*');
+    expect(element.all(by.className('card card-course shadow')).getText())
+      .toMatch('.*Esta es la descripcion de un curso con descripcion.*');
     expect(element.all(by.className('card card-course shadow')).getText()).toMatch('.*MARKETING.*');
   });
 
@@ -186,7 +192,8 @@ describe('E2E Tests (Seymour)', () => {
     element.all(by.name('search')).sendKeys('Raúl');
     browser.actions().sendKeys(protractor.Key.ENTER).perform();
     browser.actions().click(element(by.linkText('Raúl Javierre Without Description'))).perform();
-    expect(browser.getCurrentUrl()).toContain('#/user-profile-no-owner/Ra%C3%BAl%20Javierre%20Without%20Description');
+    expect(browser.getCurrentUrl())
+      .toContain('#/user-profile-no-owner/Ra%C3%BAl%20Javierre%20Without%20Description');
   });
 
   it('Should find the created course in the searcher', async () => {
@@ -238,7 +245,8 @@ describe('E2E Tests (Seymour)', () => {
     element.all(by.id('repeat-pswd-input')).sendKeys('password1234');
     browser.actions().click(element(by.id('register-button'))).perform();
     expect(browser.getCurrentUrl()).toContain('register');
-    expect(element.all(by.className('invalid-register')).getText()).toContain('El nombre de usuario ya existe, elige otro');
+    expect(element.all(by.className('invalid-register')).getText())
+      .toContain('El nombre de usuario ya existe, elige otro');
   });
 
   it('Should NOT register in the application because there is an user with same email)', async () => {
@@ -283,19 +291,22 @@ describe('E2E Tests (Seymour)', () => {
     element.all(by.id('repeat-pswd-input')).sendKeys('pss');
     browser.actions().click(element(by.id('register-button'))).perform();
     expect(browser.getCurrentUrl()).toContain('register');
-    expect(element.all(by.className('invalid-register')).getText()).toContain('La longitud de la contraseña debe tener al menos 8 caracteres');
+    expect(element.all(by.className('invalid-register')).getText())
+      .toContain('La longitud de la contraseña debe tener al menos 8 caracteres');
   });
 
   it('Should NOT register in the application because the username is too long', async () => {
     browser.get('/#/register');
-    element.all(by.id('username-input')).sendKeys('LONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONG');
+    element.all(by.id('username-input'))
+      .sendKeys('LONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONG');
     element.all(by.id('email-input')).sendKeys('long_username@gmail.com');
     element.all(by.id('description')).sendKeys('Hey there, I\'m using Seymour');
     element.all(by.id('pswd-input')).sendKeys('password1234');
     element.all(by.id('repeat-pswd-input')).sendKeys('password1234');
     browser.actions().click(element(by.id('register-button'))).perform();
     expect(browser.getCurrentUrl()).toContain('register');
-    expect(element.all(by.className('invalid-register')).getText()).toContain('El nombre debe tener como máximo 40 caracteres');
+    expect(element.all(by.className('invalid-register')).getText())
+      .toContain('El nombre debe tener como máximo 40 caracteres');
   });
 
   it('Should NOT register in the application because the username is too short', async () => {
@@ -307,7 +318,8 @@ describe('E2E Tests (Seymour)', () => {
     element.all(by.id('repeat-pswd-input')).sendKeys('password1234');
     browser.actions().click(element(by.id('register-button'))).perform();
     expect(browser.getCurrentUrl()).toContain('register');
-    expect(element.all(by.className('invalid-register')).getText()).toContain('El nombre debe tener al menos 4 caracteres');
+    expect(element.all(by.className('invalid-register')).getText())
+      .toContain('El nombre debe tener al menos 4 caracteres');
   });
 
   it('Should NOT register in the application because the username is not provided', async () => {
@@ -324,8 +336,10 @@ describe('E2E Tests (Seymour)', () => {
   it('Should NOT register in the application because the email is too long', async () => {
     browser.get('/#/register');
     element.all(by.id('username-input')).sendKeys('long email');
-    element.all(by.id('email-input')).sendKeys('LONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONG');
-    element.all(by.id('description')).sendKeys('Hey there, I\'m using Seymour');
+    element.all(by.id('email-input'))
+      .sendKeys('LONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONGLONG');
+    element.all(by.id('description'))
+      .sendKeys('Hey there, I\'m using Seymour');
     element.all(by.id('pswd-input')).sendKeys('password1234');
     element.all(by.id('repeat-pswd-input')).sendKeys('password1234');
     browser.actions().click(element(by.id('register-button'))).perform();
@@ -340,7 +354,8 @@ describe('E2E Tests (Seymour)', () => {
     element.all(by.id('repeat-pswd-input')).sendKeys('password1234');
     browser.actions().click(element(by.id('register-button'))).perform();
     expect(browser.getCurrentUrl()).toContain('register');
-    expect(element.all(by.className('invalid-register')).getText()).toContain('El correo electrónico es necesario');
+    expect(element.all(by.className('invalid-register')).getText())
+      .toContain('El correo electrónico es necesario');
   });
 
   it('Should NOT register in the application because the description is too long', async () => {
@@ -390,7 +405,8 @@ describe('E2E Tests (Seymour)', () => {
     element.all(by.id('passwordInput')).sendKeys('password1234');
     browser.actions().click(element(by.id('login-button'))).perform();
     browser.actions().click(element(by.buttonText('Nuevo curso'))).perform();
-    element.all(by.id('descripcion-curso')).sendKeys('En este curso de Angular aprenderéis muuuuuuuuchas cosas');
+    element.all(by.id('descripcion-curso'))
+      .sendKeys('En este curso de Angular aprenderéis muuuuuuuuchas cosas');
     browser.actions().click(element(by.id('combo-categories'))).perform();
     browser.element(by.css('#combo-categories [value=\'Software\']')).click();
     browser.actions().click(element(by.buttonText('Guardar curso'))).perform();

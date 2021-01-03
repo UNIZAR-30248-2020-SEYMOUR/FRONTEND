@@ -4,10 +4,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Category, Course, UsersProfile} from '../../interfaces';
-import {CourseService} from "../../services/course.service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CategoriesService} from "../../services/categories.service";
-import {manageGenericError} from "../error/error.component";
+import {CourseService} from '../../services/course.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {CategoriesService} from '../../services/categories.service';
+import {manageGenericError} from '../error/error.component';
 
 @Component({
   selector: 'app-search',
@@ -113,13 +113,17 @@ export class SearchPageComponent implements OnInit {
     }
   }
 
+  /**
+   * Do the search of the course or the profile.
+   * @private
+   */
   private search() {
     const comboType = (<HTMLSelectElement>document.getElementById('combo-type'));
     const type = comboType.options[comboType.selectedIndex].value;
-    if (type === 'profile'){
+    if (type === 'profile') {
       this.loadProfiles(this.searchForm.get('textToSearch').value);
       this.courses = [];
-    }else if (type === 'course'){
+    } else if (type === 'course') {
       const comboCategories = (<HTMLSelectElement>document.getElementById('combo-categories'));
       const category = comboCategories.options[comboCategories.selectedIndex].value;
 
@@ -128,8 +132,8 @@ export class SearchPageComponent implements OnInit {
     }
   }
 
+
   typeChanged() {
-    (<HTMLSelectElement>document.getElementById('combo-type'))
     const comboType = (<HTMLSelectElement>document.getElementById('combo-type'));
     const type = comboType.options[comboType.selectedIndex].value;
     this.isCourse = type === 'course';

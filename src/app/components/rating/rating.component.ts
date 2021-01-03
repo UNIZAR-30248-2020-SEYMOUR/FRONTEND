@@ -7,6 +7,10 @@ import { EventEmitter } from '@angular/core';
   templateUrl: './rating.component.html',
   styleUrls: ['./rating.component.css']
 })
+
+/**
+ * This class implement the logic of the RatingComponent
+ */
 export class RatingComponent implements OnInit {
   @Input() editable: boolean;
   @Input() currentRate: number;

@@ -27,8 +27,6 @@ describe('E2E Tests (Seymour)', () => {
     browser.actions().click(element(by.id('combo-categories'))).perform();
     browser.element(by.css('#combo-categories [value=\'Software\']')).click();
     browser.actions().click(element(by.buttonText('Guardar curso'))).perform();
-    browser.navigate().back();
-    browser.navigate().forward();
     expect(element.all(by.className('course-title')).getText()).toContain('Curso De Angular');
   });
 
@@ -139,8 +137,6 @@ describe('E2E Tests (Seymour)', () => {
     browser.actions().click(element(by.id('login-button'))).perform();
     browser.actions().click(element(by.className('fa fa-trash delete-icon'))).perform();
     browser.actions().click(element(by.id('btn-delete-course'))).perform();
-    browser.navigate().back();
-    browser.navigate().forward();
     expect(element.all(by.className('image-course')).count()).toBe(0);
   });
 
@@ -154,8 +150,6 @@ describe('E2E Tests (Seymour)', () => {
     browser.actions().click(element(by.id('combo-categories'))).perform();
     browser.element(by.css('#combo-categories [value=\'Software\']')).click();
     browser.actions().click(element(by.buttonText('Guardar curso'))).perform();
-    browser.navigate().back();
-    browser.navigate().forward();
     expect(element.all(by.className('course-title')).getText()).toContain('Curso Sin Descripcion');
   });
 
